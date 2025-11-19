@@ -31,7 +31,6 @@ void mostrar_auto_recursivo( FILE* file,  int pos, int total)
         mostrar_un_auto(a);
     }
 
-
     mostrar_auto_recursivo(file,pos + 1, total);
 }
 
