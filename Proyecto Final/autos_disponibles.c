@@ -1,47 +1,49 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include "autos_disponibles.h"
-#include "auto.h"
+#include "auto.h" // <--- IMPORTANTE: Aquí está la estructura 'Auto' real
 
 void mostrar_un_auto(Auto a)
 {
     printf("--------------------------\n");
     printf("Patente: %s\n", a.patente);
-    printf("Marca: %s\n", a.marca);
-    printf("Modelo: %s\n", a.modelo);
-    printf("Kms: %d\n", a.kms);
-    printf("Precio Venta: $%.2f\n", a.precioFinal);
-    printf("--------------------------\n");
+    printf("marca: %s\n", a.marca);
+    printf("modelo: %s\n", a.modelo);
+    printf("kilometraje: %d", a.kms);
+    printf("precio: $%.2f\n", a.precioFinal);
+    printf("--------------------------\n\n");
 }
 
 void mostrar_auto_recursivo( FILE* file,  int pos, int total)
 {
-    if(pos >= total) return;
+    if(pos >= total)
+    {
+        return;
 
-    fseek(file, pos * sizeof(Auto), SEEK_SET);
+    }
+
+    fseek(file, pos* sizeof(Auto), SEEK_SET);
+
     Auto a;
 
     if(fread(&a, sizeof(Auto), 1, file) == 1)
     {
-        // FILTRO CRITICO: Solo mostrar si el titular es la Empresa
-        // Esto distingue "Stock Disponible" de "Historial Completo"
-        if(strcmp(a.titular.rol, "Empresa") == 0 || strcmp(a.titular.rol, "concesionaria") == 0)
-        {
-            mostrar_un_auto(a);
-        }
+        mostrar_un_auto(a);
     }
 
-    mostrar_auto_recursivo(file, pos + 1, total);
+    mostrar_auto_recursivo(file,pos + 1, total);
 }
 
 void mostrar_todos_autos_disponibles()
 {
+    // Abrimos el MISMO archivo donde escribe el Gerente/Admin
+    // Asegurate que en auto.h esté definido ARCHIVO_AUTOS como "autos.bin"
     FILE *file = fopen("autos.bin", "rb");
 
     if(file == NULL)
     {
-        printf("\nNo hay autos registrados en el sistema.\n");
+        printf("\nNo hay autos disponibles en stock por el momento.\n");
+        printf("(El gerente debe cargar autos primero).\n");
         return;
     }
 
@@ -51,17 +53,21 @@ void mostrar_todos_autos_disponibles()
 
     if(total == 0)
     {
-        printf("El archivo de autos esta vacio.\n");
+        printf("el archivo esta vacio\n");
         fclose(file);
         return;
     }
 
     printf("\n==========================================================\n");
-    printf("      STOCK DISPONIBLE (A la venta en Concesionaria)      \n");
+    printf("               AUTOS DISPONIBLES (Stock Real)             \n");
     printf("==========================================================\n");
+    printf("PATENTE      | MARCA        | MODELO       | PRECIO       \n");
+    printf("----------------------------------------------------------\n");
 
     mostrar_auto_recursivo(file, 0, total);
 
-    printf("\n(Fin del listado disponible)\n");
+    printf("==========================================================\n");
+    printf("NOTA: Copie la PATENTE exacta para proceder a la compra.\n");
+
     fclose(file);
 }

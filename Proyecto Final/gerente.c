@@ -43,7 +43,7 @@ void menu_gerente()
         {
         case 1:
         {
-            int subop;
+            int op;
             do
             {
                 printf("\n--- GESTION DE CLIENTES ---\n");
@@ -52,10 +52,10 @@ void menu_gerente()
                 printf("3. Ver listado de clientes\n");
                 printf("0. Volver al menu anterior\n");
                 printf("Elija opcion: ");
-                scanf("%d", &subop);
+                scanf("%d", &op);
                 system("cls");
 
-                switch(subop)
+                switch(op)
                 {
                 case 1:
                 {
@@ -75,9 +75,9 @@ void menu_gerente()
                     printf("Opcion invalida.\n");
                     break;
                 }
-                if(subop != 0) system("pause"); system("cls");
+                if(op != 0) system("pause"); system("cls");
             }
-            while(subop != 0);
+            while(op != 0);
             break;
         }
 
