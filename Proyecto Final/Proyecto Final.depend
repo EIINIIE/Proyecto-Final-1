@@ -273,7 +273,7 @@
 	"auto_cliente.h"
 	"venta.h"
 
-1763586165 source:c:\users\agust\onedrive\escritorio\git hub nashe\proyecto-final-1\proyecto final\auto.c
+1763586647 source:c:\users\agust\onedrive\escritorio\git hub nashe\proyecto-final-1\proyecto final\auto.c
 	<stdio.h>
 	<string.h>
 	"auto.h"
@@ -281,7 +281,7 @@
 1763586165 c:\users\agust\onedrive\escritorio\git hub nashe\proyecto-final-1\proyecto final\auto.h
 	"cliente.h"
 
-1763586166 c:\users\agust\onedrive\escritorio\git hub nashe\proyecto-final-1\proyecto final\cliente.h
+1763586647 c:\users\agust\onedrive\escritorio\git hub nashe\proyecto-final-1\proyecto final\cliente.h
 
 1763586165 source:c:\users\agust\onedrive\escritorio\git hub nashe\proyecto-final-1\proyecto final\auto_cliente.c
 	<stdio.h>
@@ -292,15 +292,16 @@
 1763586165 c:\users\agust\onedrive\escritorio\git hub nashe\proyecto-final-1\proyecto final\auto_cliente.h
 	"cliente.h"
 
-1763586166 source:c:\users\agust\onedrive\escritorio\git hub nashe\proyecto-final-1\proyecto final\autos_disponibles.c
+1763586858 source:c:\users\agust\onedrive\escritorio\git hub nashe\proyecto-final-1\proyecto final\autos_disponibles.c
 	<stdio.h>
 	<stdlib.h>
+	<string.h>
 	"autos_disponibles.h"
 	"auto.h"
 
 1763586166 c:\users\agust\onedrive\escritorio\git hub nashe\proyecto-final-1\proyecto final\autos_disponibles.h
 
-1763586166 source:c:\users\agust\onedrive\escritorio\git hub nashe\proyecto-final-1\proyecto final\cliente.c
+1763587415 source:c:\users\agust\onedrive\escritorio\git hub nashe\proyecto-final-1\proyecto final\cliente.c
 	<stdio.h>
 	<string.h>
 	"cliente.h"
@@ -328,9 +329,10 @@
 
 1763586166 c:\users\agust\onedrive\escritorio\git hub nashe\proyecto-final-1\proyecto final\fecha.h
 
-1763586166 source:c:\users\agust\onedrive\escritorio\git hub nashe\proyecto-final-1\proyecto final\gerente.c
+1763586647 source:c:\users\agust\onedrive\escritorio\git hub nashe\proyecto-final-1\proyecto final\gerente.c
 	<stdio.h>
 	<stdlib.h>
+	<string.h>
 	"gerente.h"
 	"cliente.h"
 	"empleado.h"
@@ -402,7 +404,7 @@
 	"cliente.h"
 	"pagos.h"
 
-1763586166 source:c:\users\agust\onedrive\escritorio\git hub nashe\proyecto-final-1\proyecto final\venta.c
+1763586858 source:c:\users\agust\onedrive\escritorio\git hub nashe\proyecto-final-1\proyecto final\venta.c
 	<stdio.h>
 	<string.h>
 	"venta.h"

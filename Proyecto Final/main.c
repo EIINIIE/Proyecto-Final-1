@@ -8,9 +8,23 @@
 #include "empleado.h"
 #include "LOING.h"
 
+// Función temporal para limpiar archivos corruptos
+void reiniciar_sistema() {
+    remove("clientes.bin");
+    remove("autos.bin");
+    remove("autos_cliente.bin");
+    remove("ventas.bin");
+    printf("\n[SISTEMA] Archivos reseteados correctamente. Inicie la carga nuevamente.\n");
+    system("pause");
+}
+
 int main()
 {
     srand(time(NULL));
+
+     reiniciar_sistema();
+
+
     int opcion;
 
     // El bucle principal solo pregunta si quiere ingresar o salir
@@ -34,9 +48,7 @@ int main()
             break;
 
         case 1:
-            // Llama al menú de 3 opciones (Empleado/Cliente/Admin)
             menu_login();
-            // Al volver de menu_login, el bucle se repite instantáneamente.
             break;
 
         default:
