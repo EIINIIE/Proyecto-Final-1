@@ -73,7 +73,7 @@ void modificar_cliente()
     printf("Ingrese DNI del cliente a modificar: ");
     scanf("%s", dniBuscado);
 
-    FILE *f = fopen(ARCHIVO_CLIENTES, "rb+");
+    FILE *f = fopen(ARCHIVO_CLIENTES, "r+b");
     if(f == NULL)
     {
         printf("No hay clientes registrados.\n");
