@@ -27,7 +27,6 @@ int main()
 
     int opcion;
 
-    // El bucle principal solo pregunta si quiere ingresar o salir
     do
     {
         printf("\n===================================================\n");
