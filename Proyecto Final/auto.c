@@ -15,7 +15,7 @@ Auto cargar_auto()
     scanf(" %[^\n]", a.marca);
     printf("Modelo: ");
     scanf(" %[^\n]", a.modelo);
-    printf("Año: ");
+    printf("Anio: ");
     scanf("%d", &a.anio);
     printf("Kilometraje: ");
     scanf("%d", &a.kms);
@@ -29,6 +29,9 @@ Auto cargar_auto()
     strcpy(a.titular.direccion, "S/N");
     strcpy(a.titular.rol, "Empresa");
 
+    // Calculo simple de precio final (ej: +20% ganancia)
+    a.precioFinal = a.precioDeAdquisicion * 1.20;
+
     return a;
 }
 
@@ -41,7 +44,7 @@ void agregar_auto_stock()
     {
         fwrite(&a, sizeof(Auto), 1, f);
         fclose(f);
-        printf("Auto agregado al stock.\n");
+        printf("Auto agregado al stock exitosamente.\n");
     }
     else
     {
@@ -49,12 +52,86 @@ void agregar_auto_stock()
     }
 }
 
+// --- NUEVO: Requisito 3a (Modificar Auto) ---
+void modificar_auto_stock()
+{
+    char patenteBuscada[20];
+    printf("\nIngrese la patente del auto a modificar: ");
+    scanf("%s", patenteBuscada);
+
+    FILE *f = fopen(ARCHIVO_AUTOS, "r+b");
+    if(f == NULL)
+    {
+        printf("Error: No se puede acceder al archivo de autos.\n");
+        return;
+    }
+
+    Auto a;
+    int encontrado = 0;
+
+    while(fread(&a, sizeof(Auto), 1, f) == 1)
+    {
+        if(strcmp(a.patente, patenteBuscada) == 0)
+        {
+            encontrado = 1;
+            mostrar_auto(a);
+
+            printf("\n--- MODIFICAR DATOS ---\n");
+            printf("1. Precio de Adquisicion\n");
+            printf("2. Kilometraje\n");
+            printf("3. Cancelar\n");
+            printf("Opcion: ");
+            int op;
+            scanf("%d", &op);
+
+            if(op == 1)
+            {
+                printf("Nuevo Precio: ");
+                scanf("%f", &a.precioDeAdquisicion);
+                // Recalculamos precio final
+                a.precioFinal = a.precioDeAdquisicion * 1.20;
+            }
+            else if(op == 2)
+            {
+                printf("Nuevo Kilometraje: ");
+                scanf("%d", &a.kms);
+            }
+            else
+            {
+                printf("Modificacion cancelada.\n");
+                fclose(f);
+                return;
+            }
+
+            // Volvemos atras el puntero para sobrescribir
+            fseek(f, -sizeof(Auto), SEEK_CUR);
+            fwrite(&a, sizeof(Auto), 1, f);
+            printf("Auto modificado correctamente.\n");
+            break;
+        }
+    }
+
+    if(!encontrado)
+    {
+        printf("No se encontro un auto con la patente %s en el stock.\n", patenteBuscada);
+    }
+
+    fclose(f);
+}
+
 // Mostrar un auto
 void mostrar_auto(Auto a)
 {
-    printf("\nPatente: %s\nMarca: %s\nModelo: %s\nAnio: %d\nKms: %d\nPrecio: %.2f\n",
-           a.patente, a.marca, a.modelo, a.anio, a.kms, a.precioDeAdquisicion);
+    printf("\n------------------------------\n");
+    printf("Patente: %s\n", a.patente);
+    printf("Marca:   %s\n", a.marca);
+    printf("Modelo:  %s\n", a.modelo);
+    printf("Anio:    %d\n", a.anio);
+    printf("Kms:     %d\n", a.kms);
+    printf("Costo:   $%.2f\n", a.precioDeAdquisicion);
+    printf("Venta:   $%.2f\n", a.precioFinal);
     printf("Titular: %s\n", a.titular.nombre);
+    printf("------------------------------\n");
 }
 
 // Mostrar todos los autos
@@ -63,47 +140,15 @@ void mostrar_todos_autos(char archivo[])
     FILE *f = fopen(archivo, "rb");
     if(f == NULL)
     {
-        printf("No hay autos.\n");
+        printf("No hay autos registrados.\n");
         return;
     }
 
     Auto a;
+    printf("\n--- LISTADO COMPLETO DE AUTOS (Stock) ---\n");
     while(fread(&a, sizeof(Auto), 1, f) == 1)
     {
         mostrar_auto(a);
     }
     fclose(f);
-}
-
-// Buscar auto por patente
-void mostrarAutoPorPatente()
-{
-    char pat[11];
-    printf("Ingrese patente: ");
-    fflush (stdin);
-    scanf("%s", pat);
-
-    FILE *f = fopen(ARCHIVO_AUTOS, "rb");
-    if(f == NULL)
-    {
-        printf("No hay autos.\n");
-        return;
-    }
-
-    Auto a;
-    int encontrado = 0;
-    while(fread(&a, sizeof(Auto), 1, f) == 1)
-    {
-        if(strcmp(a.patente, pat) == 0)
-        {
-            mostrar_auto(a);
-            encontrado = 1;
-            break;
-        }
-    }
-    fclose(f);
-    if(encontrado == 0)
-    {
-        printf("No se encontro auto con esa patente.\n");
-    }
 }

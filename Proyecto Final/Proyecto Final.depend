@@ -273,3 +273,140 @@
 	"auto_cliente.h"
 	"venta.h"
 
+1763586165 source:c:\users\agust\onedrive\escritorio\git hub nashe\proyecto-final-1\proyecto final\auto.c
+	<stdio.h>
+	<string.h>
+	"auto.h"
+
+1763586165 c:\users\agust\onedrive\escritorio\git hub nashe\proyecto-final-1\proyecto final\auto.h
+	"cliente.h"
+
+1763586166 c:\users\agust\onedrive\escritorio\git hub nashe\proyecto-final-1\proyecto final\cliente.h
+
+1763586165 source:c:\users\agust\onedrive\escritorio\git hub nashe\proyecto-final-1\proyecto final\auto_cliente.c
+	<stdio.h>
+	<stdlib.h>
+	"auto_cliente.h"
+	"cliente.h"
+
+1763586165 c:\users\agust\onedrive\escritorio\git hub nashe\proyecto-final-1\proyecto final\auto_cliente.h
+	"cliente.h"
+
+1763586166 source:c:\users\agust\onedrive\escritorio\git hub nashe\proyecto-final-1\proyecto final\autos_disponibles.c
+	<stdio.h>
+	<stdlib.h>
+	"autos_disponibles.h"
+	"auto.h"
+
+1763586166 c:\users\agust\onedrive\escritorio\git hub nashe\proyecto-final-1\proyecto final\autos_disponibles.h
+
+1763586166 source:c:\users\agust\onedrive\escritorio\git hub nashe\proyecto-final-1\proyecto final\cliente.c
+	<stdio.h>
+	<string.h>
+	"cliente.h"
+
+1763586166 source:c:\users\agust\onedrive\escritorio\git hub nashe\proyecto-final-1\proyecto final\empleado.c
+	<stdio.h>
+	<string.h>
+	<stdlib.h>
+	"empleado.h"
+	"auto.h"
+	"auto_cliente.h"
+	"autos_disponibles.h"
+	"cliente.h"
+	"pagos.h"
+
+1763586166 c:\users\agust\onedrive\escritorio\git hub nashe\proyecto-final-1\proyecto final\empleado.h
+
+1763586166 c:\users\agust\onedrive\escritorio\git hub nashe\proyecto-final-1\proyecto final\pagos.h
+	"auto.h"
+
+1763586166 source:c:\users\agust\onedrive\escritorio\git hub nashe\proyecto-final-1\proyecto final\fecha.c
+	<stdio.h>
+	<string.h>
+	"fecha.h"
+
+1763586166 c:\users\agust\onedrive\escritorio\git hub nashe\proyecto-final-1\proyecto final\fecha.h
+
+1763586166 source:c:\users\agust\onedrive\escritorio\git hub nashe\proyecto-final-1\proyecto final\gerente.c
+	<stdio.h>
+	<stdlib.h>
+	"gerente.h"
+	"cliente.h"
+	"empleado.h"
+	"auto.h"
+	"reportes.h"
+	"autos_disponibles.h"
+	"pagos.h"
+	"auto_cliente.h"
+	"venta.h"
+
+1763586166 c:\users\agust\onedrive\escritorio\git hub nashe\proyecto-final-1\proyecto final\gerente.h
+
+1763586166 c:\users\agust\onedrive\escritorio\git hub nashe\proyecto-final-1\proyecto final\reportes.h
+
+1763586166 c:\users\agust\onedrive\escritorio\git hub nashe\proyecto-final-1\proyecto final\venta.h
+	"fecha.h"
+
+1763586165 source:c:\users\agust\onedrive\escritorio\git hub nashe\proyecto-final-1\proyecto final\loing.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"LOING.h"
+	"usuario.h"
+	"empleado.h"
+	"gerente.h"
+
+1763586165 c:\users\agust\onedrive\escritorio\git hub nashe\proyecto-final-1\proyecto final\loing.h
+
+1763586166 c:\users\agust\onedrive\escritorio\git hub nashe\proyecto-final-1\proyecto final\usuario.h
+
+1763586166 source:c:\users\agust\onedrive\escritorio\git hub nashe\proyecto-final-1\proyecto final\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<time.h>
+	"usuario.h"
+	"cliente.h"
+	"auto.h"
+	"empleado.h"
+	"LOING.h"
+
+1763586166 source:c:\users\agust\onedrive\escritorio\git hub nashe\proyecto-final-1\proyecto final\pagos.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"pagos.h"
+	"auto.h"
+	"auto_cliente.h"
+	"venta.h"
+	"fecha.h"
+
+1763586166 source:c:\users\agust\onedrive\escritorio\git hub nashe\proyecto-final-1\proyecto final\reportes.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"reportes.h"
+	"auto.h"
+	"venta.h"
+	"cliente.h"
+	"fecha.h"
+
+1763586166 source:c:\users\agust\onedrive\escritorio\git hub nashe\proyecto-final-1\proyecto final\usuario.c
+	<stdio.h>
+	<string.h>
+	<stdlib.h>
+	"usuario.h"
+	"auto_cliente.h"
+	"autos_disponibles.h"
+	"cliente.h"
+	"pagos.h"
+
+1763586166 source:c:\users\agust\onedrive\escritorio\git hub nashe\proyecto-final-1\proyecto final\venta.c
+	<stdio.h>
+	<string.h>
+	"venta.h"
+	"auto.h"
+	"cliente.h"
+	"fecha.h"
+

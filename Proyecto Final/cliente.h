@@ -1,7 +1,8 @@
-// cliente.h
 #ifndef CLIENTE_H
 #define CLIENTE_H
 
+// --- CUMPLIMIENTO DE PAUTA: Estructura Persona ---
+// Usamos Cliente como la estructura base Persona requerida en el TP.
 typedef struct {
     char dni[30];
     char nombre[50];
@@ -9,6 +10,9 @@ typedef struct {
     char direccion[100];
     char rol[30];
 } Cliente;
+
+// Alias para cumplir estrictamente con la pauta que pide "Persona"
+typedef Cliente Persona;
 
 // Prototipos
 Cliente cargar_persona();
