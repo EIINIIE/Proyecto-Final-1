@@ -44,13 +44,16 @@ void guardar_cliente_en_archivo(Cliente c)
         printf("DNI guardado: [%s]\n", c.dni); /// verifico
     }
     else
+    {
         printf("Error al abrir archivo.\n");
+    }
 }
 
 // --- Ver listado de clientes ---
 void ver_listado_clientes()
 {
     FILE *file = fopen(ARCHIVO_CLIENTES, "rb");
+
     if(file == NULL)
     {
         printf("No hay clientes registrados.\n");

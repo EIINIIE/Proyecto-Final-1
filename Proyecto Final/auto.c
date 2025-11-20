@@ -40,6 +40,7 @@ void agregar_auto_stock()
 {
     Auto a = cargar_auto();
     FILE *f = fopen(ARCHIVO_AUTOS, "ab");
+
     if(f != NULL)
     {
         fwrite(&a, sizeof(Auto), 1, f);
