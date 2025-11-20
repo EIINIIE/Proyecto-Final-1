@@ -22,14 +22,14 @@ Auto cargar_auto()
     printf("Precio de Adquisicion: ");
     scanf("%f", &a.precioDeAdquisicion);
 
-    // Titular default: concesionaria
+
     strcpy(a.titular.nombre, "Concesionaria");
     strcpy(a.titular.dni, "00000000");
     strcpy(a.titular.telefono, "000000000");
     strcpy(a.titular.direccion, "S/N");
     strcpy(a.titular.rol, "Empresa");
 
-    // Calculo simple de precio final (ej: +20% ganancia)
+
     a.precioFinal = a.precioDeAdquisicion * 1.20;
 
     return a;
@@ -53,7 +53,7 @@ void agregar_auto_stock()
     }
 }
 
-// --- NUEVO: Requisito 3a (Modificar Auto) ---
+
 void modificar_auto_stock()
 {
     char patenteBuscada[20];

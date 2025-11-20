@@ -23,6 +23,6 @@ void mostrar_auto(Auto autos);
 void mostrar_todos_autos(char archivo[]);
 float medioDPago(float precioDeAdquisicion);
 void agregar_auto_stock();
-void modificar_auto_stock(); // <--- NUEVO (Req 3a)
+void modificar_auto_stock();
 
 #endif // AUTO_H_INCLUDED

@@ -152,7 +152,7 @@ void stock_joven()
     int validos = 0;
     int anioActual = 2025;
 
-    // Filtrar autos j venes
+
     while(fread(&a, sizeof(Auto), 1, f) == 1 && validos < 100)
     {
         if((anioActual - a.anio) < 10 && strcmp(a.titular.rol,"concesionaria")==0)
@@ -163,7 +163,7 @@ void stock_joven()
     }
     fclose(f);
 
-    // Ordenar por a o descendente
+
     Auto aux;
     for(int i=0; i < validos-1; i++)
         for(int j=i+1; j < validos; j++)
@@ -174,7 +174,7 @@ void stock_joven()
                 lista[j] = aux;
             }
 
-    // Mostrar autos j venes
+
     printf("\n--- Autos con menos de 10 anios (Orden Descendente) ---\n");
     printf("%-10s %-15s %-15s\n", "ANIO", "MARCA", "MODELO");
     for(int i=0; i<validos; i++)

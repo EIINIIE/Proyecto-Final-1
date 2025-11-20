@@ -1,8 +1,7 @@
 #ifndef CLIENTE_H
 #define CLIENTE_H
 
-// --- CUMPLIMIENTO DE PAUTA: Estructura Persona ---
-// Usamos Cliente como la estructura base Persona requerida en el TP.
+
 typedef struct {
     char dni[30];
     char nombre[50];

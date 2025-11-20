@@ -11,7 +11,7 @@ typedef struct
     int mes;
     int anios;
     char rol[50];
-     int activo;   // 1 = existe, 0 = eliminado
+     int activo;
 } stGerente;
 
 // ------- Prototipo -------
@@ -23,4 +23,4 @@ void eliminar_empleado();
 void mostrar_empleados();
 
 #endif // GERENTE_H_INCLUDED
-///Esto va al final porque #endif es el cierre de una condici n
+

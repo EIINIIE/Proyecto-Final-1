@@ -33,9 +33,9 @@ int main()
             break;
 
         case 1:
-            // Llama al menú de 3 opciones (Empleado/Cliente/Admin)
+
             menu_login();
-            // Al volver de menu_login, el bucle se repite instantáneamente.
+
             break;
 
         default:
@@ -45,6 +45,7 @@ int main()
         }
 
         system("cls");
+
 
     }
     while(opcion != 0);

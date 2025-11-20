@@ -412,39 +412,39 @@
 	"cliente.h"
 	"fecha.h"
 
-1763586823 source:c:\users\coty_\onedrive\documentos\github\proyecto-final-1\proyecto final\auto.c
+1763640153 source:c:\users\coty_\onedrive\documentos\github\proyecto-final-1\proyecto final\auto.c
 	<stdio.h>
 	<string.h>
 	"auto.h"
 
-1763586581 c:\users\coty_\onedrive\documentos\github\proyecto-final-1\proyecto final\auto.h
+1763640068 c:\users\coty_\onedrive\documentos\github\proyecto-final-1\proyecto final\auto.h
 	"cliente.h"
 
-1763586823 c:\users\coty_\onedrive\documentos\github\proyecto-final-1\proyecto final\cliente.h
+1763640068 c:\users\coty_\onedrive\documentos\github\proyecto-final-1\proyecto final\cliente.h
 
-1763586581 source:c:\users\coty_\onedrive\documentos\github\proyecto-final-1\proyecto final\auto_cliente.c
+1763599662 source:c:\users\coty_\onedrive\documentos\github\proyecto-final-1\proyecto final\auto_cliente.c
 	<stdio.h>
 	<stdlib.h>
 	"auto_cliente.h"
 	"cliente.h"
 
-1763586581 c:\users\coty_\onedrive\documentos\github\proyecto-final-1\proyecto final\auto_cliente.h
+1763599662 c:\users\coty_\onedrive\documentos\github\proyecto-final-1\proyecto final\auto_cliente.h
 	"cliente.h"
 
-1763588233 source:c:\users\coty_\onedrive\documentos\github\proyecto-final-1\proyecto final\autos_disponibles.c
+1763640206 source:c:\users\coty_\onedrive\documentos\github\proyecto-final-1\proyecto final\autos_disponibles.c
 	<stdio.h>
 	<stdlib.h>
 	"autos_disponibles.h"
 	"auto.h"
 
-1763586582 c:\users\coty_\onedrive\documentos\github\proyecto-final-1\proyecto final\autos_disponibles.h
+1763640068 c:\users\coty_\onedrive\documentos\github\proyecto-final-1\proyecto final\autos_disponibles.h
 
-1763588228 source:c:\users\coty_\onedrive\documentos\github\proyecto-final-1\proyecto final\cliente.c
+1763640240 source:c:\users\coty_\onedrive\documentos\github\proyecto-final-1\proyecto final\cliente.c
 	<stdio.h>
 	<string.h>
 	"cliente.h"
 
-1763586582 source:c:\users\coty_\onedrive\documentos\github\proyecto-final-1\proyecto final\empleado.c
+1763640260 source:c:\users\coty_\onedrive\documentos\github\proyecto-final-1\proyecto final\empleado.c
 	<stdio.h>
 	<string.h>
 	<stdlib.h>
@@ -455,7 +455,7 @@
 	"cliente.h"
 	"pagos.h"
 
-1763586582 c:\users\coty_\onedrive\documentos\github\proyecto-final-1\proyecto final\empleado.h
+1763640068 c:\users\coty_\onedrive\documentos\github\proyecto-final-1\proyecto final\empleado.h
 
 1763586582 c:\users\coty_\onedrive\documentos\github\proyecto-final-1\proyecto final\pagos.h
 	"auto.h"
@@ -465,9 +465,9 @@
 	<string.h>
 	"fecha.h"
 
-1763586582 c:\users\coty_\onedrive\documentos\github\proyecto-final-1\proyecto final\fecha.h
+1763640068 c:\users\coty_\onedrive\documentos\github\proyecto-final-1\proyecto final\fecha.h
 
-1763588233 source:c:\users\coty_\onedrive\documentos\github\proyecto-final-1\proyecto final\gerente.c
+1763640306 source:c:\users\coty_\onedrive\documentos\github\proyecto-final-1\proyecto final\gerente.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -481,14 +481,14 @@
 	"auto_cliente.h"
 	"venta.h"
 
-1763586582 c:\users\coty_\onedrive\documentos\github\proyecto-final-1\proyecto final\gerente.h
+1763640068 c:\users\coty_\onedrive\documentos\github\proyecto-final-1\proyecto final\gerente.h
 
-1763586582 c:\users\coty_\onedrive\documentos\github\proyecto-final-1\proyecto final\reportes.h
+1763640068 c:\users\coty_\onedrive\documentos\github\proyecto-final-1\proyecto final\reportes.h
 
 1763586582 c:\users\coty_\onedrive\documentos\github\proyecto-final-1\proyecto final\venta.h
 	"fecha.h"
 
-1763586581 source:c:\users\coty_\onedrive\documentos\github\proyecto-final-1\proyecto final\loing.c
+1763640342 source:c:\users\coty_\onedrive\documentos\github\proyecto-final-1\proyecto final\loing.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -499,9 +499,9 @@
 
 1763586581 c:\users\coty_\onedrive\documentos\github\proyecto-final-1\proyecto final\loing.h
 
-1763586582 c:\users\coty_\onedrive\documentos\github\proyecto-final-1\proyecto final\usuario.h
+1763640068 c:\users\coty_\onedrive\documentos\github\proyecto-final-1\proyecto final\usuario.h
 
-1763588233 source:c:\users\coty_\onedrive\documentos\github\proyecto-final-1\proyecto final\main.c
+1763640153 source:c:\users\coty_\onedrive\documentos\github\proyecto-final-1\proyecto final\main.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -512,7 +512,7 @@
 	"empleado.h"
 	"LOING.h"
 
-1763586582 source:c:\users\coty_\onedrive\documentos\github\proyecto-final-1\proyecto final\pagos.c
+1763640394 source:c:\users\coty_\onedrive\documentos\github\proyecto-final-1\proyecto final\pagos.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -522,7 +522,7 @@
 	"venta.h"
 	"fecha.h"
 
-1763586582 source:c:\users\coty_\onedrive\documentos\github\proyecto-final-1\proyecto final\reportes.c
+1763640430 source:c:\users\coty_\onedrive\documentos\github\proyecto-final-1\proyecto final\reportes.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -532,7 +532,7 @@
 	"cliente.h"
 	"fecha.h"
 
-1763586582 source:c:\users\coty_\onedrive\documentos\github\proyecto-final-1\proyecto final\usuario.c
+1763599662 source:c:\users\coty_\onedrive\documentos\github\proyecto-final-1\proyecto final\usuario.c
 	<stdio.h>
 	<string.h>
 	<stdlib.h>
@@ -542,7 +542,7 @@
 	"cliente.h"
 	"pagos.h"
 
-1763586582 source:c:\users\coty_\onedrive\documentos\github\proyecto-final-1\proyecto final\venta.c
+1763599662 source:c:\users\coty_\onedrive\documentos\github\proyecto-final-1\proyecto final\venta.c
 	<stdio.h>
 	<string.h>
 	"venta.h"

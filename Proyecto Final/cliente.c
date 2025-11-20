@@ -4,7 +4,7 @@
 
 #define ARCHIVO_CLIENTES "clientes.bin"
 
-// --- Cargar un nuevo cliente de forma simple ---
+
 Cliente cargar_persona()
 {
     Cliente c;
@@ -32,7 +32,7 @@ Cliente cargar_persona()
     return c;
 }
 
-// --- Guardar cliente en archivo ---
+
 void guardar_cliente_en_archivo(Cliente c)
 {
     FILE *file = fopen(ARCHIVO_CLIENTES, "ab");
@@ -49,7 +49,7 @@ void guardar_cliente_en_archivo(Cliente c)
     }
 }
 
-// --- Ver listado de clientes ---
+
 void ver_listado_clientes()
 {
     FILE *file = fopen(ARCHIVO_CLIENTES, "rb");
@@ -69,7 +69,7 @@ void ver_listado_clientes()
     fclose(file);
 }
 
-// --- Modificar cliente existente ---
+
 void modificar_cliente()
 {
     char dniBuscado[50];
