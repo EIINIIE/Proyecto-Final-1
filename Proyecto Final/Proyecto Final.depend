@@ -163,7 +163,7 @@
 
 1763584272 c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\autos_disponibles.h
 
-1763599484 source:c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\empleado.c
+1763600059 source:c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\empleado.c
 	<stdio.h>
 	<string.h>
 	<stdlib.h>
@@ -199,7 +199,7 @@
 
 1763584272 c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\usuario.h
 
-1763584272 c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\gerente.h
+1763600874 c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\gerente.h
 
 1763588150 source:c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\main.c
 	<stdio.h>
@@ -260,7 +260,7 @@
 	<string.h>
 	"cliente.h"
 
-1763599484 source:c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\gerente.c
+1763600960 source:c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\gerente.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>

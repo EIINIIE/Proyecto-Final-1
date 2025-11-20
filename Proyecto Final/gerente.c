@@ -215,14 +215,10 @@ void mostrar_empleados()
 
 void eliminar_empleado()
 {
-    FILE *archivo = fopen("empleados.bin", "rb");
-    FILE *temporal = fopen("temp_empleados.bin", "wb");
-
-    if (archivo == NULL || temporal == NULL)
+    FILE *archivo = fopen("empleados.bin", "r+b");
+    if (archivo == NULL)
     {
-        printf("\nERROR: No se pudo abrir el archivo de empleados o crear el temporal.\n");
-        if(archivo != NULL) fclose(archivo);
-        if(temporal != NULL) fclose(temporal);
+        printf("No se pudo abrir el archivo.\n");
         return;
     }
 
@@ -230,40 +226,31 @@ void eliminar_empleado()
     int dniBuscar;
     int encontrado = 0;
 
-    printf("\n--- ELIMINAR EMPLEADO ---\n");
-    mostrar_empleados(); // Mostramos la lista para que sepa qué DNI elegir
-    printf("\nIngrese el DNI del empleado a eliminar: ");
+    printf("Ingrese el DNI del empleado a eliminar: ");
     scanf("%d", &dniBuscar);
 
-    // Leemos el archivo original
-    while(fread(&emple, sizeof(stGerente), 1, archivo) == 1)
+    while (fread(&emple, sizeof(stGerente), 1, archivo) == 1)
     {
-        if (emple.dni != dniBuscar)
+        if (emple.dni == dniBuscar)
         {
-            // Si el DNI NO es el que buscamos, lo copiamos al temporal
-            fwrite(&emple, sizeof(stGerente), 1, temporal);
-        }
-        else
-        {
-            // Si es igual, NO lo escribimos (efectivamente lo borramos)
             encontrado = 1;
+            emple.activo = 0; // LO MARCAMOS COMO ELIMINADO
+
+            fseek(archivo, -sizeof(stGerente), SEEK_CUR);
+            fwrite(&emple, sizeof(stGerente), 1, archivo);
+
+            break;  // ya lo encontramos, salimos
         }
     }
 
     fclose(archivo);
-    fclose(temporal);
 
     if (encontrado == 1)
     {
-        // Borramos el viejo y renombramos el nuevo
-        remove("empleados.bin");
-        rename("temp_empleados.bin", "empleados.bin");
-        printf("\n>>> Empleado con DNI %d eliminado correctamente.\n", dniBuscar);
+        printf("Empleado eliminado.\n");
     }
     else
     {
-        // Si no lo encontramos, borramos el temporal que no sirve
-        remove("temp_empleados.bin");
-        printf("\n>>> No se encontro ningun empleado con ese DNI.\n");
+        printf("No se encontro ese DNI.\n");
     }
 }
