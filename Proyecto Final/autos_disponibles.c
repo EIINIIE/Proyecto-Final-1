@@ -19,7 +19,6 @@ void mostrar_auto_recursivo( FILE* file,  int pos, int total)
     if(pos >= total)
     {
         return;
-
     }
 
     fseek(file, pos* sizeof(Auto), SEEK_SET);
@@ -47,13 +46,15 @@ void mostrar_todos_autos_disponibles()
         return;
     }
 
-    fseek(file, 0, SEEK_END);
-    int total = ftell(file) / sizeof(Auto);
-    rewind(file);
+    fseek(file, 0, SEEK_END); /// el indice se posiciona al final
+
+    int total = ftell(file) / sizeof(Auto); /// como el inidice esta al final del archivo saca el total de datos que hay
+
+    rewind(file); /// Lo uso para que el inidice al principio
 
     if(total == 0)
     {
-        printf("el archivo esta vacio\n");
+        printf("El archivo esta vacio\n");
         fclose(file);
         return;
     }

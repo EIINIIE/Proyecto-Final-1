@@ -12,9 +12,9 @@ Auto cargar_auto()
     printf("Patente: ");
     scanf("%s", a.patente);
     printf("Marca: ");
-    scanf(" %[^\n]", a.marca);
+    scanf("%s", a.marca);
     printf("Modelo: ");
-    scanf(" %[^\n]", a.modelo);
+    scanf("%s", a.modelo);
     printf("Anio: ");
     scanf("%d", &a.anio);
     printf("Kilometraje: ");

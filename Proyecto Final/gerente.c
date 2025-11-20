@@ -75,7 +75,8 @@ void menu_gerente()
                     printf("Opcion invalida.\n");
                     break;
                 }
-                if(op != 0) system("pause"); system("cls");
+                if(op != 0) system("pause");
+                system("cls");
             }
             while(op != 0);
             break;
@@ -95,7 +96,7 @@ void menu_gerente()
             break;
         case 6:
             // Lógica de eliminar empleado...
-            printf("Funcion eliminar en desarrollo...\n");
+            eliminar_empleado();
             break;
         case 7:
             printf("Cerrando sesion...\n");
@@ -115,7 +116,7 @@ void menu_gerente()
             scanf("%d", &opAuto);
 
             if(opAuto == 1) agregar_auto_stock();
-            else if(opAuto == 2) modificar_auto_stock(); // Ahora sí llama a la función
+            else if(opAuto == 2) modificar_auto_stock();
             break;
         }
 
@@ -136,7 +137,8 @@ void menu_gerente()
         if(opcion != 7 && opcion != 0)
         {
             printf("\nPresione una tecla para continuar...");
-            getchar(); getchar();
+            getchar();
+            getchar();
             system("cls");
         }
 
@@ -151,13 +153,20 @@ stGerente cargar_un_empleado()
 {
     stGerente nuevo;
     printf("---- REGISTRO DE NUEVO EMPLEADO ----\n");
-    printf("Ingrese correo: "); scanf("%s", nuevo.correo);
-    printf("Ingrese contrasena: "); scanf("%s", nuevo.contrasena);
-    printf("Ingrese DNI: "); scanf("%d", &nuevo.dni);
-    printf("Ingrese dia de nacimiento: "); scanf("%d", &nuevo.dia);
-    printf("Ingrese mes de nacimiento: "); scanf("%d", &nuevo.mes);
-    printf("Ingrese anio de nacimiento: "); scanf("%d", &nuevo.anios);
-    printf("Ingrese rol: "); scanf("%s", nuevo.rol);
+    printf("Ingrese correo: ");
+    scanf("%s", nuevo.correo);
+    printf("Ingrese contrasena: ");
+    scanf("%s", nuevo.contrasena);
+    printf("Ingrese DNI: ");
+    scanf("%d", &nuevo.dni);
+    printf("Ingrese dia de nacimiento: ");
+    scanf("%d", &nuevo.dia);
+    printf("Ingrese mes de nacimiento: ");
+    scanf("%d", &nuevo.mes);
+    printf("Ingrese anio de nacimiento: ");
+    scanf("%d", &nuevo.anios);
+    printf("Ingrese rol: ");
+    scanf("%s", nuevo.rol);
     return nuevo;
 }
 
@@ -204,10 +213,57 @@ void mostrar_empleados()
     fclose(file);
 }
 
-// Nota: He quitado eliminar_auto_stock de este archivo porque ya está en pagos.c
-// para evitar conflictos de linkeo si ambos están incluidos en el proyecto.
 void eliminar_empleado()
 {
-     // Implementar logica similar a eliminar auto
-     printf("Funcionalidad pendiente de implementar.\n");
+    FILE *archivo = fopen("empleados.bin", "rb");
+    FILE *temporal = fopen("temp_empleados.bin", "wb");
+
+    if (archivo == NULL || temporal == NULL)
+    {
+        printf("\nERROR: No se pudo abrir el archivo de empleados o crear el temporal.\n");
+        if(archivo != NULL) fclose(archivo);
+        if(temporal != NULL) fclose(temporal);
+        return;
+    }
+
+    stGerente emple;
+    int dniBuscar;
+    int encontrado = 0;
+
+    printf("\n--- ELIMINAR EMPLEADO ---\n");
+    mostrar_empleados(); // Mostramos la lista para que sepa qué DNI elegir
+    printf("\nIngrese el DNI del empleado a eliminar: ");
+    scanf("%d", &dniBuscar);
+
+    // Leemos el archivo original
+    while(fread(&emple, sizeof(stGerente), 1, archivo) == 1)
+    {
+        if (emple.dni != dniBuscar)
+        {
+            // Si el DNI NO es el que buscamos, lo copiamos al temporal
+            fwrite(&emple, sizeof(stGerente), 1, temporal);
+        }
+        else
+        {
+            // Si es igual, NO lo escribimos (efectivamente lo borramos)
+            encontrado = 1;
+        }
+    }
+
+    fclose(archivo);
+    fclose(temporal);
+
+    if (encontrado == 1)
+    {
+        // Borramos el viejo y renombramos el nuevo
+        remove("empleados.bin");
+        rename("temp_empleados.bin", "empleados.bin");
+        printf("\n>>> Empleado con DNI %d eliminado correctamente.\n", dniBuscar);
+    }
+    else
+    {
+        // Si no lo encontramos, borramos el temporal que no sirve
+        remove("temp_empleados.bin");
+        printf("\n No se encontro ningun empleado con ese DNI.\n");
+    }
 }

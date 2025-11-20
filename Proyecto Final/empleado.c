@@ -26,7 +26,7 @@ void menu_empleado_directo()
         printf("3. Autos disponibles (Ver Stock)\n");
         printf("4. Pagos (Vender Auto)\n");
         printf("5. Volver al inicio\n");
-        printf("0. Salir (Volver al Login)\n"); // <--- Texto actualizado
+        printf("0. Salir (Volver al Login)\n");
         printf("-------------------------------------\n");
 
         printf("Elija una opcion: ");
@@ -37,8 +37,8 @@ void menu_empleado_directo()
         {
         case 1:
             printf("\n--- CARGA DE CLIENTE ---\n");
-            Cliente nuevoC = cargar_persona(); // 1. Cargamos
-            guardar_cliente_en_archivo(nuevoC); // 2. Guardamos
+            Cliente nuevoC = cargar_persona();
+            guardar_cliente_en_archivo(nuevoC);
             break;
 
         case 2:

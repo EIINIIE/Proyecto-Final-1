@@ -110,12 +110,10 @@ void login_administrador()
     printf("Correo: ");
     fflush(stdin);
     gets(correo);
-    correo[strcspn(correo, "\n")] = 0;
 
     printf("Contrasena: ");
     fflush(stdin);
     gets(contrasena);
-    contrasena[strcspn(contrasena, "\n")] = 0;
 
     system("cls");
 
@@ -131,10 +129,9 @@ void login_administrador()
     }
 }
 
-// --- LOGIN DE EMPLEADO (Opci n 1 - DIRECTO) ---
+/// --- LOGIN DE EMPLEADO (Opci n 1 - DIRECTO) ---
 void login_empresa()
 {
-    // Eliminado el submen . Ahora pide datos directamente.
     char correo[50];
     char contrasena[50];
 
@@ -142,12 +139,10 @@ void login_empresa()
     printf("Correo: ");
     fflush(stdin);
     gets(correo);
-    correo[strcspn(correo, "\n")] = 0;
 
     printf("Contrasena: ");
     fflush(stdin);
     gets(contrasena);
-    contrasena[strcspn(contrasena, "\n")] = 0;
 
     system("cls");
 
@@ -167,7 +162,7 @@ void login_empresa()
         {
             encontrado = 1;
 
-            // Si es un administrador intentando entrar como empleado, lo redirigimos
+            /// Si es un administrador intentando entrar como empleado, lo redirigimos
             if (strcmp(emple.rol, "administrador") == 0)
             {
                 printf("Detectado rol Administrador. Por favor ingrese por la opcion 3.\n");
@@ -175,7 +170,7 @@ void login_empresa()
             else
             {
                 printf("Bienvenido, %s (Rol: %s)\n", emple.correo, emple.rol);
-                // LLAMADA AL MENU DIRECTO (Sin pedir clave otra vez)
+               /// LLAMADA AL MENU DIRECTO (Sin pedir clave otra vez)
                 menu_empleado_directo();
             }
             break;
@@ -184,7 +179,7 @@ void login_empresa()
 
     fclose(file);
 
-    if (!encontrado)
+    if (encontrado == 0)
     {
         printf("Correo o contrasena incorrectos.\n");
     }
