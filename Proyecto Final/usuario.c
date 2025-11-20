@@ -7,13 +7,13 @@
 #include "cliente.h"
 #include "pagos.h"
 
-// --- CORRECCION CRITICA: Archivo separado para usuarios ---
+
 #define ARCHIVO_USUARIOS "usuarios.bin"
 
-// FUNCION 1: Verifica si un usuario ya existe por correo
+
 int usuario_existente(char correo[])
 {
-    FILE* file = fopen(ARCHIVO_USUARIOS, "rb"); // Usamos el nuevo nombre
+    FILE* file = fopen(ARCHIVO_USUARIOS, "rb");
     if(file == NULL) return 0;
 
     stUsuario usuario;
@@ -22,14 +22,14 @@ int usuario_existente(char correo[])
         if(strcmp(usuario.correo, correo) == 0)
         {
             fclose(file);
-            return 1; // Existe
+            return 1;
         }
     }
     fclose(file);
-    return 0; // No existe
+    return 0;
 }
 
-// FUNCION 2: Registrar un nuevo usuario
+
 stUsuario registro_Usuario()
 {
     stUsuario nuevo;
@@ -41,7 +41,7 @@ stUsuario registro_Usuario()
     if(usuario_existente(nuevo.correo))
     {
         printf("Este usuario ya esta registrado\n");
-        nuevo.dni = -1; // Señal de error
+        nuevo.dni = -1;
         return nuevo;
     }
 
@@ -72,10 +72,9 @@ void guardar_Usuario(stUsuario usuario)
     fclose(file);
 }
 
-// FUNCION 4: Verificar si correo y contraseña coinciden
 int verificar_Usuario(char correo[], char contrasena[])
 {
-    FILE *file = fopen(ARCHIVO_USUARIOS, "rb"); // Nuevo nombre
+    FILE *file = fopen(ARCHIVO_USUARIOS, "rb");
     if(file == NULL)
     {
         return 0;
@@ -96,7 +95,7 @@ int verificar_Usuario(char correo[], char contrasena[])
     return encontrado;
 }
 
-// FUNCION 5: Mostrar todos los usuarios (recursivo)
+
 void mostrarTodosLosUsuarios()
 {
     stUsuario usuarios[100];
@@ -114,7 +113,7 @@ void mostrarTodosLosUsuarios()
 
 int cargarUsuariosEnArreglo(stUsuario arr[], int tope)
 {
-    FILE* file = fopen(ARCHIVO_USUARIOS, "rb"); // Nuevo nombre
+    FILE* file = fopen(ARCHIVO_USUARIOS, "rb");
     if(file == NULL)
     {
         return 0;
@@ -135,7 +134,7 @@ void mostrarUsuariosRecursivo(stUsuario arr[], int pos, int total)
     {
         return;
     }
-    // Mostrar usuario
+
     printf("Correo: %s\n", arr[pos].correo);
     printf("DNI: %d\n", arr[pos].dni);
     printf("Nacimiento: %d/%d/%d\n", arr[pos].dia, arr[pos].mes, arr[pos].anios);
@@ -144,7 +143,7 @@ void mostrarUsuariosRecursivo(stUsuario arr[], int pos, int total)
     mostrarUsuariosRecursivo(arr, pos + 1, total);
 }
 
-// FUNCION 6: Iniciar sesión e ingresar al menú del cliente
+
 void iniciarSesion()
 {
     char correo[50], contrasena[50];

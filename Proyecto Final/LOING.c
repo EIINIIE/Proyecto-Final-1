@@ -28,11 +28,11 @@ void menu_login()
 
         switch (opcion_login)
         {
-        case 1: // EMPRESA - Va directo al login
+        case 1:
             login_empresa();
             break;
 
-        case 2: // CLIENTE
+        case 2:
         {
             int opcion_cliente;
             do
@@ -100,7 +100,7 @@ void menu_login()
     while (opcion_login != 0);
 }
 
-// --- LOGIN DE ADMINISTRADOR (Opci n 3) ---
+
 void login_administrador()
 {
     char correo[50];

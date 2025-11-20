@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "autos_disponibles.h"
-#include "auto.h" // <--- IMPORTANTE: Aquí está la estructura 'Auto' real
+#include "auto.h"
 
 void mostrar_un_auto(Auto a)
 {
@@ -35,8 +35,7 @@ void mostrar_auto_recursivo( FILE* file,  int pos, int total)
 
 void mostrar_todos_autos_disponibles()
 {
-    // Abrimos el MISMO archivo donde escribe el Gerente/Admin
-    // Asegurate que en auto.h esté definido ARCHIVO_AUTOS como "autos.bin"
+
     FILE *file = fopen("autos.bin", "rb");
 
     if(file == NULL)

@@ -1,7 +1,7 @@
 #ifndef USUARIO_H_INCLUDED
 #define USUARIO_H_INCLUDED
 
-// --- CORRECCIÓN CRÍTICA: Usamos un archivo distinto para usuarios de login ---
+
 #define ARCHIVO_USUARIOS "usuarios.bin"
 
 typedef struct

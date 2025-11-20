@@ -7,7 +7,7 @@
 #include "venta.h"
 #include "fecha.h"
 
-// --- FUNCION AUXILIAR: Transferir Auto a Cliente ---
+
 void transferir_auto_a_cliente(Auto autoVendido, char dniComprador[])
 {
     FILE *file = fopen("autos_cliente.bin", "ab");
@@ -32,7 +32,7 @@ void transferir_auto_a_cliente(Auto autoVendido, char dniComprador[])
     printf("\nTransferencia de propiedad registrada.\n");
 }
 
-// --- FUNCION: Eliminar auto del stock ---
+
 void eliminar_auto_stock(char patenteEliminar[])
 {
     FILE *archivo = fopen("autos.bin", "rb");
@@ -74,7 +74,7 @@ void eliminar_auto_stock(char patenteEliminar[])
     }
 }
 
-// --- FUNCION: Registrar venta en archivo ---
+
 void registrar_venta_archivo(Auto autoVendido, char dniComprador[], char dniVendedor[])
 {
     FILE *file = fopen("ventas.bin", "ab");
@@ -120,7 +120,7 @@ void ordenarPorPatente(Auto autos[], int validos)
     }
 }
 
-// --- BUSQUEDA BINARIA ---
+
 int buscarPatenteBinaria(Auto autos[], int validos, char patenteBuscada[])
 {
     int inicio = 0;
@@ -138,7 +138,7 @@ int buscarPatenteBinaria(Auto autos[], int validos, char patenteBuscada[])
     return -1;
 }
 
-// --- GESTION DE PAGOS PRINCIPAL ---
+
 void gestionDePagos()
 {
     FILE *file = fopen("autos.bin", "rb");

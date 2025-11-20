@@ -3,7 +3,7 @@
 
 void menu_reportes();
 
-// Requisitos del TP (Punto III)
+
 void recaudacion_mensual();
 void venta_mayor_ganancia();
 void stock_joven();

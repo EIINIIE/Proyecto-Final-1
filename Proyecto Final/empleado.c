@@ -56,12 +56,12 @@ void menu_empleado_directo()
 
         case 5:
             printf("Volviendo al menu principal...\n");
-            opcion_sesion = 0; // Esto fuerza la salida del bucle
+            opcion_sesion = 0;
             break;
 
         case 0:
             printf("Cerrando sesion y volviendo al inicio...\n");
-            // Regresa automaticamente a LOING.c
+
             break;
 
         default:
@@ -69,7 +69,7 @@ void menu_empleado_directo()
             break;
         }
 
-        // Pausa para ver los resultados, excepto si elige volver (5) o salir (0)
+
         if (opcion_sesion != 0)
         {
             system("pause");

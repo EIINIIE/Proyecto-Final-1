@@ -95,7 +95,7 @@ void menu_gerente()
             agregar_empleado();
             break;
         case 6:
-            // Lógica de eliminar empleado...
+
             eliminar_empleado();
             break;
         case 7:
@@ -105,7 +105,7 @@ void menu_gerente()
             mostrarVentas();
             break;
 
-        case 9: // --- SUBMENU GESTION AUTOS ---
+        case 9:
         {
             int opAuto;
             printf("\n--- GESTION DE AUTOS STOCK ---\n");
@@ -146,9 +146,7 @@ void menu_gerente()
     while(opcion != 7 && opcion != 0);
 }
 
-//-----------------------------------------------------
-// FUNCIONES AUXILIARES
-//-----------------------------------------------------
+
 stGerente cargar_un_empleado()
 {
     stGerente nuevo;
@@ -234,12 +232,12 @@ void eliminar_empleado()
         if (emple.dni == dniBuscar)
         {
             encontrado = 1;
-            emple.activo = 0; // LO MARCAMOS COMO ELIMINADO
+            emple.activo = 0;
 
             fseek(archivo, -sizeof(stGerente), SEEK_CUR);
             fwrite(&emple, sizeof(stGerente), 1, archivo);
 
-            break;  // ya lo encontramos, salimos
+            break;
         }
     }
 

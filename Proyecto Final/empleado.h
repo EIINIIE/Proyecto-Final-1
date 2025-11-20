@@ -13,7 +13,7 @@ typedef struct
     int dia;
     int mes;
     int anios;
-    char rol[50]; // <--- CORREGIDO: CAMBIADO DE 30 A 50 PARA COINCIDIR CON GERENTE
+    char rol[50];
 } stEmpleado;
 
 // ------- Prototipo -------
