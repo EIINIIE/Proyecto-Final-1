@@ -36,7 +36,7 @@ stUsuario registro_Usuario()
 
     printf("\n--- REGISTRO DE USUARIO ---\n");
     printf("Ingrese su correo: ");
-    scanf("%49s", nuevo.correo);
+    scanf("%s", nuevo.correo);
 
     if(usuario_existente(nuevo.correo))
     {
@@ -46,7 +46,8 @@ stUsuario registro_Usuario()
     }
 
     printf("Ingrese su contrasenia: ");
-    scanf("%49s", nuevo.contrasena);
+    fflush (stdin);
+    scanf("%s", nuevo.contrasena);
 
     printf("Ingrese su DNI: ");
     scanf("%d", &nuevo.dni);
@@ -75,7 +76,10 @@ void guardar_Usuario(stUsuario usuario)
 int verificar_Usuario(char correo[], char contrasena[])
 {
     FILE *file = fopen(ARCHIVO_USUARIOS, "rb"); // Nuevo nombre
-    if(file == NULL) return 0;
+    if(file == NULL)
+    {
+        return 0;
+    }
 
     stUsuario usuario;
     int encontrado = 0;
@@ -92,7 +96,7 @@ int verificar_Usuario(char correo[], char contrasena[])
     return encontrado;
 }
 
-/// FUNCION 5: Mostrar todos los usuarios (recursivo)
+// FUNCION 5: Mostrar todos los usuarios (recursivo)
 void mostrarTodosLosUsuarios()
 {
     stUsuario usuarios[100];
@@ -146,9 +150,9 @@ void iniciarSesion()
     char correo[50], contrasena[50];
     printf("\n------ INICIAR SESION ------\n");
     printf("Correo: ");
-    scanf("%49s", correo);
+    scanf("%s", correo);
     printf("Contrasena: ");
-    scanf("%49s", contrasena);
+    scanf("%s", contrasena);
     system("cls");
 
     if(verificar_Usuario(correo, contrasena))
@@ -179,8 +183,7 @@ void iniciarSesion()
 
             case 1:
                 cargar_persona();
-                // NOTA: Aquí también podrías guardar si fuera necesario,
-                // pero el login de usuario suele ser para consultas.
+
                 break;
 
             case 2:

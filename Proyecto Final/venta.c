@@ -27,6 +27,7 @@ Venta cargarVenta()
 
         FILE *fAuto = fopen(ARCHIVO_AUTOS, "rb");
         encontradoAuto = 0;
+
         if(fAuto != NULL)
         {
             while(fread(&a, sizeof(Auto), 1, fAuto) == 1)
@@ -41,10 +42,12 @@ Venta cargarVenta()
             fclose(fAuto);
         }
 
-        if(!encontradoAuto)
+        if(encontradoAuto == 0)
+        {
             printf("Auto no encontrado o no pertenece a la concesionaria.\n");
+        }
 
-    } while(!encontradoAuto);
+    } while(encontradoAuto == 0);
 
     printf("Precio de Costo: %.2f\n", a.precioDeAdquisicion);
     printf("Ingrese precio final de venta: ");
@@ -60,6 +63,7 @@ Venta cargarVenta()
 
         FILE *fCli = fopen("clientes.bin", "rb");
         encontradoCliente = 0;
+
         if(fCli != NULL)
         {
             while(fread(&c, sizeof(Cliente), 1, fCli) == 1)
@@ -73,10 +77,12 @@ Venta cargarVenta()
             fclose(fCli);
         }
 
-        if(!encontradoCliente)
+        if(encontradoCliente == 0)
+        {
             printf("Cliente no encontrado.\n");
+        }
 
-    } while(!encontradoCliente);
+    } while(encontradoCliente == 0);
 
     printf("Ingrese DNI del vendedor: ");
     scanf("%s", v.dniVendedor);

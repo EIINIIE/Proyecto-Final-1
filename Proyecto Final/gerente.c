@@ -213,8 +213,6 @@ void mostrar_empleados()
     fclose(file);
 }
 
-// Nota: He quitado eliminar_auto_stock de este archivo porque ya está en pagos.c
-// para evitar conflictos de linkeo si ambos están incluidos en el proyecto.
 void eliminar_empleado()
 {
     FILE *archivo = fopen("empleados.bin", "rb");
@@ -266,6 +264,6 @@ void eliminar_empleado()
     {
         // Si no lo encontramos, borramos el temporal que no sirve
         remove("temp_empleados.bin");
-        printf("\n>>> No se encontro ningun empleado con ese DNI.\n");
+        printf("\n No se encontro ningun empleado con ese DNI.\n");
     }
 }

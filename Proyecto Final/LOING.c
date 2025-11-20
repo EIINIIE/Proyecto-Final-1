@@ -179,7 +179,7 @@ void login_empresa()
 
     fclose(file);
 
-    if (!encontrado)
+    if (encontrado == 0)
     {
         printf("Correo o contrasena incorrectos.\n");
     }

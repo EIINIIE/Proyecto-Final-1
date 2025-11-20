@@ -38,16 +38,36 @@ void menu_reportes()
 
         switch(opcion)
         {
-        case 1: recaudacion_mensual(); break;
-        case 2: venta_mayor_ganancia(); break;
-        case 3: stock_joven(); break;
-        case 4: ver_listado_personas(); break;
-        case 5: buscar_persona_dni(); break;
-        case 6: buscar_auto_patente(); break;
-        case 7: ver_venta_detalle(); break;
-        case 8: alerta_stock_lento(); break;
-        case 0: printf("Volviendo al menu anterior...\n"); break;
-        default: printf("Opcion invalida.\n"); break;
+        case 1:
+            recaudacion_mensual();
+            break;
+        case 2:
+            venta_mayor_ganancia();
+            break;
+        case 3:
+            stock_joven();
+            break;
+        case 4:
+            ver_listado_personas();
+            break;
+        case 5:
+            buscar_persona_dni();
+            break;
+        case 6:
+            buscar_auto_patente();
+            break;
+        case 7:
+            ver_venta_detalle();
+            break;
+        case 8:
+            alerta_stock_lento();
+            break;
+        case 0:
+            printf("Volviendo al menu anterior...\n");
+            break;
+        default:
+            printf("Opcion invalida.\n");
+            break;
         }
         system("pause");
     }
@@ -58,17 +78,25 @@ void menu_reportes()
 void recaudacion_mensual()
 {
     FILE* f = fopen(ARCHIVO_VENTAS, "rb");
-    if(f == NULL) { printf("No hay ventas registradas.\n"); return; }
+    if(f == NULL)
+    {
+        printf("No hay ventas registradas.\n");
+        return;
+    }
 
     int mes, anio;
     float total = 0;
     Venta v;
 
-    printf("Ingrese mes (1-12): "); scanf("%d", &mes);
-    printf("Ingrese anio: "); scanf("%d", &anio);
+    printf("Ingrese mes (1-12): ");
+    scanf("%d", &mes);
+    printf("Ingrese anio: ");
+    scanf("%d", &anio);
 
-    while(fread(&v, sizeof(Venta), 1, f) == 1) {
-        if(v.fecha.mes == mes && v.fecha.anio == anio) {
+    while(fread(&v, sizeof(Venta), 1, f) == 1)
+    {
+        if(v.fecha.mes == mes && v.fecha.anio == anio)
+        {
             total += v.precioVenta;
         }
     }
@@ -80,22 +108,31 @@ void recaudacion_mensual()
 void venta_mayor_ganancia()
 {
     FILE* f = fopen(ARCHIVO_VENTAS, "rb");
-    if(f == NULL) { printf("No hay ventas cargadas.\n"); return; }
+    if(f == NULL)
+    {
+        printf("No hay ventas cargadas.\n");
+        return;
+    }
 
     Venta v, max;
     int primero = 1;
 
-    while(fread(&v, sizeof(Venta), 1, f) == 1) {
-        if(primero || v.ganancia > max.ganancia) {
+    while(fread(&v, sizeof(Venta), 1, f) == 1)
+    {
+        if(primero || v.ganancia > max.ganancia)
+        {
             max = v;
             primero = 0;
         }
     }
     fclose(f);
-    if(!primero) {
+    if(!primero)
+    {
         printf("\n--- Venta con mayor ganancia ---\n");
         mostrarVenta(max);
-    } else {
+    }
+    else
+    {
         printf("No hay ventas registradas.\n");
     }
 }
@@ -104,7 +141,11 @@ void venta_mayor_ganancia()
 void stock_joven()
 {
     FILE *f = fopen(ARCHIVO_AUTOS, "rb");
-    if(f == NULL) { printf("No hay autos cargados.\n"); return; }
+    if(f == NULL)
+    {
+        printf("No hay autos cargados.\n");
+        return;
+    }
 
     Auto lista[100];
     Auto a;
@@ -144,7 +185,11 @@ void stock_joven()
 void ver_listado_personas()
 {
     FILE *f = fopen(ARCHIVO_CLIENTES, "rb");
-    if(f == NULL) { printf("No hay clientes registrados.\n"); return; }
+    if(f == NULL)
+    {
+        printf("No hay clientes registrados.\n");
+        return;
+    }
 
     Cliente c;
     printf("\n--- LISTA DE PERSONAS ---\n");
@@ -158,7 +203,11 @@ void ver_listado_personas()
 void buscar_persona_dni()
 {
     FILE *f = fopen(ARCHIVO_CLIENTES, "rb");
-    if(f == NULL) { printf("No hay archivo de clientes.\n"); return; }
+    if(f == NULL)
+    {
+        printf("No hay archivo de clientes.\n");
+        return;
+    }
 
     char dniBuscado[20];
     Cliente c;
@@ -184,12 +233,17 @@ void buscar_persona_dni()
 void buscar_auto_patente()
 {
     FILE *f = fopen(ARCHIVO_AUTOS, "rb");
-    if(f == NULL) { printf("No hay autos registrados.\n"); return; }
+    if(f == NULL)
+    {
+        printf("No hay autos registrados.\n");
+        return;
+    }
 
     char pat[20];
     Auto a;
     int ok = 0;
-    printf("Ingrese patente: "); scanf("%s", pat);
+    printf("Ingrese patente: ");
+    scanf("%s", pat);
 
     while(fread(&a, sizeof(Auto), 1, f) == 1)
     {
@@ -200,30 +254,41 @@ void buscar_auto_patente()
         }
     }
     fclose(f);
-    if(!ok) printf("No existe un auto con esa patente.\n");
+    if(!ok)
+    {
+        printf("No existe un auto con esa patente.\n");
+    }
 }
 
 /// --- VER DETALLE DE VENTA ---
 void ver_venta_detalle()
 {
     FILE *f = fopen(ARCHIVO_VENTAS, "rb");
-    if(f == NULL) { printf("No hay ventas registradas.\n"); return; }
+    if(f == NULL)
+    {
+        printf("No hay ventas registradas.\n");
+        return;
+    }
 
     char pat[20];
     Venta v;
-    int ok = 0;
-    printf("Ingrese patente vendida: "); scanf("%s", pat);
+    int flag = 0;
+    printf("Ingrese patente vendida: ");
+    scanf("%s", pat);
 
     while(fread(&v, sizeof(Venta), 1, f) == 1)
     {
         if(strcmp(v.patenteAutoVendido, pat) == 0)
         {
-            ok = 1;
+            flag = 1;
             mostrarVenta(v);
         }
     }
     fclose(f);
-    if(!ok) printf("No existe una venta con esa patente.\n");
+    if(flag == 0)
+    {
+        printf("No existe una venta con esa patente.\n");
+    }
 }
 
 /// --- ALERTA DE AUTOS CON VENTA LENTA ---
@@ -232,7 +297,11 @@ void alerta_stock_lento()
     FILE *fA = fopen(ARCHIVO_AUTOS, "rb");
     FILE *fV = fopen(ARCHIVO_VENTAS, "rb");
 
-    if(fA == NULL) { printf("No hay autos cargados.\n"); return; }
+    if(fA == NULL)
+    {
+        printf("No hay autos cargados.\n");
+        return;
+    }
 
     Auto a;
     Venta v;
@@ -255,9 +324,15 @@ void alerta_stock_lento()
                 }
             }
         }
-        if(vendido == 0) mostrar_auto(a);
+        if(vendido == 0)
+        {
+            mostrar_auto(a);
+        }
     }
 
     fclose(fA);
-    if(fV != NULL) fclose(fV);
+    if(fV != NULL)
+    {
+        fclose(fV);
+    }
 }

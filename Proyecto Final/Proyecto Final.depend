@@ -136,7 +136,7 @@
 	"cliente.h"
 	"fecha.h"
 
-1763587028 source:c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\auto.c
+1763599484 source:c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\auto.c
 	<stdio.h>
 	<string.h>
 	"auto.h"
@@ -146,16 +146,16 @@
 
 1763587028 c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\cliente.h
 
-1763584955 source:c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\auto_cliente.c
+1763598810 source:c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\auto_cliente.c
 	<stdio.h>
 	<stdlib.h>
 	"auto_cliente.h"
 	"cliente.h"
 
-1763584272 c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\auto_cliente.h
+1763597790 c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\auto_cliente.h
 	"cliente.h"
 
-1763587398 source:c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\autos_disponibles.c
+1763599484 source:c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\autos_disponibles.c
 	<stdio.h>
 	<stdlib.h>
 	"autos_disponibles.h"
@@ -163,7 +163,7 @@
 
 1763584272 c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\autos_disponibles.h
 
-1763584272 source:c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\empleado.c
+1763599484 source:c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\empleado.c
 	<stdio.h>
 	<string.h>
 	<stdlib.h>
@@ -186,7 +186,7 @@
 
 1763584272 c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\fecha.h
 
-1763584272 source:c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\loing.c
+1763599484 source:c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\loing.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -201,7 +201,7 @@
 
 1763584272 c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\gerente.h
 
-1763584272 source:c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\main.c
+1763588150 source:c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\main.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -212,7 +212,7 @@
 	"empleado.h"
 	"LOING.h"
 
-1763584272 source:c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\pagos.c
+1763599484 source:c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\pagos.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -225,7 +225,7 @@
 1763584272 c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\venta.h
 	"fecha.h"
 
-1763584272 source:c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\reportes.c
+1763599484 source:c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\reportes.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -237,7 +237,7 @@
 
 1763584272 c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\reportes.h
 
-1763584272 source:c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\usuario.c
+1763599484 source:c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\usuario.c
 	<stdio.h>
 	<string.h>
 	<stdlib.h>
@@ -247,7 +247,7 @@
 	"cliente.h"
 	"pagos.h"
 
-1763584272 source:c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\venta.c
+1763599491 source:c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\venta.c
 	<stdio.h>
 	<string.h>
 	"venta.h"
@@ -255,12 +255,12 @@
 	"cliente.h"
 	"fecha.h"
 
-1763585543 source:c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\cliente.c
+1763587944 source:c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\cliente.c
 	<stdio.h>
 	<string.h>
 	"cliente.h"
 
-1763587398 source:c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\gerente.c
+1763599484 source:c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\gerente.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>

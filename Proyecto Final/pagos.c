@@ -29,7 +29,7 @@ void transferir_auto_a_cliente(Auto autoVendido, char dniComprador[])
 
     fwrite(&autoNuevo, sizeof(AutoCliente), 1, file);
     fclose(file);
-    printf("\n[SISTEMA] Transferencia de propiedad registrada.\n");
+    printf("\nTransferencia de propiedad registrada.\n");
 }
 
 // --- FUNCION: Eliminar auto del stock ---
@@ -38,7 +38,11 @@ void eliminar_auto_stock(char patenteEliminar[])
     FILE *archivo = fopen("autos.bin", "rb");
     FILE *temporal = fopen("temp.bin", "wb");
 
-    if (archivo == NULL || temporal == NULL) return;
+    if (archivo == NULL || temporal == NULL)
+    {
+        return;
+    }
+
 
     Auto a;
     int encontrado = 0;
@@ -58,7 +62,7 @@ void eliminar_auto_stock(char patenteEliminar[])
     fclose(archivo);
     fclose(temporal);
 
-    if(encontrado)
+    if(encontrado == 1)
     {
         remove("autos.bin");
         rename("temp.bin", "autos.bin");
@@ -94,7 +98,7 @@ void registrar_venta_archivo(Auto autoVendido, char dniComprador[], char dniVend
     fwrite(&nuevaVenta, sizeof(Venta), 1, file);
     fclose(file);
 
-    printf("\n[SISTEMA] Venta registrada exitosamente.\n");
+    printf("\nVenta registrada exitosamente.\n");
     printf("Ganancia obtenida: $%.2f\n", nuevaVenta.ganancia);
 }
 
@@ -173,8 +177,7 @@ void gestionDePagos()
         printf("\n--- AUTO SELECCIONADO ---\n");
         printf("Modelo: %s %s\n", listaAutos[pos].marca, listaAutos[pos].modelo);
         printf("Precio: $%.2f\n", listaAutos[pos].precioFinal);
-        printf("Ganancia estimada: $%.2f\n",
-               listaAutos[pos].precioFinal - listaAutos[pos].precioDeAdquisicion);
+        printf("Ganancia estimada: $%.2f\n", listaAutos[pos].precioFinal - listaAutos[pos].precioDeAdquisicion);
 
         char confirmacion;
         printf("\n Confirmar venta? (s/n): ");
