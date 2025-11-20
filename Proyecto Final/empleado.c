@@ -61,9 +61,6 @@ void menu_empleado_directo()
 
         case 0:
             printf("Cerrando sesion y volviendo al inicio...\n");
-            // AQUI ESTA EL CAMBIO: Quitamos exit(0)
-            // Al no haber exit, el programa sale del switch,
-            // el while(opcion_sesion != 0) detecta que es 0 y termina la función.
             // Regresa automaticamente a LOING.c
             break;
 

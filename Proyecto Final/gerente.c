@@ -264,6 +264,6 @@ void eliminar_empleado()
     {
         // Si no lo encontramos, borramos el temporal que no sirve
         remove("temp_empleados.bin");
-        printf("\n No se encontro ningun empleado con ese DNI.\n");
+        printf("\n>>> No se encontro ningun empleado con ese DNI.\n");
     }
 }
