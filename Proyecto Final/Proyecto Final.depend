@@ -136,15 +136,15 @@
 	"cliente.h"
 	"fecha.h"
 
-1763599484 source:c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\auto.c
+1763681229 source:c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\auto.c
 	<stdio.h>
 	<string.h>
 	"auto.h"
 
-1763584272 c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\auto.h
+1763681229 c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\auto.h
 	"cliente.h"
 
-1763587028 c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\cliente.h
+1763681229 c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\cliente.h
 
 1763598810 source:c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\auto_cliente.c
 	<stdio.h>
@@ -155,15 +155,15 @@
 1763597790 c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\auto_cliente.h
 	"cliente.h"
 
-1763599484 source:c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\autos_disponibles.c
+1763681229 source:c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\autos_disponibles.c
 	<stdio.h>
 	<stdlib.h>
 	"autos_disponibles.h"
 	"auto.h"
 
-1763584272 c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\autos_disponibles.h
+1763681229 c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\autos_disponibles.h
 
-1763600059 source:c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\empleado.c
+1763681229 source:c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\empleado.c
 	<stdio.h>
 	<string.h>
 	<stdlib.h>
@@ -174,19 +174,20 @@
 	"cliente.h"
 	"pagos.h"
 
-1763584272 c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\empleado.h
+1763681229 c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\empleado.h
 
 1763584272 c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\pagos.h
 	"auto.h"
 
-1763584272 source:c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\fecha.c
+1763681293 source:c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\fecha.c
 	<stdio.h>
 	<string.h>
+	<time.h>
 	"fecha.h"
 
-1763681203 c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\fecha.h
+1763681281 c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\fecha.h
 
-1763599484 source:c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\loing.c
+1763681229 source:c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\loing.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -197,11 +198,11 @@
 
 1763584272 c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\loing.h
 
-1763584272 c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\usuario.h
+1763681229 c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\usuario.h
 
-1763600874 c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\gerente.h
+1763681229 c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\gerente.h
 
-1763588150 source:c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\main.c
+1763681229 source:c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\main.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -212,7 +213,7 @@
 	"empleado.h"
 	"LOING.h"
 
-1763599484 source:c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\pagos.c
+1763681348 source:c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\pagos.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -225,7 +226,7 @@
 1763584272 c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\venta.h
 	"fecha.h"
 
-1763599484 source:c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\reportes.c
+1763681229 source:c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\reportes.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -235,9 +236,9 @@
 	"cliente.h"
 	"fecha.h"
 
-1763584272 c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\reportes.h
+1763681229 c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\reportes.h
 
-1763599484 source:c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\usuario.c
+1763681229 source:c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\usuario.c
 	<stdio.h>
 	<string.h>
 	<stdlib.h>
@@ -255,12 +256,12 @@
 	"cliente.h"
 	"fecha.h"
 
-1763587944 source:c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\cliente.c
+1763681229 source:c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\cliente.c
 	<stdio.h>
 	<string.h>
 	"cliente.h"
 
-1763600960 source:c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\gerente.c
+1763681229 source:c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\gerente.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>

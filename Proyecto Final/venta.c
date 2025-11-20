@@ -17,7 +17,10 @@ Venta cargarVenta()
     int encontradoCliente = 0;
 
     printf("---- CARGA DE VENTA ----\n");
-    v.fecha = cargar_Fecha();
+
+Fecha fechaActual = hoy();
+printf("Fecha de Venta: ");
+mostrar_Fecha(fechaActual); /// Muestra la Fecha
 
     // Buscar auto en stock
     do

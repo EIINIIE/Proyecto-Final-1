@@ -86,8 +86,9 @@ void registrar_venta_archivo(Auto autoVendido, char dniComprador[], char dniVend
 
     Venta nuevaVenta;
 
-    printf("\nIngrese la fecha de la venta:\n");
-    nuevaVenta.fecha = cargar_Fecha();
+    Fecha fechaActual = hoy();
+    printf("Hoy es: ");
+    mostrar_Fecha(fechaActual);
 
     strcpy(nuevaVenta.patenteAutoVendido, autoVendido.patente);
     nuevaVenta.precioVenta = autoVendido.precioFinal;
