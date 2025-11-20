@@ -75,7 +75,8 @@ void menu_gerente()
                     printf("Opcion invalida.\n");
                     break;
                 }
-                if(op != 0) system("pause"); system("cls");
+                if(op != 0) system("pause");
+                system("cls");
             }
             while(op != 0);
             break;
@@ -136,7 +137,8 @@ void menu_gerente()
         if(opcion != 7 && opcion != 0)
         {
             printf("\nPresione una tecla para continuar...");
-            getchar(); getchar();
+            getchar();
+            getchar();
             system("cls");
         }
 
@@ -151,13 +153,20 @@ stGerente cargar_un_empleado()
 {
     stGerente nuevo;
     printf("---- REGISTRO DE NUEVO EMPLEADO ----\n");
-    printf("Ingrese correo: "); scanf("%s", nuevo.correo);
-    printf("Ingrese contrasena: "); scanf("%s", nuevo.contrasena);
-    printf("Ingrese DNI: "); scanf("%d", &nuevo.dni);
-    printf("Ingrese dia de nacimiento: "); scanf("%d", &nuevo.dia);
-    printf("Ingrese mes de nacimiento: "); scanf("%d", &nuevo.mes);
-    printf("Ingrese anio de nacimiento: "); scanf("%d", &nuevo.anios);
-    printf("Ingrese rol: "); scanf("%s", nuevo.rol);
+    printf("Ingrese correo: ");
+    scanf("%s", nuevo.correo);
+    printf("Ingrese contrasena: ");
+    scanf("%s", nuevo.contrasena);
+    printf("Ingrese DNI: ");
+    scanf("%d", &nuevo.dni);
+    printf("Ingrese dia de nacimiento: ");
+    scanf("%d", &nuevo.dia);
+    printf("Ingrese mes de nacimiento: ");
+    scanf("%d", &nuevo.mes);
+    printf("Ingrese anio de nacimiento: ");
+    scanf("%d", &nuevo.anios);
+    printf("Ingrese rol: ");
+    scanf("%s", nuevo.rol);
     return nuevo;
 }
 
@@ -208,6 +217,6 @@ void mostrar_empleados()
 // para evitar conflictos de linkeo si ambos están incluidos en el proyecto.
 void eliminar_empleado()
 {
-     // Implementar logica similar a eliminar auto
-     printf("Funcionalidad pendiente de implementar.\n");
+    // Implementar logica similar a eliminar auto
+    printf("Funcionalidad pendiente de implementar.\n");
 }
