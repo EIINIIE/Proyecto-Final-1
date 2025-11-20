@@ -6,7 +6,7 @@
 /// FUNCION 1
 AutoCliente cargar_auto_cliente()
 {
-    AutoCliente autos; // Usamos la nueva estructura
+    AutoCliente autos; /// Usamos la nueva estructura
 
     printf("----DATOS DEL AUTO DEL CLIENTE ----\n");
     printf("Patente: ");
@@ -22,7 +22,7 @@ AutoCliente cargar_auto_cliente()
     printf("Precio: ");
     scanf("%f", &autos.precioDeAdquisicion);
 
-    // Logica de precio simple por ahora para evitar conflictos circulares
+    /// Logica de precio simple por ahora para evitar conflictos circulares
     autos.precioFinal = autos.precioDeAdquisicion;
 
     printf("Precio original: $%.2f\n", autos.precioDeAdquisicion);

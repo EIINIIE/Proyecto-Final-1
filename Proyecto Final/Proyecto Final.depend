@@ -284,7 +284,7 @@
 
 1763586647 c:\users\agust\onedrive\escritorio\git hub nashe\proyecto-final-1\proyecto final\cliente.h
 
-1763586165 source:c:\users\agust\onedrive\escritorio\git hub nashe\proyecto-final-1\proyecto final\auto_cliente.c
+1763598314 source:c:\users\agust\onedrive\escritorio\git hub nashe\proyecto-final-1\proyecto final\auto_cliente.c
 	<stdio.h>
 	<stdlib.h>
 	"auto_cliente.h"
@@ -329,7 +329,7 @@
 
 1763586166 c:\users\agust\onedrive\escritorio\git hub nashe\proyecto-final-1\proyecto final\fecha.h
 
-1763588074 source:c:\users\agust\onedrive\escritorio\git hub nashe\proyecto-final-1\proyecto final\gerente.c
+1763598314 source:c:\users\agust\onedrive\escritorio\git hub nashe\proyecto-final-1\proyecto final\gerente.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -350,7 +350,7 @@
 1763586166 c:\users\agust\onedrive\escritorio\git hub nashe\proyecto-final-1\proyecto final\venta.h
 	"fecha.h"
 
-1763586165 source:c:\users\agust\onedrive\escritorio\git hub nashe\proyecto-final-1\proyecto final\loing.c
+1763597748 source:c:\users\agust\onedrive\escritorio\git hub nashe\proyecto-final-1\proyecto final\loing.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
