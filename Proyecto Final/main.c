@@ -18,7 +18,7 @@ int main()
         printf("\n===================================================\n");
         printf("     SISTEMA DE GESTION INTEGRAL - RUEDA VELOZ \n");
         printf("===================================================\n\n");
-        printf("1. INGRESAR AL SISTEMA (Login)\n");
+        printf("1. Ingresar Sistemas (Login)\n");
         printf("0. Salir\n");
         printf("----------------------------------------------------\n");
 

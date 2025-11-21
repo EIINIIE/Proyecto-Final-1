@@ -37,7 +37,7 @@ void agregar_autos_cliente()
     FILE* file = fopen(ARCHIVO_AUTOS_CLIENTE, "ab");
     if(file == NULL)
     {
-        printf("No se pudo abrir el archivo de autos cliente\n");
+        printf("No se pudo abrir\n");
         return;
     }
 
@@ -50,7 +50,7 @@ void agregar_autos_cliente()
 
     fwrite(&nuevo_auto, sizeof(AutoCliente), 1, file);
     fclose(file);
-    printf("Auto y titular cargados correctamente en autos_cliente.bin\n");
+
 }
 
 /// FUNCION 3
@@ -76,7 +76,7 @@ void mostrar_todos_autos_cliente()
     FILE* file = fopen(ARCHIVO_AUTOS_CLIENTE, "rb");
     if(file == NULL)
     {
-        printf("Error al abrir el archivo de autos cliente\n");
+        printf("Error al abrir\n");
         return;
     }
 
@@ -100,7 +100,7 @@ int cargar_autos_cliente_din(AutoCliente **listaAutos)
     FILE *file = fopen(ARCHIVO_AUTOS_CLIENTE, "rb");
     if (file == NULL)
     {
-        printf("No se pudo abrir el archivo.\n");
+        printf("No se pudo abrir.\n");
         return 0;
     }
 

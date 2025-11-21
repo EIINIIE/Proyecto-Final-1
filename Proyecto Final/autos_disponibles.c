@@ -9,7 +9,7 @@ void mostrar_un_auto(Auto a)
     printf("Patente: %s\n", a.patente);
     printf("marca: %s\n", a.marca);
     printf("modelo: %s\n", a.modelo);
-    printf("kilometraje: %d", a.kms);
+    printf("kilometraje: %d\n", a.kms);
     printf("precio: $%.2f\n", a.precioFinal);
     printf("--------------------------\n\n");
 }
@@ -41,7 +41,6 @@ void mostrar_todos_autos_disponibles()
     if(file == NULL)
     {
         printf("\nNo hay autos disponibles en stock por el momento.\n");
-        printf("(El gerente debe cargar autos primero).\n");
         return;
     }
 
@@ -61,13 +60,10 @@ void mostrar_todos_autos_disponibles()
     printf("\n==========================================================\n");
     printf("               AUTOS DISPONIBLES (Stock Real)             \n");
     printf("==========================================================\n");
-    printf("PATENTE      | MARCA        | MODELO       | PRECIO       \n");
-    printf("----------------------------------------------------------\n");
 
     mostrar_auto_recursivo(file, 0, total);
 
     printf("==========================================================\n");
-    printf("NOTA: Copie la PATENTE exacta para proceder a la compra.\n");
 
     fclose(file);
 }

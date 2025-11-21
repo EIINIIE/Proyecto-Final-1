@@ -49,7 +49,7 @@ void agregar_auto_stock()
     }
     else
     {
-        printf("Error al abrir archivo.\n");
+        printf("Error al abrir .\n");
     }
 }
 
@@ -63,7 +63,7 @@ void modificar_auto_stock()
     FILE *f = fopen(ARCHIVO_AUTOS, "r+b");
     if(f == NULL)
     {
-        printf("Error: No se puede acceder al archivo de autos.\n");
+        printf("Error.\n");
         return;
     }
 

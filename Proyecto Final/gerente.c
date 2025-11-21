@@ -30,7 +30,7 @@ void menu_gerente()
         printf("6. Eliminar empleado\n");
         printf("7. Cerrar Sesion\n");
         printf("8. Ventas (Ver historial)\n");
-        printf("9. GESTION AUTOS STOCK (Agregar / Modificar)\n"); // <--- ACTUALIZADO
+        printf("9. Gestion Autos Stock (Agregar / Modificar)\n");
         printf("10. Ver lista de empleados\n");
         printf("11. Reportes\n");
         printf("0. Volver al inicio\n");
@@ -47,8 +47,8 @@ void menu_gerente()
             do
             {
                 printf("\n--- GESTION DE CLIENTES ---\n");
-                printf("1. Cargar NUEVO Cliente\n");
-                printf("2. MODIFICAR Cliente Existente\n");
+                printf("1. Cargar Nuevo Cliente\n");
+                printf("2. Modificar Cliente Existente\n");
                 printf("3. Ver listado de clientes\n");
                 printf("0. Volver al menu anterior\n");
                 printf("Elija opcion: ");
@@ -83,10 +83,10 @@ void menu_gerente()
         }
 
         case 2:
-            mostrar_todos_autos_cliente(); // Muestra el archivo autos_cliente.bin
+            mostrar_todos_autos_cliente();
             break;
         case 3:
-            mostrar_todos_autos_disponibles();  // Recursivo
+            mostrar_todos_autos_disponibles();
             break;
         case 4:
             gestionDePagos();
@@ -109,8 +109,8 @@ void menu_gerente()
         {
             int opAuto;
             printf("\n--- GESTION DE AUTOS STOCK ---\n");
-            printf("1. Ingresar NUEVO auto\n");
-            printf("2. MODIFICAR auto existente\n");
+            printf("1. Ingresar Nuevo auto\n");
+            printf("2. Modificar auto existente\n");
             printf("0. Cancelar\n");
             printf("Opcion: ");
             scanf("%d", &opAuto);
@@ -173,7 +173,7 @@ void agregar_empleado()
     FILE* file = fopen("empleados.bin", "ab");
     if (file == NULL)
     {
-        printf("Error al abrir archivo empleados.\n");
+        printf("Error al abrir.\n");
         return;
     }
 
@@ -216,7 +216,7 @@ void eliminar_empleado()
     FILE *archivo = fopen("empleados.bin", "r+b");
     if (archivo == NULL)
     {
-        printf("No se pudo abrir el archivo.\n");
+        printf("No se pudo abrir.\n");
         return;
     }
 

@@ -65,7 +65,7 @@ void guardar_Usuario(stUsuario usuario)
     FILE *file = fopen(ARCHIVO_USUARIOS, "ab"); // Nuevo nombre
     if (file == NULL)
     {
-        printf("Error al abrir el archivo\n");
+        printf("Error al abrir\n");
         return;
     }
     fwrite(&usuario, sizeof(stUsuario), 1, file);

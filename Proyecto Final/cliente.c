@@ -45,7 +45,7 @@ void guardar_cliente_en_archivo(Cliente c)
     }
     else
     {
-        printf("Error al abrir archivo.\n");
+        printf("Error al abrir.\n");
     }
 }
 
