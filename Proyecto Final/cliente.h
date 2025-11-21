@@ -18,5 +18,6 @@ Cliente cargar_persona();
 void guardar_cliente_en_archivo(Cliente c);
 void modificar_cliente();
 void ver_listado_clientes();
+int telefono_Existente (char telefono[]);
 
 #endif // CLIENTE_H_INCLUDED

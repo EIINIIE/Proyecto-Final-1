@@ -9,14 +9,14 @@ Cliente cargar_persona()
     Cliente c;
 
     printf("\n---- DATOS DE LA PERSONA ----\n");
-
+    
     printf("Ingrese DNI: ");
     fflush (stdin);
-    gets(c.dni); // Usamos gets para texto seguro
+    gets(c.dni); 
 
     printf("Ingrese Nombre y Apellido: ");
     fflush (stdin);
-    gets(c.nombre); // Permite espacios
+    gets(c.nombre); 
 
     printf("Ingrese Telefono: ");
     fflush (stdin);
@@ -24,7 +24,7 @@ Cliente cargar_persona()
 
     printf("Ingrese Direccion: ");
     fflush (stdin);
-    gets(c.direccion); // Permite espacios (ej: San Martin 200)
+    gets(c.direccion); 
 
     printf("Ingrese Rol (cliente/admin): ");
     fflush (stdin);
@@ -33,7 +33,6 @@ Cliente cargar_persona()
     return c;
 }
 
-
 void guardar_cliente_en_archivo(Cliente c)
 {
     FILE *file = fopen(ARCHIVO_CLIENTES, "ab");
@@ -41,11 +40,11 @@ void guardar_cliente_en_archivo(Cliente c)
     {
         fwrite(&c, sizeof(Cliente), 1, file);
         fclose(file);
-        printf("\nCliente guardado correctamente.\n");
+        printf("\n>> Cliente guardado correctamente.\n");
     }
     else
     {
-        printf("Error al abrir.\n");
+        printf("Error al abrir archivo de clientes.\n");
     }
 }
 
@@ -66,7 +65,6 @@ void ver_listado_clientes()
     }
     fclose(file);
 }
-
 
 void modificar_cliente()
 {
@@ -100,9 +98,6 @@ void modificar_cliente()
 
             printf("Nueva Direccion: ");
             fflush(stdin); gets(c.direccion);
-
-            // El rol generalmente no se cambia aqui, pero lo dejamos si quieres
-            // printf("Nuevo Rol: "); fflush(stdin); gets(c.rol);
 
             fseek(f, -sizeof(Cliente), SEEK_CUR);
             fwrite(&c, sizeof(Cliente), 1, f);

@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "venta.h"
-#include "auto.h"
+#include "auto.h" // Incluye auto.h para usar ingresar_float
 #include "cliente.h"
 #include "fecha.h"
 
@@ -27,7 +27,7 @@ Venta cargarVenta()
     {
         printf("Ingrese patente del auto vendido: ");
         fflush(stdin);
-        scanf("%s", v.patenteAutoVendido); // Patente es una palabra unica, scanf esta ok
+        scanf("%s", v.patenteAutoVendido);
 
         FILE *fAuto = fopen(ARCHIVO_AUTOS, "rb");
         encontradoAuto = 0;
@@ -36,7 +36,7 @@ Venta cargarVenta()
         {
             while(fread(&a, sizeof(Auto), 1, fAuto) == 1)
             {
-                // Buscamos patente Y que el dueño sea la concesionaria (no vendido aun)
+                // Buscamos patente Y que el dueÃ±o sea la concesionaria (no vendido aun)
                 if(strcmp(a.patente, v.patenteAutoVendido) == 0 &&
                    strcmp(a.titular.rol, "concesionaria") == 0)
                 {
@@ -55,7 +55,7 @@ Venta cargarVenta()
     } while(encontradoAuto == 0);
 
     printf("Precio de Costo: %.2f\n", a.precioDeAdquisicion);
-
+    
     // USAMOS LA VALIDACION DE AUTO.C PARA PRECIO SEGURO
     v.precioVenta = ingresar_float("Ingrese precio final de venta: ");
 
