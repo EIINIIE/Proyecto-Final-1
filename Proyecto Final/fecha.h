@@ -13,6 +13,4 @@ typedef struct stFecha
 void mostrar_Fecha(Fecha f);
 Fecha hoy();
 
-Fecha cargar_Fecha();
-void mostrar_Fecha(Fecha f);
 #endif // FECHA_H_INCLUDED

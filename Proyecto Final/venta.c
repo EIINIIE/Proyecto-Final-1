@@ -20,7 +20,7 @@ Venta cargarVenta()
 
 Fecha fechaActual = hoy();
 printf("Fecha de Venta: ");
-mostrar_Fecha(fechaActual); /// Muestra la Fecha
+mostrar_Fecha(fechaActual); /// Muestra la Fecha Actual
 
     // Buscar auto en stock
     do
