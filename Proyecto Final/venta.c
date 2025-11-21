@@ -18,15 +18,16 @@ Venta cargarVenta()
 
     printf("---- CARGA DE VENTA ----\n");
 
-Fecha fechaActual = hoy();
-printf("Fecha de Venta: ");
-mostrar_Fecha(fechaActual); /// Muestra la Fecha
+    v.fecha = hoy();
+    printf("Fecha de Venta: ");
+    mostrar_Fecha(v.fecha);
 
     // Buscar auto en stock
     do
     {
         printf("Ingrese patente del auto vendido: ");
-        scanf("%s", v.patenteAutoVendido);
+        fflush(stdin);
+        scanf("%s", v.patenteAutoVendido); // Patente es una palabra unica, scanf esta ok
 
         FILE *fAuto = fopen(ARCHIVO_AUTOS, "rb");
         encontradoAuto = 0;
@@ -35,6 +36,7 @@ mostrar_Fecha(fechaActual); /// Muestra la Fecha
         {
             while(fread(&a, sizeof(Auto), 1, fAuto) == 1)
             {
+                // Buscamos patente Y que el dueño sea la concesionaria (no vendido aun)
                 if(strcmp(a.patente, v.patenteAutoVendido) == 0 &&
                    strcmp(a.titular.rol, "concesionaria") == 0)
                 {
@@ -47,14 +49,15 @@ mostrar_Fecha(fechaActual); /// Muestra la Fecha
 
         if(encontradoAuto == 0)
         {
-            printf("Auto no encontrado o no pertenece a la concesionaria.\n");
+            printf("Auto no encontrado o ya fue vendido.\n");
         }
 
     } while(encontradoAuto == 0);
 
     printf("Precio de Costo: %.2f\n", a.precioDeAdquisicion);
-    printf("Ingrese precio final de venta: ");
-    scanf("%f", &v.precioVenta);
+
+    // USAMOS LA VALIDACION DE AUTO.C PARA PRECIO SEGURO
+    v.precioVenta = ingresar_float("Ingrese precio final de venta: ");
 
     v.ganancia = v.precioVenta - a.precioDeAdquisicion;
 
@@ -62,6 +65,7 @@ mostrar_Fecha(fechaActual); /// Muestra la Fecha
     do
     {
         printf("Ingrese DNI del comprador: ");
+        fflush(stdin);
         scanf("%s", v.dniComprador);
 
         FILE *fCli = fopen("clientes.bin", "rb");
@@ -82,7 +86,7 @@ mostrar_Fecha(fechaActual); /// Muestra la Fecha
 
         if(encontradoCliente == 0)
         {
-            printf("Cliente no encontrado.\n");
+            printf("Cliente no encontrado. Debe registrarlo primero.\n");
         }
 
     } while(encontradoCliente == 0);
@@ -111,9 +115,9 @@ void transferirAutoAlComprador(char patente[], char dniComprador[])
             {
                 if(strcmp(comprador.dni, dniComprador) == 0)
                 {
-                    a.titular = comprador;
+                    a.titular = comprador; // Cambiamos el titular
                     fseek(f, -sizeof(Auto), SEEK_CUR);
-                    fwrite(&a, sizeof(Auto), 1, f);
+                    fwrite(&a, sizeof(Auto), 1, f); // Sobrescribimos
                     fclose(fCli);
                     fclose(f);
                     return;
@@ -133,6 +137,7 @@ void registrarVenta()
     {
         fwrite(&v, sizeof(Venta), 1, f);
         fclose(f);
+        // Importante: Transferir la propiedad del auto
         transferirAutoAlComprador(v.patenteAutoVendido, v.dniComprador);
         printf("Venta registrada y auto transferido correctamente.\n");
     }
@@ -142,8 +147,8 @@ void mostrarVenta(Venta v)
 {
     printf("\nFecha: %d/%d/%d\n", v.fecha.dia, v.fecha.mes, v.fecha.anio);
     printf("Patente: %s\n", v.patenteAutoVendido);
-    printf("Precio: %.2f\n", v.precioVenta);
-    printf("Ganancia: %.2f\n", v.ganancia);
+    printf("Precio: $%.2f\n", v.precioVenta);
+    printf("Ganancia: $%.2f\n", v.ganancia);
     printf("DNI Comprador: %s\n", v.dniComprador);
     printf("DNI Vendedor: %s\n", v.dniVendedor);
 }
@@ -158,6 +163,7 @@ void mostrarVentas()
     }
 
     Venta v;
+    printf("\n--- HISTORIAL DE VENTAS ---\n");
     while(fread(&v, sizeof(Venta), 1, f) == 1)
     {
         mostrarVenta(v);

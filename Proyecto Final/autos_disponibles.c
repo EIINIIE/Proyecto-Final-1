@@ -3,17 +3,62 @@
 #include "autos_disponibles.h"
 #include "auto.h"
 
-void mostrar_un_auto(Auto a)
+
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+
+void modificar_patente(Auto* a)
 {
-    printf("--------------------------\n");
-    printf("Patente: %s\n", a.patente);
-    printf("marca: %s\n", a.marca);
-    printf("modelo: %s\n", a.modelo);
-    printf("kilometraje: %d\n", a.kms);
-    printf("precio: $%.2f\n", a.precioFinal);
-    printf("--------------------------\n\n");
+    char aux[50];
+    int valida = 0;
+
+    printf("\n--- MODIFICAR PATENTE ---\n");
+    printf("Formato requerido: AA 123 CD (con espacios)\n");
+
+    do
+    {
+        printf("\nIngrese la nueva patente (USAR MAYUSCULAS): ");
+        fflush(stdin);
+        gets(aux);
+
+        // Validacion simple de formato (Fuerza Bruta)
+        if(strlen(aux) == 9 &&
+           aux[0] >= 'A' && aux[0] <= 'Z' &&
+           aux[1] >= 'A' && aux[1] <= 'Z' &&
+           aux[2] == ' ' &&
+           aux[3] >= '0' && aux[3] <= '9' &&
+           aux[4] >= '0' && aux[4] <= '9' &&
+           aux[5] >= '0' && aux[5] <= '9' &&
+           aux[6] == ' ' &&
+           aux[7] >= 'A' && aux[7] <= 'Z' &&
+           aux[8] >= 'A' && aux[8] <= 'Z')
+        {
+            strcpy(a->patente, aux);
+            valida = 1;
+            printf(">> Patente modificada correctamente: %s\n", a->patente);
+        }
+        else
+        {
+            printf("ERROR: Formato incorrecto. (Ej: AA 123 CD)\n");
+        }
+
+    } while(valida == 0);
 }
 
+void mostrar_un_auto(Auto a)
+{
+    printf("----------------------------------------\n");
+    printf(" Patente:      %s\n", a.patente);
+    printf(" Marca:        %s\n", a.marca);
+    printf(" Modelo:       %s\n", a.modelo);
+    printf(" Anio:         %d\n", a.anio);
+    printf(" Kilometraje:  %d kms\n", a.kms);
+    printf(" Precio Final: $%.2f\n", a.precioFinal);
+    printf("----------------------------------------\n\n");
+}
 void mostrar_auto_recursivo( FILE* file,  int pos, int total)
 {
     if(pos >= total)
@@ -27,7 +72,10 @@ void mostrar_auto_recursivo( FILE* file,  int pos, int total)
 
     if(fread(&a, sizeof(Auto), 1, file) == 1)
     {
-        mostrar_un_auto(a);
+      if(strcmpi(a.titular.rol, "concesionaria") == 0)
+        {
+             mostrar_un_auto(a);
+        }
     }
 
     mostrar_auto_recursivo(file,pos + 1, total);

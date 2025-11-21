@@ -4,30 +4,31 @@
 
 #define ARCHIVO_CLIENTES "clientes.bin"
 
-
 Cliente cargar_persona()
 {
     Cliente c;
 
+    printf("\n---- DATOS DE LA PERSONA ----\n");
+
     printf("Ingrese DNI: ");
     fflush (stdin);
-    scanf("%s", c.dni);
+    gets(c.dni); // Usamos gets para texto seguro
 
-    printf("Ingrese Nombre: ");
+    printf("Ingrese Nombre y Apellido: ");
     fflush (stdin);
-    scanf("%s", c.nombre);
+    gets(c.nombre); // Permite espacios
 
     printf("Ingrese Telefono: ");
     fflush (stdin);
-    scanf("%s", c.telefono);
+    gets(c.telefono);
 
     printf("Ingrese Direccion: ");
     fflush (stdin);
-    scanf("%s", c.direccion);
+    gets(c.direccion); // Permite espacios (ej: San Martin 200)
 
-    printf("Ingrese Rol: ");
+    printf("Ingrese Rol (cliente/admin): ");
     fflush (stdin);
-    scanf("%s", c.rol);
+    gets(c.rol);
 
     return c;
 }
@@ -41,7 +42,6 @@ void guardar_cliente_en_archivo(Cliente c)
         fwrite(&c, sizeof(Cliente), 1, file);
         fclose(file);
         printf("\nCliente guardado correctamente.\n");
-        printf("DNI guardado: [%s]\n", c.dni); /// verifico
     }
     else
     {
@@ -49,11 +49,9 @@ void guardar_cliente_en_archivo(Cliente c)
     }
 }
 
-
 void ver_listado_clientes()
 {
     FILE *file = fopen(ARCHIVO_CLIENTES, "rb");
-
     if(file == NULL)
     {
         printf("No hay clientes registrados.\n");
@@ -64,7 +62,7 @@ void ver_listado_clientes()
     printf("\n--- LISTADO DE CLIENTES ---\n");
     while(fread(&c, sizeof(Cliente), 1, file) == 1)
     {
-        printf("DNI: %s | Nombre: %s | Rol: %s\n", c.dni, c.nombre, c.rol);
+        printf("DNI: %-10s | Nombre: %-20s | Rol: %s\n", c.dni, c.nombre, c.rol);
     }
     fclose(file);
 }
@@ -74,7 +72,8 @@ void modificar_cliente()
 {
     char dniBuscado[50];
     printf("Ingrese DNI del cliente a modificar: ");
-    scanf("%s", dniBuscado);
+    fflush(stdin);
+    gets(dniBuscado);
 
     FILE *f = fopen(ARCHIVO_CLIENTES, "r+b");
     if(f == NULL)
@@ -91,21 +90,19 @@ void modificar_cliente()
         if(strcmp(c.dni, dniBuscado) == 0)
         {
             encontrado = 1;
-            printf("\nCliente encontrado:\n");
-            printf("Nombre: %s\nTelefono: %s\nDireccion: %s\nRol: %s\n",
-                   c.nombre, c.telefono, c.direccion, c.rol);
+            printf("\nCliente encontrado: %s\n", c.nombre);
 
-            printf("\nNuevo Nombre: ");
-            scanf("%s", c.nombre);
+            printf("Nuevo Nombre: ");
+            fflush(stdin); gets(c.nombre);
 
             printf("Nuevo Telefono: ");
-            scanf("%s", c.telefono);
+            fflush(stdin); gets(c.telefono);
 
             printf("Nueva Direccion: ");
-            scanf("%s", c.direccion);
+            fflush(stdin); gets(c.direccion);
 
-            printf("Nuevo Rol: ");
-            scanf("%s", c.rol);
+            // El rol generalmente no se cambia aqui, pero lo dejamos si quieres
+            // printf("Nuevo Rol: "); fflush(stdin); gets(c.rol);
 
             fseek(f, -sizeof(Cliente), SEEK_CUR);
             fwrite(&c, sizeof(Cliente), 1, f);
