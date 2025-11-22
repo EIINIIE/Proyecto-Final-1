@@ -11,7 +11,7 @@ typedef struct
     int mes;
     int anios;
     char rol[50];
-     int activo;
+    int activo; // 1 = activo, 0 = eliminado
 } stGerente;
 
 // ------- Prototipo -------

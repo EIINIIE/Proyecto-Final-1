@@ -44,9 +44,16 @@ void agregar_autos_cliente()
     AutoCliente nuevo_auto = cargar_auto_cliente();
     nuevo_auto.titular = cargar_persona();
 
+    /// Evito guardar cliente duplicado
+if (cliente_existente(nuevo_auto.titular.dni) == 0)
+    {
     ///Guardo el cliente en clientes.bin
-    guardar_cliente_en_archivo(nuevo_auto.titular);
-
+        guardar_cliente_en_archivo(nuevo_auto.titular);
+    }
+    else
+    {
+        printf("El cliente ya está registrado. No se vuelve a guardar.\n");
+    }
 
     fwrite(&nuevo_auto, sizeof(AutoCliente), 1, file);
     fclose(file);

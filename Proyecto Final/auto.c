@@ -74,7 +74,10 @@ float ingresar_float(char mensaje[])
             }
         }
 
-        if(valido == 0) printf("ERROR: Debe ingresar un precio valido (ej: 15000.50).\n");
+        if(valido == 0)
+        {
+            printf("ERROR: Debe ingresar un precio valido (ej: 15000.50).\n");
+        }
 
     }
     while(valido == 0);

@@ -19,5 +19,7 @@ void guardar_cliente_en_archivo(Cliente c);
 void modificar_cliente();
 void ver_listado_clientes();
 int telefono_Existente (char telefono[]);
+int cliente_existente(char dniBuscado[]);
+
 
 #endif // CLIENTE_H_INCLUDED

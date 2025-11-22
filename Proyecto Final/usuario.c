@@ -7,11 +7,9 @@
 #include "cliente.h"
 #include "pagos.h"
 
-
 #define ARCHIVO_USUARIOS "usuarios.bin"
 
-
-int usuario_existente(char correo[])
+int usuario_Existente(char correo[])
 {
     FILE* file = fopen(ARCHIVO_USUARIOS, "rb");
     if(file == NULL) return 0;
@@ -29,7 +27,6 @@ int usuario_existente(char correo[])
     return 0;
 }
 
-
 stUsuario registro_Usuario()
 {
     stUsuario nuevo;
@@ -38,10 +35,10 @@ stUsuario registro_Usuario()
     printf("Ingrese su correo: ");
     scanf("%s", nuevo.correo);
 
-    if(usuario_existente(nuevo.correo))
+    if(usuario_Existente(nuevo.correo))
     {
         printf("Este usuario ya esta registrado\n");
-        nuevo.dni = -1;
+        strcpy(nuevo.dni, "-1");
         return nuevo;
     }
 
@@ -49,8 +46,40 @@ stUsuario registro_Usuario()
     fflush (stdin);
     scanf("%s", nuevo.contrasena);
 
-    printf("Ingrese su DNI: ");
-    scanf("%d", &nuevo.dni);
+int dniValido = 0;
+
+while (dniValido == 0)
+{
+    printf("Ingrese DNI (solo numeros): ");
+    scanf("%s", nuevo.dni);
+
+    dniValido = 1; // pensemos que es correcto
+
+    // Validar que sean solo numeros
+    for (int i = 0; nuevo.dni[i] != '\0'; i++)
+    {
+        if (nuevo.dni[i] < '0' || nuevo.dni[i] > '9')   /// '0' y '9' son caracteres ASCII
+        {
+            dniValido = 0;
+            printf("El DNI solo puede contener numeros.\n");
+            break;
+        }
+    }
+
+    // Validar longitud (7 u 8 dígitos)
+    if (dniValido == 1 && (strlen(nuevo.dni) < 7 || strlen(nuevo.dni) > 8))
+    {
+        dniValido = 0;
+        printf("El DNI debe tener 7 u 8 digitos.\n");
+    }
+
+    // Validar DNI existente
+    else if (dniValido == 1 && dni_Existente(nuevo.dni))
+    {
+        dniValido = 0;
+        printf("El DNI ya existe.\n");
+    }
+}
 
     printf("Fecha de nacimiento (dd mm aaaa): ");
     scanf("%d %d %d", &nuevo.dia, &nuevo.mes, &nuevo.anios);
@@ -62,6 +91,12 @@ stUsuario registro_Usuario()
 // FUNCION 3: Guardar usuario en archivo
 void guardar_Usuario(stUsuario usuario)
 {
+    if (strcmp(usuario.dni, "-1") == 0) // si esto coincide no guarda nada
+    {
+        printf("Usuario invalido. No se guarda.\n");
+        return;
+    }
+
     FILE *file = fopen(ARCHIVO_USUARIOS, "ab"); // Nuevo nombre
     if (file == NULL)
     {
@@ -69,6 +104,7 @@ void guardar_Usuario(stUsuario usuario)
         return;
     }
     fwrite(&usuario, sizeof(stUsuario), 1, file);
+
     fclose(file);
 }
 
@@ -94,7 +130,6 @@ int verificar_Usuario(char correo[], char contrasena[])
     fclose(file);
     return encontrado;
 }
-
 
 void mostrarTodosLosUsuarios()
 {
@@ -136,13 +171,35 @@ void mostrarUsuariosRecursivo(stUsuario arr[], int pos, int total)
     }
 
     printf("Correo: %s\n", arr[pos].correo);
-    printf("DNI: %d\n", arr[pos].dni);
+    printf("DNI: %s\n", arr[pos].dni);
     printf("Nacimiento: %d/%d/%d\n", arr[pos].dia, arr[pos].mes, arr[pos].anios);
     printf("-------------------------------------\n");
 
     mostrarUsuariosRecursivo(arr, pos + 1, total);
 }
 
+int dni_Existente(char dni[])
+{
+    FILE *file = fopen(ARCHIVO_USUARIOS, "rb");
+
+    if(file == NULL)
+    {
+        return 0;
+    }
+
+    stUsuario aux;
+
+    while (fread(&aux, sizeof (stUsuario), 1, file))
+    {
+        if (strcmp (aux.dni, dni) == 0)
+        {
+            fclose (file);
+            return 1;
+        }
+    }
+    fclose (file);
+    return 0;
+}
 
 void iniciarSesion()
 {

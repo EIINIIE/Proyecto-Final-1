@@ -100,7 +100,6 @@ void menu_login()
     while (opcion_login != 0);
 }
 
-
 void login_administrador()
 {
     char correo[50];

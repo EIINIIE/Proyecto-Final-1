@@ -100,6 +100,29 @@ int telefono_Existente (char telefono[])
     return 0;
 }
 
+int cliente_existente(char dniBuscado[]) /// la uso en el auto_cliente.c
+{
+    FILE *file = fopen(ARCHIVO_CLIENTES, "rb");
+    if (file == NULL)
+    {
+        return 0;
+    }
+
+    Cliente c;
+
+    while (fread(&c, sizeof(Cliente), 1, file) > 0)
+    {
+        if (strcmp(c.dni, dniBuscado) == 0)
+        {
+            fclose(file);
+            return 1;
+        }
+    }
+
+    fclose(file);
+    return 0;
+}
+
 void guardar_cliente_en_archivo(Cliente c)
 {
     FILE *file = fopen(ARCHIVO_CLIENTES, "ab");
@@ -115,7 +138,6 @@ void guardar_cliente_en_archivo(Cliente c)
         printf("Error al abrir.\n");
     }
 }
-
 
 void ver_listado_clientes()
 {
