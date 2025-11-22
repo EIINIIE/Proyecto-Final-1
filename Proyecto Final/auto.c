@@ -45,6 +45,7 @@ float ingresar_float(char mensaje[])
     int valido;
     int i;
     int puntos;
+    float numeroFinal = 0;
 
     do
     {
@@ -76,10 +77,11 @@ float ingresar_float(char mensaje[])
 
         if(valido == 0) printf("ERROR: Debe ingresar un precio valido (ej: 15000.50).\n");
 
-    }
-    while(valido == 0);
+    } while(valido == 0);
 
-    return atof(buffer);
+    sscanf(buffer, "%f", &numeroFinal);
+
+    return numeroFinal;
 }
 
 
@@ -729,7 +731,7 @@ void modificar_auto_stock()
 
             fseek(f, -sizeof(Auto), SEEK_CUR);
             fwrite(&a, sizeof(Auto), 1, f);
-            printf(">> Auto modificado correctamente.\n");
+            printf("Auto modificado correctamente.\n");
             break;
         }
     }
