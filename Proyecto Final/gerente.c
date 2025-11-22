@@ -33,7 +33,7 @@ void menu_gerente()
         printf("9. Gestion Autos Stock (Agregar / Modificar)\n");
         printf("10. Ver lista de empleados\n");
         printf("11. Reportes\n");
-        printf("11. Eliminar Cliente \n"); /// falta crear la funcion
+        printf("12. Eliminar Cliente \n"); /// falta crear la funcion
         printf("0. Volver al inicio\n");
         printf("--------------------------------------------------\n");
         printf("Seleccione una opcion: ");
@@ -126,6 +126,9 @@ void menu_gerente()
             break;
         case 11:
             menu_reportes();
+            break;
+        case 12:
+            eliminar_cliente();
             break;
         case 0:
             printf("Volviendo al menu principal...\n");
@@ -247,6 +250,48 @@ void eliminar_empleado()
     if (encontrado == 1)
     {
         printf("Empleado eliminado.\n");
+    }
+    else
+    {
+        printf("No se encontro ese DNI.\n");
+    }
+}
+
+void eliminar_cliente()
+{
+    FILE *archivo = fopen("clientes.bin", "r+b");
+    if (archivo == NULL)
+    {
+        printf("No se pudo abrir.\n");
+        return;
+    }
+
+    stGerente cliente;
+    int dniBuscar;
+    int encontrado = 0;
+
+    printf("Ingrese el DNI del empleado a eliminar: ");
+    scanf("%d", &dniBuscar);
+
+    while (fread(&cliente, sizeof(stGerente), 1, archivo) == 1)
+    {
+        if (cliente.dni == dniBuscar)
+        {
+            encontrado = 1;
+            cliente.activo = 0;
+
+            fseek(archivo, -sizeof(stGerente), SEEK_CUR);
+            fwrite(&cliente, sizeof(stGerente), 1, archivo);
+
+            break;
+        }
+    }
+
+    fclose(archivo);
+
+    if (encontrado == 1)
+    {
+        printf("Cliente eliminado.\n");
     }
     else
     {

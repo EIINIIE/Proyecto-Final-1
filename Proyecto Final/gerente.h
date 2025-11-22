@@ -20,6 +20,7 @@ void menu_gerente();
 stGerente cargar_un_empleado();
 void agregar_empleado();
 void eliminar_empleado();
+void eliminar_cliente();
 void mostrar_empleados();
 
 #endif // GERENTE_H_INCLUDED
