@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+// Se elimino ctype.h como pediste
+
 #include "gerente.h"
 #include "cliente.h"
 #include "empleado.h"
@@ -11,9 +13,76 @@
 #include "auto_cliente.h"
 #include "venta.h"
 
-//-----------------------------------------------------
-// Menu principal del gerente
-//-----------------------------------------------------
+// Valida formato de correo (al menos un @)
+int es_correo_valido_gerente(char email[])
+{
+    int i;
+    for(i=0; i<strlen(email); i++)
+    {
+        if(email[i] == '@') return 1;
+    }
+    return 0;
+}
+
+// Verifica si el correo ya existe en empleados
+int existe_correo_empleado(char correo[])
+{
+    FILE *file = fopen("empleados.bin", "rb");
+    if (file == NULL) return 0;
+
+    stEmpleado e;
+    while (fread(&e, sizeof(stEmpleado), 1, file) == 1)
+    {
+        if (strcmp(e.correo, correo) == 0)
+        {
+            fclose(file);
+            return 1; // Ya existe
+        }
+    }
+    fclose(file);
+    return 0; // No existe
+}
+
+// Verifica si el DNI ya existe en empleados
+int existe_dni_empleado(int dni)
+{
+    FILE *file = fopen("empleados.bin", "rb");
+    if (file == NULL) return 0;
+
+    stEmpleado e;
+    while (fread(&e, sizeof(stEmpleado), 1, file) == 1)
+    {
+        if (e.dni == dni)
+        {
+            fclose(file);
+            return 1; // Ya existe
+        }
+    }
+    fclose(file);
+    return 0; // No existe
+}
+
+// Valida que la contraseña tenga al menos una letra (LOGICA MANUAL)
+int es_contrasenia_valida(char pass[])
+{
+    int i;
+    int tieneLetra = 0;
+
+    if(strlen(pass) < 4) return 0; // Minimo 4 caracteres por seguridad
+
+    for(i=0; i<strlen(pass); i++)
+    {
+        // Verificamos manualmente si es mayuscula o minuscula
+        if((pass[i] >= 'a' && pass[i] <= 'z') || (pass[i] >= 'A' && pass[i] <= 'Z'))
+        {
+            tieneLetra = 1;
+        }
+    }
+
+    return tieneLetra;
+}
+
+
 void menu_gerente()
 {
     int opcion;
@@ -153,7 +222,6 @@ void menu_gerente()
 }
 
 
-
 void agregar_empleado()
 {
     FILE* file = fopen("empleados.bin", "ab");
@@ -198,55 +266,112 @@ void agregar_empleado()
                     dniValido = 0;
                     printf("Error: El DNI debe tener 7 u 8 digitos.\n");
                 }
-            }
-
-            if (dniValido == 1)
-            {
-                int dniTemp = atoi(bufferDNI);
-                if (existe_dni_empleado(dniTemp) == 1)
-                {
-                    dniValido = 0;
-                    printf("Error: Ya existe un empleado con ese DNI.\n");
-                }
                 else
                 {
-                    nuevo.dni = dniTemp;
+                    int dniTemp = atoi(bufferDNI);
+                    if (existe_dni_empleado(dniTemp) == 1)
+                    {
+                        dniValido = 0;
+                        printf("Error: Ya existe un empleado con ese DNI.\n");
+                    }
+                    else
+                    {
+                        nuevo.dni = dniTemp;
+                    }
                 }
             }
 
-        } while (dniValido == 0);
+        }
+        while (dniValido == 0);
 
-        printf("Ingrese correo: ");
+        // 2. VALIDACION CORREO (Formato y no repetido)
+        int correoOk = 0;
+        do
+        {
+            printf("Ingrese correo: ");
+            fflush(stdin);
+            scanf("%s", nuevo.correo);
 
-        scanf("%s",nuevo.correo);
+            if(es_correo_valido_gerente(nuevo.correo) == 0)
+            {
+                printf("Error: El correo debe tener '@'.\n");
+            }
+            else if(existe_correo_empleado(nuevo.correo) == 1)
+            {
+                printf("Error: Ese correo ya esta registrado.\n");
+            }
+            else
+            {
+                correoOk = 1;
+            }
+        }
+        while(correoOk == 0);
 
-        printf("Ingrese contrasena: ");
-        scanf("%s",nuevo.contrasena);
+        int passOk = 0;
+        do
+        {
+            printf("Ingrese contrasena (min 4 chars, debe tener letras): ");
+            fflush(stdin);
+            scanf("%s", nuevo.contrasena);
+
+            if(es_contrasenia_valida(nuevo.contrasena) == 0)
+            {
+                printf("Error: La contrasena debe tener letras y ser mayor a 4 caracteres.\n");
+            }
+            else
+            {
+                passOk = 1;
+            }
+        }
+        while(passOk == 0);
+
+
 
         int fechaValida = 0;
+        printf("\n-- Fecha de Nacimiento --\n");
         do
         {
             fechaValida = 1;
-            printf("\n-- Fecha de Nacimiento --\n");
-            printf("Ingrese dia (1-31): ");
-            scanf("%d", &nuevo.dia);
-            printf("Ingrese mes (1-12): ");
-            scanf("%d", &nuevo.mes);
-            printf("Ingrese anio (1950-2007): ");
-            scanf("%d", &nuevo.anios);
 
-            if (nuevo.dia < 1 || nuevo.dia > 31) fechaValida = 0;
-            if (nuevo.mes < 1 || nuevo.mes > 12) fechaValida = 0;
-            if (nuevo.anios < 1950 || nuevo.anios > 2007)
+            // Validar DIA
+            int dOk = 0;
+            do
             {
-                printf("Anio invalido (debe ser mayor de edad).\n");
+                nuevo.dia = ingresar_entero("Ingrese dia (1-31): ");
+                if(nuevo.dia >= 1 && nuevo.dia <= 31) dOk = 1;
+                else printf("Dia invalido.\n");
+            }
+            while(!dOk);
+
+            // Validar MES
+            int mOk = 0;
+            do
+            {
+                nuevo.mes = ingresar_entero("Ingrese mes (1-12): ");
+                if(nuevo.mes >= 1 && nuevo.mes <= 12) mOk = 1;
+                else printf("Mes invalido.\n");
+            }
+            while(!mOk);
+
+            // Validar ANIO
+            int aOk = 0;
+            do
+            {
+                nuevo.anios = ingresar_entero("Ingrese anio (1950-2007): ");
+                if(nuevo.anios >= 1950 && nuevo.anios <= 2007) aOk = 1;
+                else printf("Anio invalido (debe ser mayor de edad).\n");
+            }
+            while(!aOk);
+
+            // Validacion extra febrero
+            if (nuevo.mes == 2 && nuevo.dia > 29)
+            {
+                printf("Febrero no tiene mas de 29 dias.\n");
                 fechaValida = 0;
             }
-            if (nuevo.mes == 2 && nuevo.dia > 29) fechaValida = 0;
 
-            if(fechaValida == 0) printf("Error en la fecha. Reintente.\n");
-
-        } while (fechaValida == 0);
+        }
+        while (fechaValida == 0);
 
         strcpy(nuevo.rol, "empleado");
         printf("\nRol asignado automaticamente: %s\n", nuevo.rol);
@@ -255,6 +380,7 @@ void agregar_empleado()
         printf("\n Empleado registrado con exito.\n");
 
         printf("\nDesea registrar otro empleado? (s/n): ");
+        fflush(stdin);
         scanf(" %c", &control);
     }
     fclose(file);
@@ -390,25 +516,4 @@ void eliminar_cliente()
     {
         printf("No se encontro un cliente con ese DNI.\n");
     }
-}
-
-
-
-
-int existe_dni_empleado(int dni)
-{
-    FILE *file = fopen("empleados.bin", "rb");
-    if (file == NULL) return 0;
-
-    stEmpleado e;
-    while (fread(&e, sizeof(stEmpleado), 1, file) == 1)
-    {
-        if (e.dni == dni)
-        {
-            fclose(file);
-            return 1; // Ya existe
-        }
-    }
-    fclose(file);
-    return 0; // No existe
 }

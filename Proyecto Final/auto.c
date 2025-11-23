@@ -522,7 +522,7 @@ void agregar_auto_stock()
     {
         fwrite(&a, sizeof(Auto), 1, f);
         fclose(f);
-        printf("\n>> Auto agregado al stock exitosamente.\n");
+        printf("\nAuto agregado al stock exitosamente.\n");
     }
     else
     {

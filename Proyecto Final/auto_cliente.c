@@ -1,7 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+
 #include "auto_cliente.h"
 #include "cliente.h"
+#include "auto.h"
+
 
 /// FUNCION 1
 AutoCliente cargar_auto_cliente()
@@ -767,37 +772,4 @@ void modificar_auto_stock_auto_cliente()
     fclose(f);
 }
 
-void agregar_auto_stock() /// ver
-{
-    Auto a = cargar_auto();
-    FILE *f = fopen(ARCHIVO_AUTOS, "ab");
-    if(f != NULL)
-    {
-        fwrite(&a, sizeof(Auto), 1, f);
-        fclose(f);
-        printf("\n Auto agregado al stock exitosamente.\n");
-    }
-    else
-    {
-        printf("Error al abrir el archivo.\n");
-    }
-}
-
-int existe_patente_en_archivo(char patenteBuscada[]) /// Revisar este
-{
-    FILE *file = fopen(ARCHIVO_AUTOS, "rb");
-    if(file == NULL) return 0;
-
-    Auto a;
-    while(fread(&a, sizeof(Auto), 1, file) == 1)
-    {
-        if(strcmp(a.patente, patenteBuscada) == 0)
-        {
-            fclose(file);
-            return 1;
-        }
-    }
-    fclose(file);
-    return 0;
-}
 

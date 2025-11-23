@@ -209,14 +209,17 @@ void gestionDePagos()
 
     char patenteBusq[20];
 
-    do {
+    do
+    {
         printf("\n--- VENTA DE UNIDAD ---\n");
         printf("Ingrese patente del auto: ");
         fflush(stdin);
         gets(patenteBusq);
-    } while(strlen(patenteBusq) == 0);
+    }
+    while(strlen(patenteBusq) == 0);
 
-    for(int i=0; i<strlen(patenteBusq); i++) {
+    for(int i=0; i<strlen(patenteBusq); i++)
+    {
         patenteBusq[i] = toupper(patenteBusq[i]);
     }
 

@@ -38,7 +38,7 @@ void modificar_patente(Auto* a)
         {
             strcpy(a->patente, aux);
             valida = 1;
-            printf(">> Patente modificada correctamente: %s\n", a->patente);
+            printf("Patente modificada correctamente: %s\n", a->patente);
         }
         else
         {
