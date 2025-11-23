@@ -9,7 +9,7 @@ void mostrar_un_auto(Auto a)
     printf("Patente: %s\n", a.patente);
     printf("marca: %s\n", a.marca);
     printf("modelo: %s\n", a.modelo);
-    printf("kilometraje: %d", a.kms);
+    printf("kilometraje: %d\n", a.kms);
     printf("precio: $%.2f\n", a.precioFinal);
     printf("--------------------------\n\n");
 }

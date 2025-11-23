@@ -422,7 +422,7 @@
 
 1763640068 c:\users\coty_\onedrive\documentos\github\proyecto-final-1\proyecto final\cliente.h
 
-1763599662 source:c:\users\coty_\onedrive\documentos\github\proyecto-final-1\proyecto final\auto_cliente.c
+1763641826 source:c:\users\coty_\onedrive\documentos\github\proyecto-final-1\proyecto final\auto_cliente.c
 	<stdio.h>
 	<stdlib.h>
 	"auto_cliente.h"
@@ -431,7 +431,7 @@
 1763599662 c:\users\coty_\onedrive\documentos\github\proyecto-final-1\proyecto final\auto_cliente.h
 	"cliente.h"
 
-1763640206 source:c:\users\coty_\onedrive\documentos\github\proyecto-final-1\proyecto final\autos_disponibles.c
+1763641826 source:c:\users\coty_\onedrive\documentos\github\proyecto-final-1\proyecto final\autos_disponibles.c
 	<stdio.h>
 	<stdlib.h>
 	"autos_disponibles.h"
@@ -488,7 +488,7 @@
 1763586582 c:\users\coty_\onedrive\documentos\github\proyecto-final-1\proyecto final\venta.h
 	"fecha.h"
 
-1763640342 source:c:\users\coty_\onedrive\documentos\github\proyecto-final-1\proyecto final\loing.c
+1763645275 source:c:\users\coty_\onedrive\documentos\github\proyecto-final-1\proyecto final\loing.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -501,7 +501,7 @@
 
 1763640068 c:\users\coty_\onedrive\documentos\github\proyecto-final-1\proyecto final\usuario.h
 
-1763640153 source:c:\users\coty_\onedrive\documentos\github\proyecto-final-1\proyecto final\main.c
+1763645106 source:c:\users\coty_\onedrive\documentos\github\proyecto-final-1\proyecto final\main.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -532,7 +532,7 @@
 	"cliente.h"
 	"fecha.h"
 
-1763599662 source:c:\users\coty_\onedrive\documentos\github\proyecto-final-1\proyecto final\usuario.c
+1763640525 source:c:\users\coty_\onedrive\documentos\github\proyecto-final-1\proyecto final\usuario.c
 	<stdio.h>
 	<string.h>
 	<stdlib.h>

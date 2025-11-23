@@ -16,7 +16,7 @@ int main()
     do
     {
         printf("\n===================================================\n");
-        printf("     SISTEMA DE GESTION INTEGRAL - RUEDA VELOZ \n");
+        printf("     CONSESIONARIA DE AUTOS - UTN \n");
         printf("===================================================\n\n");
         printf("1. INGRESAR AL SISTEMA (Login)\n");
         printf("0. Salir\n");
@@ -35,7 +35,6 @@ int main()
         case 1:
 
             menu_login();
-
             break;
 
         default:

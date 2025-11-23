@@ -92,7 +92,7 @@ void mostrar_todos_autos_cliente()
 /// FUNCION 5
 void modificar_auto_cliente_por_dni(char dniBuscado[])
 {
-    /// Falta...
+    /// incompleto revisar al final.....
 }
 /// FUNCION 6
 int cargar_autos_cliente_din(AutoCliente **listaAutos)
@@ -107,15 +107,15 @@ int cargar_autos_cliente_din(AutoCliente **listaAutos)
     AutoCliente temp;
     int cantidad = 0;
 
-    // Primera pasada: contamos cuántos autos hay
+
     while (fread(&temp, sizeof(AutoCliente), 1, file) == 1)
     {
         cantidad++;
     }
 
-    rewind(file); // este era para volver al principio
+    rewind(file);
 
-    // Reservamos memoria dinámica (puntero doble)
+
     *listaAutos = (AutoCliente *) malloc (cantidad * sizeof(AutoCliente));
 
     if (*listaAutos == NULL)
@@ -125,12 +125,13 @@ int cargar_autos_cliente_din(AutoCliente **listaAutos)
         return 0;
     }
 
-    // Segunda pasada: copiamos los datos
+
     for (int i = 0; i < cantidad; i++)
     {
         fread(&(*listaAutos)[i], sizeof(AutoCliente), 1, file); /// aca lo que hago es copiar cada auto en el arreglos Dinamicos
     }
 
     fclose(file);
-    return cantidad; // devolvemos cuántos autos cargamos
+    return cantidad;
 }
+
