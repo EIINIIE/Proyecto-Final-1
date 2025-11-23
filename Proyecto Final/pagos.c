@@ -1,11 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 #include "pagos.h"
 #include "auto.h"
 #include "auto_cliente.h"
 #include "venta.h"
 #include "fecha.h"
+#include "autos_disponibles.h"
 
 
 void transferir_auto_a_cliente(Auto autoVendido, char dniComprador[])
@@ -170,6 +172,8 @@ int buscarPatenteBinaria(Auto autos[], int validos, char patenteBuscada[])
 
 void gestionDePagos()
 {
+    mostrar_todos_autos_disponibles();
+
     FILE *file = fopen("autos.bin", "rb");
     if(file == NULL)
     {
@@ -188,16 +192,24 @@ void gestionDePagos()
 
     if(validos == 0)
     {
-        printf("El stock est  vacio.\n");
+        printf("El stock esta vacio.\n");
         return;
     }
 
     ordenarPorPatente(listaAutos, validos);
 
     char patenteBusq[20];
-    printf("\n--- VENTA DE UNIDAD ---\n");
-    printf("Ingrese patente del auto: ");
-    scanf("%s", patenteBusq);
+
+    do {
+        printf("\n--- VENTA DE UNIDAD ---\n");
+        printf("Ingrese patente del auto: ");
+        fflush(stdin);
+        gets(patenteBusq);
+    } while(strlen(patenteBusq) == 0);
+
+    for(int i=0; i<strlen(patenteBusq); i++) {
+        patenteBusq[i] = toupper(patenteBusq[i]);
+    }
 
     int pos = buscarPatenteBinaria(listaAutos, validos, patenteBusq);
 
@@ -219,9 +231,11 @@ void gestionDePagos()
             char dniVendedor[15];
 
             printf("\nDNI del Comprador: ");
+            fflush(stdin);
             scanf("%s", dniComprador);
 
             printf("DNI del Vendedor: ");
+            fflush(stdin);
             scanf("%s", dniVendedor);
 
             registrar_venta_archivo(listaAutos[pos], dniComprador, dniVendedor);
@@ -239,6 +253,6 @@ void gestionDePagos()
     }
     else
     {
-        printf("\n Auto no encontrado en stock.\n");
+        printf("\n Auto no encontrado en stock (Verifique la patente).\n");
     }
 }

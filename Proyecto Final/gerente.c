@@ -90,7 +90,9 @@ void menu_gerente()
             mostrar_todos_autos_disponibles();
             break;
         case 4:
+            mostrar_todos_autos_disponibles();
             gestionDePagos();
+
             break;
         case 5:
             agregar_empleado();
