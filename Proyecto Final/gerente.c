@@ -153,44 +153,108 @@ void menu_gerente()
 }
 
 
-stGerente cargar_un_empleado()
-{
-    stGerente nuevo;
-    printf("---- REGISTRO DE NUEVO EMPLEADO ----\n");
-    printf("Ingrese correo: ");
-    scanf("%s", nuevo.correo);
-    printf("Ingrese contrasena: ");
-    scanf("%s", nuevo.contrasena);
-    printf("Ingrese DNI: ");
-    scanf("%d", &nuevo.dni);
-    printf("Ingrese dia de nacimiento: ");
-    scanf("%d", &nuevo.dia);
-    printf("Ingrese mes de nacimiento: ");
-    scanf("%d", &nuevo.mes);
-    printf("Ingrese anio de nacimiento: ");
-    scanf("%d", &nuevo.anios);
-    printf("Ingrese rol: ");
-    scanf("%s", nuevo.rol);
-    return nuevo;
-}
 
 void agregar_empleado()
 {
     FILE* file = fopen("empleados.bin", "ab");
     if (file == NULL)
     {
-        printf("Error al abrir.\n");
+        printf("Error al abrir el archivo de empleados.\n");
         return;
     }
 
     char control = 's';
+    stEmpleado nuevo;
+
     while (control == 's' || control == 'S')
     {
-        stGerente nuevo = cargar_un_empleado();
-        fwrite(&nuevo, sizeof(stGerente), 1, file);
-        printf("Empleado registrado con exito.\n");
-        printf("Desea registrar otro empleado? (s/n): ");
-        fflush(stdin);
+        system("cls");
+        printf("\n---- REGISTRO DE NUEVO EMPLEADO ----\n");
+
+        int dniValido = 0;
+        char bufferDNI[20];
+
+        do
+        {
+            dniValido = 1;
+            printf("Ingrese DNI (solo numeros): ");
+            fflush(stdin);
+            scanf("%s", bufferDNI);
+
+            for (int i = 0; i < strlen(bufferDNI); i++)
+            {
+                if (bufferDNI[i] < '0' || bufferDNI[i] > '9')
+                {
+                    dniValido = 0;
+                    printf("Error: El DNI debe contener solo numeros.\n");
+                    break;
+                }
+            }
+
+            if (dniValido == 1)
+            {
+                if (strlen(bufferDNI) < 7 || strlen(bufferDNI) > 8)
+                {
+                    dniValido = 0;
+                    printf("Error: El DNI debe tener 7 u 8 digitos.\n");
+                }
+            }
+
+            if (dniValido == 1)
+            {
+                int dniTemp = atoi(bufferDNI);
+                if (existe_dni_empleado(dniTemp) == 1)
+                {
+                    dniValido = 0;
+                    printf("Error: Ya existe un empleado con ese DNI.\n");
+                }
+                else
+                {
+                    nuevo.dni = dniTemp;
+                }
+            }
+
+        } while (dniValido == 0);
+
+        printf("Ingrese correo: ");
+
+        scanf("%s",nuevo.correo);
+
+        printf("Ingrese contrasena: ");
+        scanf("%s",nuevo.contrasena);
+
+        int fechaValida = 0;
+        do
+        {
+            fechaValida = 1;
+            printf("\n-- Fecha de Nacimiento --\n");
+            printf("Ingrese dia (1-31): ");
+            scanf("%d", &nuevo.dia);
+            printf("Ingrese mes (1-12): ");
+            scanf("%d", &nuevo.mes);
+            printf("Ingrese anio (1950-2007): ");
+            scanf("%d", &nuevo.anios);
+
+            if (nuevo.dia < 1 || nuevo.dia > 31) fechaValida = 0;
+            if (nuevo.mes < 1 || nuevo.mes > 12) fechaValida = 0;
+            if (nuevo.anios < 1950 || nuevo.anios > 2007)
+            {
+                printf("Anio invalido (debe ser mayor de edad).\n");
+                fechaValida = 0;
+            }
+            if (nuevo.mes == 2 && nuevo.dia > 29) fechaValida = 0;
+
+            if(fechaValida == 0) printf("Error en la fecha. Reintente.\n");
+
+        } while (fechaValida == 0);
+
+        strcpy(nuevo.rol, "empleado");
+        printf("\nRol asignado automaticamente: %s\n", nuevo.rol);
+
+        fwrite(&nuevo, sizeof(stEmpleado), 1, file);
+        printf("\n Empleado registrado con exito.\n");
+
+        printf("\nDesea registrar otro empleado? (s/n): ");
         scanf(" %c", &control);
     }
     fclose(file);
@@ -205,11 +269,11 @@ void mostrar_empleados()
         return;
     }
 
-    stGerente emple;
+    stEmpleado emple;
     int contador = 0;
 
     printf("\n-------- LISTA DE EMPLEADOS --------\n");
-    while (fread(&emple, sizeof(stGerente), 1, file) == 1)
+    while (fread(&emple, sizeof(stEmpleado), 1, file) == 1)
     {
         printf("Empleado #%d | DNI: %d | Rol: %s | Correo: %s\n",
                ++contador, emple.dni, emple.rol, emple.correo);
@@ -219,84 +283,132 @@ void mostrar_empleados()
 
 void eliminar_empleado()
 {
-    FILE *archivo = fopen("empleados.bin", "r+b");
+    FILE *archivo = fopen("empleados.bin", "rb");
     if (archivo == NULL)
     {
-        printf("No se pudo abrir.\n");
+        printf("No hay empleados registrados o error al abrir.\n");
         return;
     }
 
-    stGerente emple;
-    int dniBuscar;
-    int encontrado = 0;
+    stEmpleado empleados[100];
+    int cantidad = 0;
 
-    printf("Ingrese el DNI del empleado a eliminar: ");
+    while (fread(&empleados[cantidad], sizeof(stEmpleado), 1, archivo) == 1)
+    {
+        cantidad++;
+    }
+    fclose(archivo);
+
+    int dniBuscar;
+    mostrar_empleados();
+    printf("\nIngrese el DNI del empleado a eliminar: ");
     scanf("%d", &dniBuscar);
 
-    while (fread(&emple, sizeof(stGerente), 1, archivo) == 1)
+    archivo = fopen("empleados.bin", "wb");
+    if (archivo == NULL)
     {
-        if (emple.dni == dniBuscar)
-        {
-            encontrado = 1;
-            emple.activo = 0;
-
-            fseek(archivo, -sizeof(stGerente), SEEK_CUR);
-            fwrite(&emple, sizeof(stGerente), 1, archivo);
-
-            break;
-        }
+        printf("Error critico al reabrir el archivo.\n");
+        return;
     }
 
+    int encontrado = 0;
+    for(int i = 0; i < cantidad; i++)
+    {
+        if (empleados[i].dni != dniBuscar)
+        {
+            fwrite(&empleados[i], sizeof(stEmpleado), 1, archivo);
+        }
+        else
+        {
+            encontrado = 1;
+        }
+    }
     fclose(archivo);
 
     if (encontrado == 1)
     {
-        printf("Empleado eliminado.\n");
+        printf("Empleado eliminado correctamente.\n");
     }
     else
     {
-        printf("No se encontro ese DNI.\n");
+        printf("No se encontro un empleado con ese DNI.\n");
     }
 }
 
+
 void eliminar_cliente()
 {
-    FILE *archivo = fopen("clientes.bin", "r+b");
+    FILE *archivo = fopen("clientes.bin", "rb");
     if (archivo == NULL)
     {
-        printf("No se pudo abrir.\n");
+        printf("No hay clientes registrados o error al abrir.\n");
         return;
     }
 
-    stGerente cliente;
-    int dniBuscar;
-    int encontrado = 0;
+    Cliente listaClientes[100];
+    int cantidad = 0;
 
-    printf("Ingrese el DNI del empleado a eliminar: ");
-    scanf("%d", &dniBuscar);
 
-    while (fread(&cliente, sizeof(stGerente), 1, archivo) == 1)
+    while (fread(&listaClientes[cantidad], sizeof(Cliente), 1, archivo) == 1)
     {
-        if (cliente.dni == dniBuscar)
-        {
-            encontrado = 1;
-            cliente.activo = 0;
+        cantidad++;
+    }
+    fclose(archivo);
 
-            fseek(archivo, -sizeof(stGerente), SEEK_CUR);
-            fwrite(&cliente, sizeof(stGerente), 1, archivo);
+    char dniBuscar[30];
+    ver_listado_clientes();
+    printf("\nIngrese el DNI del cliente a eliminar: ");
+    fflush(stdin);
+    scanf("%s", dniBuscar);
 
-            break;
-        }
+    archivo = fopen("clientes.bin", "wb");
+    if (archivo == NULL)
+    {
+        printf("Error critico al reabrir el archivo.\n");
+        return;
     }
 
+    int encontrado = 0;
+    for(int i = 0; i < cantidad; i++)
+    {
+        if (strcmp(listaClientes[i].dni, dniBuscar) != 0)
+        {
+            fwrite(&listaClientes[i], sizeof(Cliente), 1, archivo);
+        }
+        else
+        {
+            encontrado = 1;
+        }
+    }
     fclose(archivo);
 
     if (encontrado == 1)
     {
-        printf("Cliente eliminado.\n");
+        printf("Cliente eliminado correctamente.\n");
     }
     else
     {
-        printf("No se encontro ese DNI.\n");
+        printf("No se encontro un cliente con ese DNI.\n");
     }
+}
+
+
+
+
+int existe_dni_empleado(int dni)
+{
+    FILE *file = fopen("empleados.bin", "rb");
+    if (file == NULL) return 0;
+
+    stEmpleado e;
+    while (fread(&e, sizeof(stEmpleado), 1, file) == 1)
+    {
+        if (e.dni == dni)
+        {
+            fclose(file);
+            return 1; // Ya existe
+        }
+    }
+    fclose(file);
+    return 0; // No existe
 }

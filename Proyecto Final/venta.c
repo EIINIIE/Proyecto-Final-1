@@ -22,7 +22,6 @@ Venta cargarVenta()
     printf("Fecha de Venta: ");
     mostrar_Fecha(fechaActual); /// Muestra la Fecha Actual
 
-    // Buscar auto en stock
     do
     {
         printf("Ingrese patente del auto vendido: ");

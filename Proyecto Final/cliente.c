@@ -7,21 +7,19 @@
 Cliente cargar_persona()
 {
     Cliente c;
-    int valido = 0; // CORREGIDO: Usamos 'valido' (sin s) en todo el codigo
+    int valido = 0;
     int i;
 
     printf("\n---- DATOS DE LA PERSONA ----\n");
 
-    // 1. DNI
     do
     {
         printf("Ingrese DNI (solo numeros): ");
         fflush(stdin);
         scanf("%s", c.dni);
 
-        valido = 1; // Asumimos valido
+        valido = 1;
 
-        // Validar que sean numeros
         for(i = 0; i < strlen(c.dni); i++)
         {
             if(c.dni[i] < '0' || c.dni[i] > '9')
@@ -49,12 +47,10 @@ Cliente cargar_persona()
     }
     while(valido == 0);
 
-    // 2. NOMBRE
     printf("Ingrese Nombre : ");
     fflush(stdin);
     scanf("%s",c.nombre);
 
-    // 3. TELEFONO
     int telValido = 0;
     do
     {
@@ -92,17 +88,16 @@ Cliente cargar_persona()
     }
     while(telValido == 0);
 
-    // 4. DIRECCION
     printf("Ingrese Direccion: ");
     fflush(stdin);
     scanf("%s", c.direccion);
 
-    // 5. ROL
     strcpy(c.rol, "cliente");
     printf("Rol asignado automaticamente: cliente\n");
 
     return c;
 }
+
 int telefono_Existente (char telefono[])
 {
     FILE *file = fopen(ARCHIVO_CLIENTES, "rb");

@@ -22,6 +22,8 @@ void agregar_empleado();
 void eliminar_empleado();
 void eliminar_cliente();
 void mostrar_empleados();
+int existe_dni_empleado();
+
 
 #endif // GERENTE_H_INCLUDED
 
