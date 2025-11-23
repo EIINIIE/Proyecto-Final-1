@@ -78,10 +78,10 @@ Cliente cargar_persona()
         {
             printf("Error: El telefono solo puede contener numeros.\n");
         }
-        else if (strlen(c.telefono) != 10)
+        else if (strlen(c.telefono) == 10)
         {
             telValido = 0;
-            printf("Error: El telefono debe tener 10 digitos.\n");
+            printf("Error: El telefono debe tener solo 10 digitos.\n");
         }
         else if (telefono_Existente(c.telefono))
         {
@@ -302,7 +302,8 @@ void modificar_cliente()
 
                         if(valido == 1 && strlen(c.telefono) == 10)
                         {
-                            // OK
+                            valido = 0;
+                            printf("Error: El telefono debe tener solo 10 digitos.\n");
                         }
                         else
                         {

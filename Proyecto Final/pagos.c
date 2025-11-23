@@ -152,9 +152,18 @@ int buscarPatenteBinaria(Auto autos[], int validos, char patenteBuscada[])
         int medio = inicio + (fin - inicio) / 2;
         int comparacion = strcmp(autos[medio].patente, patenteBuscada);
 
-        if(comparacion == 0) return medio;
-        if(comparacion < 0) inicio = medio + 1;
-        else fin = medio - 1;
+        if(comparacion == 0)
+        {
+            return medio;
+        }
+        if(comparacion < 0)
+        {
+            inicio = medio + 1;
+        }
+        else
+        {
+            fin = medio - 1;
+        }
     }
     return -1;
 }
@@ -185,7 +194,7 @@ void gestionDePagos()
 
     ordenarPorPatente(listaAutos, validos);
 
-    char patenteBusq[11];
+    char patenteBusq[20];
     printf("\n--- VENTA DE UNIDAD ---\n");
     printf("Ingrese patente del auto: ");
     scanf("%s", patenteBusq);
