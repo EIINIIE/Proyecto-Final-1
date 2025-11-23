@@ -32,24 +32,30 @@ void transferir_auto_a_cliente(Auto autoVendido, char dniComprador[])
     printf("\nTransferencia de propiedad registrada.\n");
 }
 
-
 void eliminar_auto_stock(char patenteEliminar[])
 {
     FILE *archivo = fopen("autos.bin", "rb");
-    FILE *temporal = fopen("temp.bin", "wb");
-
-    if (archivo == NULL || temporal == NULL)
+    if (archivo == NULL)
     {
+        printf("Hubo un problema al abrir (Auto)\n");
         return;
     }
 
+    FILE *temporal = fopen("temp.bin", "wb");
+    if (temporal == NULL)
+    {
+        fclose(archivo);
+        printf("Hubo un problema al abrir (temp)\n");
+        return;
+    }
 
     Auto a;
     int encontrado = 0;
 
-    while(fread(&a, sizeof(Auto), 1, archivo) == 1)
+    // Copio todos menos la parte de que quiero eliminar
+    while (fread(&a, sizeof(Auto), 1, archivo) == 1)
     {
-        if(strcmp(a.patente, patenteEliminar) != 0)
+        if (strcmp(a.patente, patenteEliminar) != 0)
         {
             fwrite(&a, sizeof(Auto), 1, temporal);
         }
@@ -62,25 +68,40 @@ void eliminar_auto_stock(char patenteEliminar[])
     fclose(archivo);
     fclose(temporal);
 
-    if(encontrado == 1)
+    archivo = fopen("autos.bin", "wb");   // lo vaciamos porque esta en wb
+    temporal = fopen("temp.bin", "rb");   // lo leemos porque esta en rb
+
+    if (archivo == NULL || temporal == NULL)
     {
-        remove("autos.bin");
-        rename("temp.bin", "autos.bin");
-        printf("[SISTEMA] Auto eliminado del stock.\n");
+        printf("Error al reabrir archivos.\n");
+        return;
+    }
+
+    // Copio todo lo que quedó en temp.bin a autos.bin
+    while (fread(&a, sizeof(Auto), 1, temporal) == 1)
+    {
+        fwrite(&a, sizeof(Auto), 1, archivo);
+    }
+
+    fclose(archivo);
+    fclose(temporal);
+
+    if (encontrado == 1)
+    {
+        printf("Auto eliminado del stock.\n");
     }
     else
     {
-        remove("temp.bin");
+        printf("No se encontro la patente.\n");
     }
 }
-
 
 void registrar_venta_archivo(Auto autoVendido, char dniComprador[], char dniVendedor[])
 {
     FILE *file = fopen("ventas.bin", "ab");
     if(file == NULL)
     {
-        printf("[ERROR] No se pudo registrar la venta.\n");
+        printf("No se pudo registrar la venta.\n");
         return;
     }
 
@@ -121,7 +142,6 @@ void ordenarPorPatente(Auto autos[], int validos)
     }
 }
 
-
 int buscarPatenteBinaria(Auto autos[], int validos, char patenteBuscada[])
 {
     int inicio = 0;
@@ -138,7 +158,6 @@ int buscarPatenteBinaria(Auto autos[], int validos, char patenteBuscada[])
     }
     return -1;
 }
-
 
 void gestionDePagos()
 {
@@ -160,7 +179,7 @@ void gestionDePagos()
 
     if(validos == 0)
     {
-        printf("El stock est  vac o.\n");
+        printf("El stock est  vacio.\n");
         return;
     }
 
