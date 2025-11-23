@@ -125,7 +125,6 @@ void registrar_venta_archivo(Auto autoVendido, char dniComprador[], char dniVend
     nuevaVenta.precioVenta = autoVendido.precioFinal;
     nuevaVenta.ganancia = autoVendido.precioFinal - autoVendido.precioDeAdquisicion;
     strcpy(nuevaVenta.dniComprador, dniComprador);
-    strcpy(nuevaVenta.dniVendedor, dniVendedor);
 
     // 5. Guardamos en el archivo
     fwrite(&nuevaVenta, sizeof(Venta), 1, file);
