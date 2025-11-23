@@ -8,8 +8,7 @@
 #include "cliente.h"
 #include "pagos.h"
 
-// Esta función se llama DESPUÉS de validar usuario/pass en LOING.c
-// Por eso entra directo al menú sin pedir credenciales de nuevo.
+
 void menu_empleado_directo()
 {
     int opcion_sesion;

@@ -8,7 +8,7 @@ typedef struct
 {
     char correo[50];
     char contrasena[50];
-    int dni;
+    char dni[30];
     int dia;
     int mes;
     int anios;
@@ -21,6 +21,7 @@ void guardar_Usuario(stUsuario usuario);
 int verificar_Usuario(char correo[], char contrasena[]);
 void iniciarSesion();
 void mostrarTodosLosUsuarios();
+int dni_Existente_usuario(char dni[]);
 int cargarUsuariosEnArreglo(stUsuario arr[], int tope);
 void mostrarUsuariosRecursivo(stUsuario arr[], int pos, int total);
 

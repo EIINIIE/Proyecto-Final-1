@@ -15,9 +15,9 @@ void menu_login()
         printf("\n=====================================\n");
         printf("            MENU LOGIN\n");
         printf("=====================================\n");
-        printf("1. EMPRESA (Planta)\n");
-        printf("2. CLIENTE (Usuarios)\n");
-        printf("3. ADMINISTRADOR (Gerencia)\n");
+        printf("1. Empresa (Planta)\n");
+        printf("2. Cliente (Usuarios)\n");
+        printf("3. Administrador (Gerencia)\n");
         printf("0. Salir del sistema\n");
         printf("-------------------------------------\n");
 
@@ -99,7 +99,6 @@ void menu_login()
     }
     while (opcion_login != 0);
 }
-
 
 void login_administrador()
 {

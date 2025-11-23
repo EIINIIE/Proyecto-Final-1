@@ -1,11 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 #include "pagos.h"
 #include "auto.h"
 #include "auto_cliente.h"
 #include "venta.h"
 #include "fecha.h"
+#include "autos_disponibles.h"
 
 
 void transferir_auto_a_cliente(Auto autoVendido, char dniComprador[])
@@ -32,24 +34,30 @@ void transferir_auto_a_cliente(Auto autoVendido, char dniComprador[])
     printf("\nTransferencia de propiedad registrada.\n");
 }
 
-
 void eliminar_auto_stock(char patenteEliminar[])
 {
     FILE *archivo = fopen("autos.bin", "rb");
-    FILE *temporal = fopen("temp.bin", "wb");
-
-    if (archivo == NULL || temporal == NULL)
+    if (archivo == NULL)
     {
+        printf("Hubo un problema al abrir (Auto)\n");
         return;
     }
 
+    FILE *temporal = fopen("temp.bin", "wb");
+    if (temporal == NULL)
+    {
+        fclose(archivo);
+        printf("Hubo un problema al abrir (temp)\n");
+        return;
+    }
 
     Auto a;
     int encontrado = 0;
 
-    while(fread(&a, sizeof(Auto), 1, archivo) == 1)
+    // Copio todos menos la parte de que quiero eliminar
+    while (fread(&a, sizeof(Auto), 1, archivo) == 1)
     {
-        if(strcmp(a.patente, patenteEliminar) != 0)
+        if (strcmp(a.patente, patenteEliminar) != 0)
         {
             fwrite(&a, sizeof(Auto), 1, temporal);
         }
@@ -62,45 +70,70 @@ void eliminar_auto_stock(char patenteEliminar[])
     fclose(archivo);
     fclose(temporal);
 
-    if(encontrado == 1)
+    archivo = fopen("autos.bin", "wb");   // lo vaciamos porque esta en wb
+    temporal = fopen("temp.bin", "rb");   // lo leemos porque esta en rb
+
+    if (archivo == NULL || temporal == NULL)
     {
-        remove("autos.bin");
-        rename("temp.bin", "autos.bin");
-        printf("[SISTEMA] Auto eliminado del stock.\n");
+        printf("Error al reabrir archivos.\n");
+        return;
+    }
+
+    // Copio todo lo que quedó en temp.bin a autos.bin
+    while (fread(&a, sizeof(Auto), 1, temporal) == 1)
+    {
+        fwrite(&a, sizeof(Auto), 1, archivo);
+    }
+
+    fclose(archivo);
+    fclose(temporal);
+
+    if (encontrado == 1)
+    {
+        printf("Auto eliminado del stock.\n");
     }
     else
     {
-        remove("temp.bin");
+        printf("No se encontro la patente.\n");
     }
 }
-
 
 void registrar_venta_archivo(Auto autoVendido, char dniComprador[], char dniVendedor[])
 {
     FILE *file = fopen("ventas.bin", "ab");
     if(file == NULL)
     {
-        printf("[ERROR] No se pudo registrar la venta.\n");
+        printf("No se pudo registrar la venta.\n");
         return;
     }
 
     Venta nuevaVenta;
 
-    printf("\nIngrese la fecha de la venta:\n");
-    nuevaVenta.fecha = cargar_Fecha();
+    // 1. Obtenemos la fecha actual
+    Fecha fechaActual = hoy();
 
+    // 2. Mostramos por pantalla (solo informativo)
+    printf("Hoy es: ");
+    mostrar_Fecha(fechaActual);
+
+    // 3. --- ESTA ES LA LINEA QUE FALTABA ---
+    // Guardamos la fecha calculada dentro de la estructura de la venta
+    nuevaVenta.fecha = fechaActual;
+
+    // 4. Llenamos el resto de datos
     strcpy(nuevaVenta.patenteAutoVendido, autoVendido.patente);
     nuevaVenta.precioVenta = autoVendido.precioFinal;
     nuevaVenta.ganancia = autoVendido.precioFinal - autoVendido.precioDeAdquisicion;
     strcpy(nuevaVenta.dniComprador, dniComprador);
-    strcpy(nuevaVenta.dniVendedor, dniVendedor);
 
+    // 5. Guardamos en el archivo
     fwrite(&nuevaVenta, sizeof(Venta), 1, file);
     fclose(file);
 
     printf("\nVenta registrada exitosamente.\n");
     printf("Ganancia obtenida: $%.2f\n", nuevaVenta.ganancia);
 }
+
 
 // --- ORDENAMIENTO ---
 void ordenarPorPatente(Auto autos[], int validos)
@@ -120,7 +153,6 @@ void ordenarPorPatente(Auto autos[], int validos)
     }
 }
 
-
 int buscarPatenteBinaria(Auto autos[], int validos, char patenteBuscada[])
 {
     int inicio = 0;
@@ -131,16 +163,26 @@ int buscarPatenteBinaria(Auto autos[], int validos, char patenteBuscada[])
         int medio = inicio + (fin - inicio) / 2;
         int comparacion = strcmp(autos[medio].patente, patenteBuscada);
 
-        if(comparacion == 0) return medio;
-        if(comparacion < 0) inicio = medio + 1;
-        else fin = medio - 1;
+        if(comparacion == 0)
+        {
+            return medio;
+        }
+        if(comparacion < 0)
+        {
+            inicio = medio + 1;
+        }
+        else
+        {
+            fin = medio - 1;
+        }
     }
     return -1;
 }
 
-
 void gestionDePagos()
 {
+    mostrar_todos_autos_disponibles();
+
     FILE *file = fopen("autos.bin", "rb");
     if(file == NULL)
     {
@@ -159,16 +201,27 @@ void gestionDePagos()
 
     if(validos == 0)
     {
-        printf("El stock est  vac o.\n");
+        printf("El stock esta vacio.\n");
         return;
     }
 
     ordenarPorPatente(listaAutos, validos);
 
-    char patenteBusq[11];
-    printf("\n--- VENTA DE UNIDAD ---\n");
-    printf("Ingrese patente del auto: ");
-    scanf("%s", patenteBusq);
+    char patenteBusq[20];
+
+    do
+    {
+        printf("\n--- VENTA DE UNIDAD ---\n");
+        printf("Ingrese patente del auto: ");
+        fflush(stdin);
+        gets(patenteBusq);
+    }
+    while(strlen(patenteBusq) == 0);
+
+    for(int i=0; i<strlen(patenteBusq); i++)
+    {
+        patenteBusq[i] = toupper(patenteBusq[i]);
+    }
 
     int pos = buscarPatenteBinaria(listaAutos, validos, patenteBusq);
 
@@ -190,9 +243,11 @@ void gestionDePagos()
             char dniVendedor[15];
 
             printf("\nDNI del Comprador: ");
+            fflush(stdin);
             scanf("%s", dniComprador);
 
             printf("DNI del Vendedor: ");
+            fflush(stdin);
             scanf("%s", dniVendedor);
 
             registrar_venta_archivo(listaAutos[pos], dniComprador, dniVendedor);
@@ -210,6 +265,6 @@ void gestionDePagos()
     }
     else
     {
-        printf("\n Auto no encontrado en stock.\n");
+        printf("\n Auto no encontrado en stock (Verifique la patente).\n");
     }
 }

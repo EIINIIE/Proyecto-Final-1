@@ -17,7 +17,12 @@ Venta cargarVenta()
     int encontradoCliente = 0;
 
     printf("---- CARGA DE VENTA ----\n");
-    v.fecha = cargar_Fecha();
+
+    Fecha fechaActual = hoy();
+    printf("Fecha de Venta: ");
+    mostrar_Fecha(fechaActual); /// Muestra la Fecha Actual
+
+    v.fecha = fechaActual;
 
     // Buscar auto en stock
     do
@@ -33,7 +38,7 @@ Venta cargarVenta()
             while(fread(&a, sizeof(Auto), 1, fAuto) == 1)
             {
                 if(strcmp(a.patente, v.patenteAutoVendido) == 0 &&
-                   strcmp(a.titular.rol, "concesionaria") == 0)
+                        strcmp(a.titular.rol, "concesionaria") == 0)
                 {
                     encontradoAuto = 1;
                     break;
@@ -47,7 +52,8 @@ Venta cargarVenta()
             printf("Auto no encontrado o no pertenece a la concesionaria.\n");
         }
 
-    } while(encontradoAuto == 0);
+    }
+    while(encontradoAuto == 0);
 
     printf("Precio de Costo: %.2f\n", a.precioDeAdquisicion);
     printf("Ingrese precio final de venta: ");
@@ -60,6 +66,41 @@ Venta cargarVenta()
     {
         printf("Ingrese DNI del comprador: ");
         scanf("%s", v.dniComprador);
+
+        int dniValido = 0;
+
+        while (dniValido == 0)
+        {
+            printf("Ingrese DNI (solo numeros): ");
+            scanf("%s", v.dniComprador);
+
+            dniValido = 1; // pensemos que es correcto
+
+            // Validar que sean solo numeros
+            for (int i = 0; v.dniComprador[i] != '\0'; i++)
+            {
+                if (v.dniComprador[i] < '0' || v.dniComprador[i] > '9')   /// '0' y '9' son caracteres ASCII
+                {
+                    dniValido = 0;
+                    printf("El DNI solo puede contener numeros.\n");
+                    break;
+                }
+            }
+
+            // Validar longitud (7 u 8 dígitos)
+            if (dniValido == 1 && (strlen(v.dniComprador) < 7 || strlen(v.dniComprador) > 8))
+            {
+                dniValido = 0;
+                printf("El DNI debe tener 7 u 8 digitos.\n");
+            }
+
+            // Validar DNI existente
+            else if (dniValido == 1 && dni_Existente_cliente(v.dniComprador))
+            {
+                dniValido = 0;
+                printf("El DNI ya existe.\n");
+            }
+        }
 
         FILE *fCli = fopen("clientes.bin", "rb");
         encontradoCliente = 0;
@@ -82,10 +123,8 @@ Venta cargarVenta()
             printf("Cliente no encontrado.\n");
         }
 
-    } while(encontradoCliente == 0);
-
-    printf("Ingrese DNI del vendedor: ");
-    scanf("%s", v.dniVendedor);
+    }
+    while(encontradoCliente == 0);
 
     return v;
 }
@@ -125,14 +164,21 @@ void transferirAutoAlComprador(char patente[], char dniComprador[])
 void registrarVenta()
 {
     Venta v = cargarVenta();
+
     FILE *f = fopen(ARCHIVO_VENTAS, "ab");
     if(f != NULL)
     {
         fwrite(&v, sizeof(Venta), 1, f);
         fclose(f);
         transferirAutoAlComprador(v.patenteAutoVendido, v.dniComprador);
+
         printf("Venta registrada y auto transferido correctamente.\n");
     }
+    else
+    {
+        printf("No se pudo abrir.\n");
+    }
+
 }
 
 void mostrarVenta(Venta v)
@@ -142,7 +188,6 @@ void mostrarVenta(Venta v)
     printf("Precio: %.2f\n", v.precioVenta);
     printf("Ganancia: %.2f\n", v.ganancia);
     printf("DNI Comprador: %s\n", v.dniComprador);
-    printf("DNI Vendedor: %s\n", v.dniVendedor);
 }
 
 void mostrarVentas()

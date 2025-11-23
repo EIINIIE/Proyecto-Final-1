@@ -11,7 +11,7 @@ typedef struct
     int mes;
     int anios;
     char rol[50];
-     int activo;
+    int activo; // 1 = activo, 0 = eliminado
 } stGerente;
 
 // ------- Prototipo -------
@@ -20,7 +20,10 @@ void menu_gerente();
 stGerente cargar_un_empleado();
 void agregar_empleado();
 void eliminar_empleado();
+void eliminar_cliente();
 void mostrar_empleados();
+int existe_dni_empleado();
+
 
 #endif // GERENTE_H_INCLUDED
 

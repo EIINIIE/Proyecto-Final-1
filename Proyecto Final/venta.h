@@ -10,7 +10,6 @@ typedef struct stVenta
     float precioVenta;
     float ganancia;
     char dniComprador[15];
-    char dniVendedor[15];
 } Venta;
 
 // ------- Prototipos -------
