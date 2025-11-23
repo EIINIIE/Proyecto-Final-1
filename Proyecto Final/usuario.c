@@ -74,7 +74,7 @@ while (dniValido == 0)
     }
 
     // Validar DNI existente
-    else if (dniValido == 1 && dni_Existente(nuevo.dni))
+    else if (dniValido == 1 && dni_Existente_usuario(nuevo.dni))
     {
         dniValido = 0;
         printf("El DNI ya existe.\n");
@@ -178,7 +178,7 @@ void mostrarUsuariosRecursivo(stUsuario arr[], int pos, int total)
     mostrarUsuariosRecursivo(arr, pos + 1, total);
 }
 
-int dni_Existente(char dni[])
+int dni_Existente_usuario(char dni[])
 {
     FILE *file = fopen(ARCHIVO_USUARIOS, "rb");
 

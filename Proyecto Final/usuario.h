@@ -21,7 +21,7 @@ void guardar_Usuario(stUsuario usuario);
 int verificar_Usuario(char correo[], char contrasena[]);
 void iniciarSesion();
 void mostrarTodosLosUsuarios();
-int dni_Existente(char dni[]);
+int dni_Existente_usuario(char dni[]);
 int cargarUsuariosEnArreglo(stUsuario arr[], int tope);
 void mostrarUsuariosRecursivo(stUsuario arr[], int pos, int total);
 

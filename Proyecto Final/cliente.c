@@ -7,76 +7,102 @@
 Cliente cargar_persona()
 {
     Cliente c;
-    int validos = 0;
+    int valido = 0; // CORREGIDO: Usamos 'valido' (sin s) en todo el codigo
+    int i;
 
-    while (validos == 0)
+    printf("\n---- DATOS DE LA PERSONA ----\n");
+
+    // 1. DNI
+    do
     {
         printf("Ingrese DNI (solo numeros): ");
+        fflush(stdin);
         scanf("%s", c.dni);
 
-        validos = 1;
+        valido = 1; // Asumimos valido
 
-        // Revisar caracter por caracter
-        for (int i = 0; c.dni[i] != '\0'; i++)
+        // Validar que sean numeros
+        for(i = 0; i < strlen(c.dni); i++)
         {
-            if (c.dni[i] < '0' || c.dni[i] > '9') /// '0' y '9' son caracteres ASCII
+            if(c.dni[i] < '0' || c.dni[i] > '9')
             {
-                validos = 0;
-                printf("El DNI solo puede contener numeros.\n");
+                valido = 0;
                 break;
             }
         }
 
-        if (validos == 1 && (strlen(c.dni) < 7 || strlen(c.dni) > 8))
+        if(valido == 0)
         {
-            validos = 0;
-            printf("El DNI debe tener 7 o 8 digitos.\n");
+            printf("Error: El DNI solo puede contener numeros.\n");
         }
+        else if (strlen(c.dni) < 7 || strlen(c.dni) > 8)
+        {
+            valido = 0;
+            printf("Error: El DNI debe tener 7 o 8 digitos.\n");
+        }
+        else if (dni_Existente_cliente(c.dni))
+        {
+            valido = 0;
+            printf("Error: Ese DNI ya esta registrado.\n");
+        }
+
     }
+    while(valido == 0);
 
-    printf("Ingrese Nombre: ");
-    scanf("%s", c.nombre);
+    // 2. NOMBRE
+    printf("Ingrese Nombre : ");
+    fflush(stdin);
+    scanf("%s",c.nombre);
 
-    int telValido = 0; /// creo un valido para telefono
-
-    while (telValido == 0)
+    // 3. TELEFONO
+    int telValido = 0;
+    do
     {
-        printf("Ingrese telefono: ");
+        printf("Ingrese Telefono (10 digitos): ");
+        fflush(stdin);
         scanf("%s", c.telefono);
 
-        telValido = 1; // asumimos correcto
+        telValido = 1; // Asumimos valido
 
-        // Validar que sean solo numeros
-        for (int i = 0; c.telefono[i] != '\0'; i++)
+        // Validar numeros
+        for(i = 0; i < strlen(c.telefono); i++)
         {
-            if (c.telefono[i] < '0' || c.telefono[i] > '9') /// '0' y '9' son caracteres ASCII
+            if(c.telefono[i] < '0' || c.telefono[i] > '9')
             {
                 telValido = 0;
-                printf("El telefono solo puede contener numeros.\n");
                 break;
             }
         }
 
-        if (telValido == 1 && strlen(c.telefono) < 10) /// aca hago que el strlen verifique que sea al menos 10 diguitos
+        if(telValido == 0)
+        {
+            printf("Error: El telefono solo puede contener numeros.\n");
+        }
+        else if (strlen(c.telefono) != 10)
         {
             telValido = 0;
-            printf("El telefono debe tener al menos 10 digitos\n");
+            printf("Error: El telefono debe tener 10 digitos.\n");
         }
-        else if (telValido == 1 && telefono_Existente(c.telefono))
+        else if (telefono_Existente(c.telefono))
         {
             telValido = 0;
-            printf ("\n Numero existente");
+            printf("Error: Ese telefono ya existe.\n");
         }
-    }
 
+    }
+    while(telValido == 0);
+
+    // 4. DIRECCION
     printf("Ingrese Direccion: ");
+    fflush(stdin);
     scanf("%s", c.direccion);
 
-    strcpy(c.rol, "cliente"); /// ya le asignamos el rol de cliente
+    // 5. ROL
+    strcpy(c.rol, "cliente");
+    printf("Rol asignado automaticamente: cliente\n");
 
     return c;
 }
-
 int telefono_Existente (char telefono[])
 {
     FILE *file = fopen(ARCHIVO_CLIENTES, "rb");
@@ -100,7 +126,7 @@ int telefono_Existente (char telefono[])
     return 0;
 }
 
-int cliente_existente(char dniBuscado[]) /// la uso en el auto_cliente.c
+int cliente_existente(char dniBuscado[])
 {
     FILE *file = fopen(ARCHIVO_CLIENTES, "rb");
     if (file == NULL)
@@ -131,11 +157,11 @@ void guardar_cliente_en_archivo(Cliente c)
         fwrite(&c, sizeof(Cliente), 1, file);
         fclose(file);
         printf("\nCliente guardado correctamente.\n");
-        printf("DNI guardado: [%s]\n", c.dni); /// verifico
     }
     else
     {
-        printf("Error al abrir.\n");
+        printf("DNI guardado: [%s]\n", c.dni); /// verifico
+
     }
 }
 
@@ -153,10 +179,31 @@ void ver_listado_clientes()
     printf("\n--- LISTADO DE CLIENTES ---\n");
     while(fread(&c, sizeof(Cliente), 1, file) == 1)
     {
-        printf("DNI: %s | Nombre: %s | Rol: %s\n", c.dni, c.nombre, c.rol);
+        printf("DNI: %s | Nombre: %s | Tel: %s | Rol: %s\n", c.dni, c.nombre,c.telefono,c.rol);
     }
     fclose(file);
 }
+
+
+
+int dni_Existente_cliente(char dni[])
+{
+    FILE *file = fopen(ARCHIVO_CLIENTES, "rb");
+    if (file == NULL) return 0;
+
+    Cliente aux;
+    while (fread(&aux, sizeof(Cliente), 1, file))
+    {
+        if (strcmp(aux.dni, dni) == 0)
+        {
+            fclose(file);
+            return 1;
+        }
+    }
+    fclose(file);
+    return 0;
+}
+
 
 void modificar_cliente()
 {
@@ -173,6 +220,7 @@ void modificar_cliente()
 
     Cliente c;
     int encontrado = 0;
+    int i;
 
     while (fread(&c, sizeof(Cliente), 1, arch) == 1)
     {
@@ -238,40 +286,32 @@ void modificar_cliente()
 
             case 3:
             {
-                int telValido = 0;
-
-                while (telValido == 0)
                 {
-                    printf("Nuevo telefono (solo numeros): ");
-                    scanf("%s", c.telefono);
-
-                    telValido = 1; // asumimos correcto
-
-                    // Validar que sean solo n�meros
-                    for (int i = 0; c.telefono[i] != '\0'; i++)
+                    int valido = 0;
+                    do
                     {
-                        if (c.telefono[i] < '0' || c.telefono[i] > '9') /// '0' y '9' son caracteres ASCII
+                        printf("Nuevo Telefono (10 digitos): ");
+                        scanf("%s", c.telefono);
+
+                        valido = 1;
+                        // Validacion manual
+                        for(i=0; i<strlen(c.telefono); i++)
                         {
-                            telValido = 0;
-                            printf("El telefono solo puede contener numeros.\n");
-                            break;
+                            if(c.telefono[i] < '0' || c.telefono[i] > '9') valido = 0;
+                        }
+
+                        if(valido == 1 && strlen(c.telefono) == 10)
+                        {
+                            // OK
+                        }
+                        else
+                        {
+                            valido = 0;
+                            printf("Error: Solo numeros, 10 digitos.\n");
                         }
                     }
-
-                    if (telValido == 1 && strlen(c.telefono) < 6) /// aca hago que el strlen verifique que sea al menos 6 diguitos
-                    {
-                        telValido = 0;
-                        printf("El telefono debe tener al menos 6 digitos\n");
-                    }
-                    else if (telValido == 1 && telefono_Existente(c.telefono))
-                    {
-                        telValido = 0;
-                        printf("El telefono ya existe, ingrese otro.\n");
-                    }
+                    while(valido==0);
                 }
-
-                printf("Telefono modificado exitosamente.\n");
-
                 break;
             }
 

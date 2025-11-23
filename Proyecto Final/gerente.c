@@ -33,7 +33,7 @@ void menu_gerente()
         printf("9. Gestion Autos Stock (Agregar / Modificar)\n");
         printf("10. Ver lista de empleados\n");
         printf("11. Reportes\n");
-        printf("12. Eliminar Cliente \n"); /// falta crear la funcion
+        printf("12. Eliminar Cliente \n");
         printf("0. Volver al inicio\n");
         printf("--------------------------------------------------\n");
         printf("Seleccione una opcion: ");

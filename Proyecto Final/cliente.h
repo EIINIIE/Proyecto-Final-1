@@ -19,6 +19,9 @@ void modificar_cliente();
 void ver_listado_clientes();
 int telefono_Existente (char telefono[]);
 int cliente_existente(char dniBuscado[]);
+int dni_Existente_cliente(char dni[]);
+
+
 
 
 #endif // CLIENTE_H_INCLUDED
