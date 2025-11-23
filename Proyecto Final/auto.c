@@ -6,7 +6,6 @@
 
 #define ARCHIVO_AUTOS "autos.bin"
 
-
 int ingresar_entero(char mensaje[])
 {
     char buffer[50];
@@ -86,8 +85,6 @@ float ingresar_float(char mensaje[])
 
     return numeroFinal;
 }
-
-
 
 int existe_patente_en_archivo(char patenteBuscada[])
 {
@@ -312,8 +309,6 @@ int es_modelo_valido(char marcaElegida[], char modeloIngresado[])
             {
                 return 1;
             }
-
-
 
         }
         else if(strcmp(m, "CITROEN") == 0)
@@ -563,8 +558,6 @@ void mostrar_todos_autos(char archivo[])
     while(fread(&a, sizeof(Auto), 1, f) == 1) mostrar_auto(a);
     fclose(f);
 }
-
-
 
 void modificar_auto_stock()
 {
