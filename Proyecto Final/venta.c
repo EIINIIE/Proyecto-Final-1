@@ -18,9 +18,9 @@ Venta cargarVenta()
 
     printf("---- CARGA DE VENTA ----\n");
 
-Fecha fechaActual = hoy();
-printf("Fecha de Venta: ");
- mostrar_Fecha(fechaActual); /// Muestra la Fecha Actual
+    Fecha fechaActual = hoy();
+    printf("Fecha de Venta: ");
+    mostrar_Fecha(fechaActual); /// Muestra la Fecha Actual
 
     // Buscar auto en stock
     do
@@ -36,7 +36,7 @@ printf("Fecha de Venta: ");
             while(fread(&a, sizeof(Auto), 1, fAuto) == 1)
             {
                 if(strcmp(a.patente, v.patenteAutoVendido) == 0 &&
-                   strcmp(a.titular.rol, "concesionaria") == 0)
+                        strcmp(a.titular.rol, "concesionaria") == 0)
                 {
                     encontradoAuto = 1;
                     break;
@@ -50,7 +50,8 @@ printf("Fecha de Venta: ");
             printf("Auto no encontrado o no pertenece a la concesionaria.\n");
         }
 
-    } while(encontradoAuto == 0);
+    }
+    while(encontradoAuto == 0);
 
     printf("Precio de Costo: %.2f\n", a.precioDeAdquisicion);
     printf("Ingrese precio final de venta: ");
@@ -85,7 +86,8 @@ printf("Fecha de Venta: ");
             printf("Cliente no encontrado.\n");
         }
 
-    } while(encontradoCliente == 0);
+    }
+    while(encontradoCliente == 0);
 
     printf("Ingrese DNI del vendedor: ");
     scanf("%s", v.dniVendedor);

@@ -109,22 +109,32 @@ void registrar_venta_archivo(Auto autoVendido, char dniComprador[], char dniVend
 
     Venta nuevaVenta;
 
+    // 1. Obtenemos la fecha actual
     Fecha fechaActual = hoy();
+
+    // 2. Mostramos por pantalla (solo informativo)
     printf("Hoy es: ");
     mostrar_Fecha(fechaActual);
 
+    // 3. --- ESTA ES LA LINEA QUE FALTABA ---
+    // Guardamos la fecha calculada dentro de la estructura de la venta
+    nuevaVenta.fecha = fechaActual;
+
+    // 4. Llenamos el resto de datos
     strcpy(nuevaVenta.patenteAutoVendido, autoVendido.patente);
     nuevaVenta.precioVenta = autoVendido.precioFinal;
     nuevaVenta.ganancia = autoVendido.precioFinal - autoVendido.precioDeAdquisicion;
     strcpy(nuevaVenta.dniComprador, dniComprador);
     strcpy(nuevaVenta.dniVendedor, dniVendedor);
 
+    // 5. Guardamos en el archivo
     fwrite(&nuevaVenta, sizeof(Venta), 1, file);
     fclose(file);
 
     printf("\nVenta registrada exitosamente.\n");
     printf("Ganancia obtenida: $%.2f\n", nuevaVenta.ganancia);
 }
+
 
 // --- ORDENAMIENTO ---
 void ordenarPorPatente(Auto autos[], int validos)
