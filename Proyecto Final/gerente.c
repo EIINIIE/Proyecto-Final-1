@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-// Se elimino ctype.h como pediste
 
 #include "gerente.h"
 #include "cliente.h"
@@ -81,7 +80,6 @@ int es_contrasenia_valida(char pass[])
 
     return tieneLetra;
 }
-
 
 void menu_gerente()
 {
@@ -221,7 +219,6 @@ void menu_gerente()
     while(opcion != 7 && opcion != 0);
 }
 
-
 void agregar_empleado()
 {
     FILE* file = fopen("empleados.bin", "ab");
@@ -326,7 +323,6 @@ void agregar_empleado()
         while(passOk == 0);
 
 
-
         int fechaValida = 0;
         printf("\n-- Fecha de Nacimiento --\n");
         do
@@ -338,8 +334,14 @@ void agregar_empleado()
             do
             {
                 nuevo.dia = ingresar_entero("Ingrese dia (1-31): ");
-                if(nuevo.dia >= 1 && nuevo.dia <= 31) dOk = 1;
-                else printf("Dia invalido.\n");
+                if(nuevo.dia >= 1 && nuevo.dia <= 31)
+                {
+                    dOk = 1;
+                }
+                else
+                {
+                    printf("Dia invalido.\n");
+                }
             }
             while(!dOk);
 
@@ -348,8 +350,14 @@ void agregar_empleado()
             do
             {
                 nuevo.mes = ingresar_entero("Ingrese mes (1-12): ");
-                if(nuevo.mes >= 1 && nuevo.mes <= 12) mOk = 1;
-                else printf("Mes invalido.\n");
+                if(nuevo.mes >= 1 && nuevo.mes <= 12)
+                {
+                    mOk = 1;
+                }
+                else
+                {
+                    printf("Mes invalido.\n");
+                }
             }
             while(!mOk);
 
@@ -358,8 +366,14 @@ void agregar_empleado()
             do
             {
                 nuevo.anios = ingresar_entero("Ingrese anio (1950-2007): ");
-                if(nuevo.anios >= 1950 && nuevo.anios <= 2007) aOk = 1;
-                else printf("Anio invalido (debe ser mayor de edad).\n");
+                if(nuevo.anios >= 1950 && nuevo.anios <= 2007)
+                {
+                    aOk = 1;
+                }
+                else
+                {
+                    printf("Anio invalido (debe ser mayor de edad).\n");
+                }
             }
             while(!aOk);
 
@@ -460,7 +474,6 @@ void eliminar_empleado()
         printf("No se encontro un empleado con ese DNI.\n");
     }
 }
-
 
 void eliminar_cliente()
 {

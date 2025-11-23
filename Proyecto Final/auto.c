@@ -79,7 +79,8 @@ float ingresar_float(char mensaje[])
             printf("ERROR: Debe ingresar un precio valido (ej: 15000.50).\n");
         }
 
-    } while(valido == 0);
+    }
+    while(valido == 0);
 
     sscanf(buffer, "%f", &numeroFinal);
 
@@ -248,7 +249,6 @@ int es_modelo_valido(char marcaElegida[], char modeloIngresado[])
                 return 1;
             }
 
-
         }
         // 4. PEUGEOT
         else if(strcmp(m, "PEUGEOT") == 0)
@@ -258,8 +258,6 @@ int es_modelo_valido(char marcaElegida[], char modeloIngresado[])
                 return 1;
             }
 
-
-
         }
         // 5. VOLKSWAGEN
         else if(strcmp(m, "VOLKSWAGEN") == 0 || strcmp(m, "VW") == 0)
@@ -268,7 +266,6 @@ int es_modelo_valido(char marcaElegida[], char modeloIngresado[])
             {
                 return 1;
             }
-
 
         }
         // 6. TOYOTA
@@ -289,7 +286,6 @@ int es_modelo_valido(char marcaElegida[], char modeloIngresado[])
                 return 1;
             }
 
-
         }
         // --- LAS QUE FALTABAN ---
         else if(strcmp(m, "NISSAN") == 0)
@@ -299,7 +295,6 @@ int es_modelo_valido(char marcaElegida[], char modeloIngresado[])
             {
                 return 1;
             }
-
 
         }
         else if(strcmp(m, "HONDA") == 0)
@@ -319,7 +314,6 @@ int es_modelo_valido(char marcaElegida[], char modeloIngresado[])
                 return 1;
             }
 
-
         }
         else if(strcmp(m, "JEEP") == 0)
         {
@@ -328,7 +322,6 @@ int es_modelo_valido(char marcaElegida[], char modeloIngresado[])
             {
                 return 1;
             }
-
 
         }
         // DEPORTIVOS / LUJO
@@ -340,7 +333,6 @@ int es_modelo_valido(char marcaElegida[], char modeloIngresado[])
                 return 1;
             }
 
-
         }
         else if(strcmp(m, "BMW") == 0)
         {
@@ -350,14 +342,12 @@ int es_modelo_valido(char marcaElegida[], char modeloIngresado[])
                 return 1;
             }
 
-
         }
         else if(strcmp(m, "MERCEDES BENZ") == 0 || strcmp(m, "MERCEDES") == 0)
         {
             if(strcmp(mod, "CLASE A")==0 || strcmp(mod, "CLASE C")==0 || strcmp(mod, "GLA")==0 || strcmp(mod, "SPRINTER")==0)
                 return 1;
         }
-
 
     }
     else if(strcmp(m, "AUDI") == 0)
@@ -377,7 +367,6 @@ int es_modelo_valido(char marcaElegida[], char modeloIngresado[])
             return 1;
         }
 
-
     }
     else if(strcmp(m, "LAMBORGHINI") == 0)
     {
@@ -385,7 +374,6 @@ int es_modelo_valido(char marcaElegida[], char modeloIngresado[])
         {
             return 1;
         }
-
 
     }
     else if(strcmp(m, "MCLAREN") == 0)
@@ -396,12 +384,10 @@ int es_modelo_valido(char marcaElegida[], char modeloIngresado[])
             return 1;
         }
 
-
     }
 
     return 0;
 }
-
 
 Auto cargar_auto()
 {
@@ -491,7 +477,8 @@ Auto cargar_auto()
     do
     {
         a.anio = ingresar_entero("Anio (1885 - 2025): ");
-        if(a.anio >= 1885 && a.anio <= 2025) valido = 1;
+        if(a.anio >= 1885 && a.anio <= 2025)
+        {valido = 1;}
         else
         {
             printf("ERROR: Anio fuera de rango.\n");
@@ -530,7 +517,6 @@ void agregar_auto_stock()
     }
 }
 
-
 void mostrar_auto(Auto a)
 {
     printf("\n------------------------------\n");
@@ -555,7 +541,8 @@ void mostrar_todos_autos(char archivo[])
     }
     Auto a;
     printf("\n--- LISTADO COMPLETO (Stock) ---\n");
-    while(fread(&a, sizeof(Auto), 1, f) == 1) mostrar_auto(a);
+    while(fread(&a, sizeof(Auto), 1, f) == 1)
+    {mostrar_auto(a);}
     fclose(f);
 }
 
@@ -577,7 +564,10 @@ void modificar_auto_stock()
 
     for(int i=0; i<strlen(patenteBuscada); i++)
     {
-        if(patenteBuscada[i] >= 'a' && patenteBuscada[i] <= 'z') patenteBuscada[i] -= 32;
+        if(patenteBuscada[i] >= 'a' && patenteBuscada[i] <= 'z')
+        {
+            patenteBuscada[i] -= 32;
+        }
     }
 
     FILE *f = fopen(ARCHIVO_AUTOS, "r+b");
@@ -626,7 +616,8 @@ void modificar_auto_stock()
                         gets(aux);
                         for(int i=0; i<strlen(aux); i++)
                         {
-                            if(aux[i]>='a' && aux[i]<='z') aux[i]-=32;
+                            if(aux[i]>='a' && aux[i]<='z')
+                            {aux[i]-=32;}
                         }
 
                         if(strlen(aux)==9 && aux[0]>='A' && aux[0]<='Z' && aux[1]>='A' && aux[1]<='Z' &&
@@ -666,6 +657,7 @@ void modificar_auto_stock()
                         }
                     }
                     while(valido == 0);
+
                     system("pause");
                     break;
 
@@ -688,6 +680,7 @@ void modificar_auto_stock()
                         }
                     }
                     while(valido == 0);
+
                     system("pause");
                     break;
 
@@ -696,10 +689,17 @@ void modificar_auto_stock()
                     do
                     {
                         a.anio = ingresar_entero("Nuevo Anio (1885-2025): ");
-                        if(a.anio >= 1885 && a.anio <= 2025) valido = 1;
-                        else printf("Anio fuera de rango.\n");
+                        if(a.anio >= 1885 && a.anio <= 2025)
+                        {
+                            valido = 1;
+                        }
+                        else
+                        {
+                            printf("Anio fuera de rango.\n");
+                        }
                     }
                     while(valido == 0);
+
                     break;
 
                 case 5:
@@ -732,6 +732,9 @@ void modificar_auto_stock()
         }
     }
 
-    if(!encontrado) printf("No se encontro un auto con la patente %s en el stock.\n", patenteBuscada);
+    if(encontrado == 0)
+    {
+        printf("No se encontro un auto con la patente %s en el stock.\n", patenteBuscada);
+    }
     fclose(f);
 }

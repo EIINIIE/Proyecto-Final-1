@@ -3,10 +3,7 @@
 #include <time.h>
 #include "fecha.h"
 
-
-
 /// FUNCION 1
-
 void mostrar_Fecha(Fecha f)
 {
 
@@ -14,12 +11,9 @@ void mostrar_Fecha(Fecha f)
 
 }
 
-
 /// FUNCION 2
-
 Fecha hoy()
 {
-
     Fecha f;
     time_t t = time(NULL);
     struct tm *fechaLocal = localtime(&t);
@@ -28,7 +22,4 @@ Fecha hoy()
     f.anio = fechaLocal->tm_year + 1900;
 
     return f;
-
 }
-
-

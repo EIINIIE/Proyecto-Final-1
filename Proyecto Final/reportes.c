@@ -174,11 +174,10 @@ void stock_joven()
                 lista[j] = aux;
             }
 
-
     printf("\n--- Autos con menos de 10 anios (Orden Descendente) ---\n");
-    printf("%-10s %-15s %-15s\n", "ANIO", "MARCA", "MODELO");
+    printf("%s %s %s\n", "ANIO", "MARCA", "MODELO");
     for(int i=0; i<validos; i++)
-        printf("%-10d %-15s %-15s\n", lista[i].anio, lista[i].marca, lista[i].modelo);
+        printf("%d %s %s\n", lista[i].anio, lista[i].marca, lista[i].modelo);
 }
 
 /// --- LISTADO DE PERSONAS ---
@@ -226,7 +225,10 @@ void buscar_persona_dni()
         }
     }
     fclose(f);
-    if(!encontrado) printf("No existe una persona con ese DNI.\n");
+    if(encontrado == 0)
+    {
+        printf("No existe una persona con ese DNI.\n");
+    }
 }
 
 /// --- BUSCAR AUTO POR PATENTE ---
@@ -254,7 +256,7 @@ void buscar_auto_patente()
         }
     }
     fclose(f);
-    if(!ok)
+    if(ok == 0)
     {
         printf("No existe un auto con esa patente.\n");
     }

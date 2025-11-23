@@ -132,7 +132,10 @@ Venta cargarVenta()
 void transferirAutoAlComprador(char patente[], char dniComprador[])
 {
     FILE *f = fopen(ARCHIVO_AUTOS, "rb+");
-    if(f == NULL) return;
+    if(f == NULL)
+    {
+        return;
+    }
 
     Auto a;
     while(fread(&a, sizeof(Auto), 1, f) == 1)
@@ -141,7 +144,10 @@ void transferirAutoAlComprador(char patente[], char dniComprador[])
         {
             Cliente comprador;
             FILE *fCli = fopen("clientes.bin", "rb");
-            if(fCli == NULL) break;
+            if(fCli == NULL)
+            {
+                break;
+            }
 
             while(fread(&comprador, sizeof(Cliente), 1, fCli) == 1)
             {

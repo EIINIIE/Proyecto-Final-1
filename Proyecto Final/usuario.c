@@ -16,7 +16,10 @@ int es_correo_valido(char email[])
     int i;
     for(i=0; i<strlen(email); i++)
     {
-        if(email[i] == '@') return 1; // Debe tener al menos un arroba
+        if(email[i] == '@')
+        {
+            return 1; // Debe tener al menos un arroba
+        }
     }
     return 0;
 }
@@ -24,7 +27,10 @@ int es_correo_valido(char email[])
 int usuario_Existente(char correo[])
 {
     FILE* file = fopen(ARCHIVO_USUARIOS, "rb");
-    if(file == NULL) return 0;
+    if(file == NULL)
+    {
+        return 0;
+    }
 
     stUsuario usuario;
     while(fread(&usuario, sizeof(stUsuario), 1, file) == 1)
@@ -94,7 +100,10 @@ stUsuario registro_Usuario()
             }
         }
 
-        if (dniValido == 0) printf("Error: El DNI solo puede contener numeros.\n");
+        if (dniValido == 0)
+        {
+            printf("Error: El DNI solo puede contener numeros.\n");
+        }
         else if (strlen(nuevo.dni) < 7 || strlen(nuevo.dni) > 8)
         {
             dniValido = 0;
@@ -114,7 +123,10 @@ stUsuario registro_Usuario()
     do
     {
         nuevo.dia = ingresar_entero("Dia (1-31): ");
-        if(nuevo.dia >= 1 && nuevo.dia <= 31) diaOk = 1;
+        if(nuevo.dia >= 1 && nuevo.dia <= 31)
+        {
+            diaOk = 1;
+        }
         else printf("Dia invalido.\n");
     }
     while(!diaOk);
@@ -123,8 +135,14 @@ stUsuario registro_Usuario()
     do
     {
         nuevo.mes = ingresar_entero("Mes (1-12): ");
-        if(nuevo.mes >= 1 && nuevo.mes <= 12) mesOk = 1;
-        else printf("Mes invalido.\n");
+        if(nuevo.mes >= 1 && nuevo.mes <= 12)
+        {
+            mesOk = 1;
+        }
+        else
+        {
+            printf("Mes invalido.\n");
+        }
     }
     while(!mesOk);
 
@@ -143,7 +161,10 @@ stUsuario registro_Usuario()
 
 void guardar_Usuario(stUsuario usuario)
 {
-    if (strcmp(usuario.dni, "-1") == 0) return;
+    if (strcmp(usuario.dni, "-1") == 0)
+    {
+        return;
+    }
 
     FILE *file = fopen(ARCHIVO_USUARIOS, "ab");
     if (file == NULL)
@@ -158,7 +179,10 @@ void guardar_Usuario(stUsuario usuario)
 int verificar_Usuario(char correo[], char contrasena[])
 {
     FILE *file = fopen(ARCHIVO_USUARIOS, "rb");
-    if(file == NULL) return 0;
+    if(file == NULL)
+    {
+        return 0;
+    }
 
     stUsuario usuario;
     int encontrado = 0;
@@ -283,16 +307,25 @@ void mostrarTodosLosUsuarios()
 int cargarUsuariosEnArreglo(stUsuario arr[], int tope)
 {
     FILE* file = fopen(ARCHIVO_USUARIOS, "rb");
-    if(file == NULL) return 0;
+    if(file == NULL)
+    {
+        return 0;
+    }
     int i = 0;
-    while(i < tope && fread(&arr[i], sizeof(stUsuario), 1, file) == 1) i++;
+    while(i < tope && fread(&arr[i], sizeof(stUsuario), 1, file) == 1)
+    {
+        i++;
+    }
     fclose(file);
     return i;
 }
 
 void mostrarUsuariosRecursivo(stUsuario arr[], int pos, int total)
 {
-    if(pos == total) return;
+    if(pos == total)
+    {
+        return;
+    }
     printf("Correo: %s | DNI: %s\n", arr[pos].correo, arr[pos].dni);
     mostrarUsuariosRecursivo(arr, pos + 1, total);
 }
@@ -300,7 +333,10 @@ void mostrarUsuariosRecursivo(stUsuario arr[], int pos, int total)
 int dni_Existente_usuario(char dni[])
 {
     FILE *file = fopen(ARCHIVO_USUARIOS, "rb");
-    if(file == NULL) return 0;
+    if(file == NULL)
+    {
+        return 0;
+    }
     stUsuario aux;
     while (fread(&aux, sizeof (stUsuario), 1, file))
     {

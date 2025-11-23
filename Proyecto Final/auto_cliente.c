@@ -47,7 +47,6 @@ void agregar_autos_cliente()
     ///Guardo el cliente en clientes.bin
     guardar_cliente_en_archivo(nuevo_auto.titular);
 
-
     fwrite(&nuevo_auto, sizeof(AutoCliente), 1, file);
     fclose(file);
     printf("Auto y titular cargados correctamente en autos_cliente.bin\n");
@@ -92,7 +91,56 @@ void mostrar_todos_autos_cliente()
 /// FUNCION 5
 void modificar_auto_cliente_por_dni(char dniBuscado[])
 {
-    /// incompleto revisar al final.....
+    FILE *file = fopen(ARCHIVO_AUTOS_CLIENTE, "r+b");
+    if (file == NULL)
+    {
+        printf("No se pudo abrir.\n");
+        return;
+    }
+
+    AutoCliente aux;
+    int encontrado = 0;
+    while (fread(&aux, sizeof(AutoCliente), 1, file) == 1)
+    {
+        if (strcmp(aux.titular.dni, dniBuscado) == 0)
+        {
+            encontrado = 1;
+            printf("\nAUTO ENCONTRADO\n");
+            mostrar_auto_cliente(aux);
+
+            printf("\n--- MODIFICACIÓN DE DATOS DEL AUTO ---\n");
+
+            printf("Nueva marca: ");
+            scanf("%s", aux.marca);
+
+            printf("Nuevo modelo: ");
+            scanf("%s", aux.modelo);
+
+            printf("Nuevo anio: ");
+            scanf("%d", &aux.anio);
+
+            printf("Nuevo kilometro: ");
+            scanf("%d", &aux.kms);
+
+            printf("Nuevo precio original: ");
+            scanf("%f", &aux.precioDeAdquisicion);
+
+            aux.precioFinal = aux.precioDeAdquisicion;
+
+            fseek(file, -sizeof(AutoCliente), SEEK_CUR);
+            fwrite(&aux, sizeof(AutoCliente), 1, file);
+
+            printf("\nAuto modificado correctamente.\n");
+            break;
+        }
+    }
+
+    if (encontrado == 0)
+    {
+        printf("No se encontro este DNI: %s.\n", dniBuscado);
+    }
+
+    fclose(file);
 }
 /// FUNCION 6
 int cargar_autos_cliente_din(AutoCliente **listaAutos)
@@ -115,7 +163,6 @@ int cargar_autos_cliente_din(AutoCliente **listaAutos)
 
     rewind(file);
 
-
     *listaAutos = (AutoCliente *) malloc (cantidad * sizeof(AutoCliente));
 
     if (*listaAutos == NULL)
@@ -124,7 +171,6 @@ int cargar_autos_cliente_din(AutoCliente **listaAutos)
         fclose(file);
         return 0;
     }
-
 
     for (int i = 0; i < cantidad; i++)
     {
