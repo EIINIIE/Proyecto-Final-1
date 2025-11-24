@@ -223,14 +223,13 @@ void iniciarSesion()
     char correo[50], contrasena[50];
     printf("\n------ INICIAR SESION ------\n");
 
-    // Usamos fflush + gets para limpiar buffers previos
     printf("Correo: ");
     fflush(stdin);
-    gets(correo);
+    scanf("%s", correo);
 
     printf("Contrasena: ");
     fflush(stdin);
-    gets(contrasena);
+    scanf("%s", contrasena);
 
     system("cls");
 

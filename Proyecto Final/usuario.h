@@ -15,7 +15,7 @@ typedef struct
 } stUsuario;
 
 // Prototipos
-int usuario_existente(char correo[]);
+int usuario_Existente(char correo[]);
 stUsuario registro_Usuario();
 void guardar_Usuario(stUsuario usuario);
 int verificar_Usuario(char correo[], char contrasena[]);
