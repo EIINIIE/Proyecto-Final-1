@@ -55,7 +55,7 @@ void menu_login()
                 case 2:
                 {
                     stUsuario n = registro_Usuario();
-                    if(n.dni != -1)
+                    if(strcmp(n.dni, "-1") != 0)
                     {
                         guardar_Usuario(n);
                         printf("Registrado. Inicie sesion.\n");
@@ -168,8 +168,8 @@ void login_empresa()
             }
             else
             {
-                printf("Bienvenido, %s (Rol: %s)\n", emple.correo, emple.rol);
-               /// LLAMADA AL MENU DIRECTO (Sin pedir clave otra vez)
+                printf("Bienvenido, (Rol: %s)\n", emple.rol);
+                /// LLAMADA AL MENU DIRECTO (Sin pedir clave otra vez)
                 menu_empleado_directo();
             }
             break;

@@ -67,7 +67,6 @@ void mostrar_todos_autos_disponibles()
     mostrar_auto_recursivo(file, 0, total);
 
     printf("==========================================================\n");
-    printf("NOTA: Copie la PATENTE exacta para proceder a la compra.\n");
 
     fclose(file);
 }

@@ -157,7 +157,7 @@
 1763921142 c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\auto_cliente.h
 	"cliente.h"
 
-1763937662 source:c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\autos_disponibles.c
+1763941626 source:c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\autos_disponibles.c
 	<stdio.h>
 	<stdlib.h>
 	"autos_disponibles.h"
@@ -179,10 +179,10 @@
 
 1763681229 c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\empleado.h
 
-1763869435 c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\pagos.h
+1763941626 c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\pagos.h
 	"auto.h"
 
-1763940417 source:c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\fecha.c
+1763941626 source:c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\fecha.c
 	<stdio.h>
 	<string.h>
 	<time.h>
@@ -216,7 +216,7 @@
 	"empleado.h"
 	"LOING.h"
 
-1763937662 source:c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\pagos.c
+1763941626 source:c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\pagos.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>

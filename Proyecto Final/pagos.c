@@ -98,7 +98,7 @@ void eliminar_auto_stock(char patenteEliminar[])
     }
 }
 
-void registrar_venta_archivo(Auto autoVendido, char dniComprador[], char dniVendedor[])
+void registrar_venta_archivo(Auto autoVendido, char dniComprador[])
 {
     FILE *file = fopen("ventas.bin", "ab");
     if(file == NULL)
@@ -240,17 +240,12 @@ void gestionDePagos()
         if(confirmacion == 's' || confirmacion == 'S')
         {
             char dniComprador[15];
-            char dniVendedor[15];
 
             printf("\nDNI del Comprador: ");
             fflush(stdin);
             scanf("%s", dniComprador);
 
-            printf("DNI del Vendedor: ");
-            fflush(stdin);
-            scanf("%s", dniVendedor);
-
-            registrar_venta_archivo(listaAutos[pos], dniComprador, dniVendedor);
+            registrar_venta_archivo(listaAutos[pos], dniComprador);
             transferir_auto_a_cliente(listaAutos[pos], dniComprador);
             eliminar_auto_stock(patenteBusq);
 

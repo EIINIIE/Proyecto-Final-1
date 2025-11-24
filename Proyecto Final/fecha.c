@@ -6,9 +6,7 @@
 /// FUNCION 1
 void mostrar_Fecha(Fecha f)
 {
-
     printf("%d/%d/%d\n", f.dia, f.mes, f.anio);
-
 }
 
 /// FUNCION 2
