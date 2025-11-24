@@ -38,14 +38,13 @@ int existe_correo_empleado(char correo[])
         if (strcmp(e.correo, correo) == 0)
         {
             fclose(file);
-            return 1; // Ya existe
+            return 1;
         }
     }
     fclose(file);
     return 0; // No existe
 }
 
-// Verifica si el DNI ya existe en empleados
 int existe_dni_empleado(int dni)
 {
     FILE *file = fopen("empleados.bin", "rb");
@@ -60,7 +59,7 @@ int existe_dni_empleado(int dni)
         if (e.dni == dni)
         {
             fclose(file);
-            return 1; // Ya existe
+            return 1;
         }
     }
     fclose(file);
@@ -560,7 +559,7 @@ void eliminar_cliente()
 
 void modificar_empleado()
 {
-    FILE *file = fopen("empleados.bin", "r+b"); // r+b para leer y escribir
+    FILE *file = fopen("empleados.bin", "r+b");
     if (file == NULL)
     {
         printf("No se pudo abrir el archivo de empleados.\n");
@@ -586,7 +585,7 @@ void modificar_empleado()
             int opMod;
             printf("\n1. Modificar Correo\n");
             printf("2. Modificar Contrasenia\n");
-            // OPCION 3 ELIMINADA
+
             printf("0. Cancelar\n");
             printf("Opcion: ");
             scanf("%d", &opMod);

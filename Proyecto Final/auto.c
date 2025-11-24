@@ -17,7 +17,7 @@ int ingresar_entero(char mensaje[])
     {
         valido = 1;
         printf("%s", mensaje);
-        fflush(stdin); // Limpia el buffer antes de pedir dato
+        fflush(stdin);
 
         // Usamos fgets para evitar que se salte inputs o lea basura
         if (fgets(buffer, sizeof(buffer), stdin) == NULL)
@@ -48,7 +48,10 @@ int ingresar_entero(char mensaje[])
             }
         }
 
-        if(valido == 0) printf("ERROR: Debe ingresar solo numeros enteros.\n");
+        if(valido == 0)
+        {
+            printf("ERROR: Debe ingresar solo numeros enteros.\n");
+        }
 
     }
     while(valido == 0);
@@ -256,7 +259,9 @@ int es_modelo_valido(char marcaElegida[], char modeloIngresado[])
     if(strcmp(m, "FORD") == 0)
     {
         if(strcmp(mod, "RANGER")==0 || strcmp(mod, "FIESTA")==0 || strcmp(mod, "FOCUS")==0 || strcmp(mod, "KA")==0 || strcmp(mod, "MUSTANG")==0 || strcmp(mod, "ECOSPORT")==0)
+        {
             return 1;
+        }
     }
     // 2. CHEVROLET
     else if(strcmp(m, "CHEVROLET") == 0)

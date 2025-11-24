@@ -93,7 +93,7 @@ Cliente cargar_persona()
         {
             printf("Ingrese Nombre: ");
             fflush(stdin);
-            gets(c.nombre); // Lectura simple
+            gets(c.nombre);
 
             nombreValido = 1;
 
@@ -287,7 +287,10 @@ void ver_listado_clientes()
 int dni_Existente_cliente(char dni[])
 {
     FILE *file = fopen(ARCHIVO_CLIENTES, "rb");
-    if (file == NULL) return 0;
+    if (file == NULL)
+    {
+        return 0;
+    }
 
     Cliente aux;
     while (fread(&aux, sizeof(Cliente), 1, file))
@@ -301,7 +304,6 @@ int dni_Existente_cliente(char dni[])
     fclose(file);
     return 0;
 }
-
 
 void modificar_cliente()
 {

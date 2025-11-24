@@ -189,7 +189,7 @@ stUsuario registro_Usuario()
     }
     while(mesOk == 0);
 
-    // 5. Validacion AÑO (CORREGIDO: 1928 - 2007)
+    // 5. Validacion ANIO (CORREGIDO: 1928 - 2007)
     int anioOk = 0;
     do
     {
