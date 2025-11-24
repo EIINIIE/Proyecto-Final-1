@@ -28,7 +28,6 @@ void menu_reportes()
         printf("4. Listado de personas\n");
         printf("5. Buscar persona por DNI\n");
         printf("6. Buscar auto por patente\n");
-        printf("7. Ver detalle de una venta\n");
         printf("0. Volver\n");
         printf("Seleccione una opcion: ");
         scanf("%d", &opcion);
@@ -54,9 +53,6 @@ void menu_reportes()
             break;
         case 6:
             buscar_auto_patente();
-            break;
-        case 7:
-            ver_venta_detalle();
             break;
 
         case 0:
@@ -217,8 +213,8 @@ void buscar_persona_dni()
         if(strcmp(c.dni, dniBuscado) == 0)
         {
             encontrado = 1;
-            printf("\nCliente encontrado:\nNombre: %s\nTelefono: %s\nDireccion: %s\nRol: %s\n",
-                   c.nombre, c.telefono, c.direccion, c.rol);
+            printf("\nCliente encontrado:\nNombre: %s\nDNI: %s\nTelefono: %s\nDireccion: %s\nRol: %s\n",
+                   c.nombre, c.dni, c.telefono, c.direccion, c.rol);
         }
     }
     fclose(f);
@@ -239,10 +235,12 @@ void buscar_auto_patente()
     }
 
     char pat[20];
-    Auto a;
     int ok = 0;
+
+    Auto a;
     printf("Ingrese patente: ");
-    scanf("%s", pat);
+    fflush(stdin);
+    gets(pat);
 
     while(fread(&a, sizeof(Auto), 1, f) == 1)
     {
@@ -258,36 +256,3 @@ void buscar_auto_patente()
         printf("No existe un auto con esa patente.\n");
     }
 }
-
-/// --- VER DETALLE DE VENTA ---
-void ver_venta_detalle()
-{
-    FILE *f = fopen(ARCHIVO_VENTAS, "rb");
-    if(f == NULL)
-    {
-        printf("No hay ventas registradas.\n");
-        return;
-    }
-
-    char pat[20];
-    Venta v;
-    int flag = 0;
-    printf("Ingrese patente vendida: ");
-    scanf("%s", pat);
-
-    while(fread(&v, sizeof(Venta), 1, f) == 1)
-    {
-        if(strcmp(v.patenteAutoVendido, pat) == 0)
-        {
-            flag = 1;
-            mostrarVenta(v);
-        }
-    }
-    fclose(f);
-    if(flag == 0)
-    {
-        printf("No existe una venta con esa patente.\n");
-    }
-}
-
-

@@ -13,7 +13,10 @@
 // --- FUNCION AUXILIAR PARA VALIDAR CONTRASEÑA (MANUAL) ---
 int es_contrasenia_segura(char pass[])
 {
-    if(strlen(pass) < 4) return 0; // Minimo 4 caracteres
+    if(strlen(pass) < 4)
+    {
+        return 0; // Minimo 4 caracteres
+    }
 
     int tieneLetra = 0;
     int tieneNumero = 0;
@@ -186,7 +189,7 @@ stUsuario registro_Usuario()
     }
     while(mesOk == 0);
 
-    // 5. Validacion AÑO (CORREGIDO: 1928 - 2025)
+    // 5. Validacion AÑO (CORREGIDO: 1928 - 2007)
     int anioOk = 0;
     do
     {
@@ -200,7 +203,8 @@ stUsuario registro_Usuario()
         {
             printf("Error : debe ser mayor de edad.\n");
         }
-    } while(anioOk == 0);
+    }
+    while(anioOk == 0);
 
     printf("\nUsuario registrado con exito!\n");
     return nuevo;
@@ -263,20 +267,22 @@ void iniciarSesion()
 
     if(verificar_Usuario(correo, contrasena))
     {
-        printf("\nSesion iniciada correctamente \n\n");
-
         int opcion_sesion = -1;
 
         do
         {
-            printf("-------------------------------------\n");
+            printf("Inicio de sesion exitoso - Rol: CLIENTE");
+            printf("\n====================================================\n");
+            printf("          PANEL DE CONTROL: CLIENTE      \n");
+            printf("====================================================");
+            printf("\n--- MENU DE CLIENTE ---\n");
             printf("1. Datos del cliente (Cargar y Guardar)\n");
             printf("2. Dato del auto del cliente (Cargar)\n");
             printf("3. Autos disponibles (Ver Stock)\n");
             printf("4. Pagos (Vender Auto)\n");
             printf("5. Volver al inicio\n");
             printf("0. Salir\n");
-            printf("-------------------------------------\n");
+            printf("====================================================\n");
             printf("\nElija una opcion: ");
 
             fflush(stdin);

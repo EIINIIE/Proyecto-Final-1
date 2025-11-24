@@ -13,10 +13,10 @@ void menu_empleado_directo()
 {
     int opcion_sesion;
 
+    printf("Inicio de sesion exitoso - Rol: EMPLEADO");
     printf("\n====================================================\n");
-    printf("          SESION INICIADA: EMPLEADO      \n");
-    printf("====================================================\n");
-
+    printf("          PANEL DE CONTROL: EMPLEADO      \n");
+    printf("====================================================");
     do
     {
         printf("\n--- MENU DE EMPLEADO ---\n");
@@ -67,7 +67,6 @@ void menu_empleado_directo()
             printf("Opcion no valida. Intente nuevamente.\n");
             break;
         }
-
 
         if (opcion_sesion != 0)
         {

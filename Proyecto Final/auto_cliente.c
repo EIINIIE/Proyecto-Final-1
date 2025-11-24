@@ -147,7 +147,6 @@ void modificar_auto_cliente_por_dni(char dniBuscado[])
     {
         printf("No se encontro este DNI: %s.\n", dniBuscado);
     }
-
     fclose(file);
 }
 

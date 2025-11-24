@@ -59,7 +59,7 @@ void mostrar_todos_autos_disponibles()
     }
 
     printf("\n==========================================================\n");
-    printf("               AUTOS DISPONIBLES (Stock Real)             \n");
+    printf("               AUTOS DISPONIBLES             \n");
     printf("==========================================================\n");
 
     mostrar_auto_recursivo(file, 0, total);

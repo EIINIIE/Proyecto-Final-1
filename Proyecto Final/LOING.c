@@ -119,7 +119,6 @@ void login_administrador()
     // Verifica credenciales maestras
     if (strcmp(correo, "admin@gmail.com") == 0 && strcmp(contrasena, "admin101") == 0)
     {
-        printf("Inicio de sesion exitoso - Rol: ADMINISTRADOR\n");
         menu_gerente(); // Va a gerente.c
     }
     else
@@ -168,7 +167,6 @@ void login_empresa()
             }
             else
             {
-                printf("Bienvenido, (Rol: %s)\n", emple.rol);
                 /// LLAMADA AL MENU DIRECTO (Sin pedir clave otra vez)
                 menu_empleado_directo();
             }

@@ -11,7 +11,10 @@ Cliente obtener_datos_cliente(char dni[])
     strcpy(c.nombre, "Desconocido");
 
     FILE *file = fopen(ARCHIVO_CLIENTES, "rb");
-    if(file == NULL) return c;
+    if(file == NULL)
+    {
+        return c;
+    }
 
     Cliente aux;
     while(fread(&aux, sizeof(Cliente), 1, file))
@@ -95,7 +98,10 @@ Cliente cargar_persona()
             nombreValido = 1;
 
             // Si está vacío, error
-            if(strlen(c.nombre) == 0) nombreValido = 0;
+            if(strlen(c.nombre) == 0)
+            {
+                nombreValido = 0;
+            }
 
             // Recorremos letra por letra
             for(int j=0; j<strlen(c.nombre); j++)
@@ -117,10 +123,8 @@ Cliente cargar_persona()
             {
                 printf("Error: El nombre solo puede contener letras y espacios. Intente nuevamente.\n");
             }
-
         }
         while(nombreValido == 0);
-
 
         // --- CARGA DE TELEFONO ---
         int telValido = 0;
@@ -155,7 +159,6 @@ Cliente cargar_persona()
                 telValido = 0;
                 printf("Error: Ese telefono ya esta registrado por otro cliente.\n");
             }
-
         }
         while(telValido == 0);
 
@@ -209,7 +212,10 @@ Cliente cargar_persona()
 int telefono_Existente (char telefono[])
 {
     FILE *file = fopen(ARCHIVO_CLIENTES, "rb");
-    if(file == NULL) return 0;
+    if(file == NULL)
+    {
+        return 0;
+    }
 
     Cliente aux;
     while (fread(&aux, sizeof (Cliente), 1, file))
@@ -227,7 +233,10 @@ int telefono_Existente (char telefono[])
 int cliente_existente(char dniBuscado[])
 {
     FILE *file = fopen(ARCHIVO_CLIENTES, "rb");
-    if (file == NULL) return 0;
+    if (file == NULL)
+    {
+        return 0;
+    }
 
     Cliente c;
     while (fread(&c, sizeof(Cliente), 1, file) > 0)
@@ -384,7 +393,9 @@ void modificar_cliente()
                         }
                     }
                     if(nombreValido == 0)
+                    {
                         printf("Error: Solo letras y espacios.\n");
+                    }
 
                 }
                 while(nombreValido == 0);
@@ -402,7 +413,10 @@ void modificar_cliente()
                     valido = 1;
                     for(int i=0; i<strlen(c.telefono); i++)
                     {
-                        if(c.telefono[i] < '0' || c.telefono[i] > '9') valido = 0;
+                        if(c.telefono[i] < '0' || c.telefono[i] > '9')
+                        {
+                            valido = 0;
+                        }
                     }
 
                     if(valido == 1 && strlen(c.telefono) != 10)

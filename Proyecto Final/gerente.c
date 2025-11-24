@@ -27,7 +27,10 @@ int es_correo_valido_gerente(char email[])
 int existe_correo_empleado(char correo[])
 {
     FILE *file = fopen("empleados.bin", "rb");
-    if (file == NULL) return 0;
+    if (file == NULL)
+    {
+        return 0;
+    }
 
     stEmpleado e;
     while (fread(&e, sizeof(stEmpleado), 1, file) == 1)
@@ -46,7 +49,10 @@ int existe_correo_empleado(char correo[])
 int existe_dni_empleado(int dni)
 {
     FILE *file = fopen("empleados.bin", "rb");
-    if (file == NULL) return 0;
+    if (file == NULL)
+    {
+        return 0;
+    }
 
     stEmpleado e;
     while (fread(&e, sizeof(stEmpleado), 1, file) == 1)
@@ -66,10 +72,11 @@ void menu_gerente()
     int opcion;
     do
     {
+        printf("Inicio de sesion exitoso - Rol: ADMINISTRADOR");
         printf("\n==================================================\n");
-        printf("       SESION INICIADA: ADMINISTRADOR (GERENTE)     \n");
+        printf("       PANEL DE CONTROL: ADMINISTRADOR (GERENTE)     \n");
         printf("==================================================\n");
-
+        printf("--- MENU DE GERENTE ---\n");
         printf(" --- GESTION DE CLIENTES ---\n");
         printf(" 1. Clientes (Menu: Cargar / Modificar / Listar)\n");
         printf(" 2. Eliminar Cliente\n");
@@ -136,8 +143,11 @@ void menu_gerente()
                     printf("Opcion invalida.\n");
                     break;
                 }
-                if(op != 0) system("pause");
-                system("cls");
+                if(op != 0)
+                {
+                    system("pause");
+                    system("cls");
+                }
             }
             while(op != 0);
             break;
@@ -176,7 +186,10 @@ void menu_gerente()
             scanf("%d", &opAuto);
 
             if(opAuto == 1) agregar_auto_stock();
-            else if(opAuto == 2) modificar_auto_stock();
+            else if(opAuto == 2)
+            {
+                modificar_auto_stock();
+            }
             break;
         }
         case 9:
@@ -317,7 +330,7 @@ void agregar_empleado()
             for(int k=0; k < largo; k++)
             {
                 if((nuevo.contrasena[k] >= 'a' && nuevo.contrasena[k] <= 'z') ||
-                   (nuevo.contrasena[k] >= 'A' && nuevo.contrasena[k] <= 'Z'))
+                        (nuevo.contrasena[k] >= 'A' && nuevo.contrasena[k] <= 'Z'))
                 {
                     tieneLetra = 1;
                 }
@@ -350,8 +363,14 @@ void agregar_empleado()
             do
             {
                 nuevo.dia = ingresar_entero("Ingrese dia (1-31): ");
-                if(nuevo.dia >= 1 && nuevo.dia <= 31) dOk = 1;
-                else printf("Dia invalido.\n");
+                if(nuevo.dia >= 1 && nuevo.dia <= 31)
+                {
+                    dOk = 1;
+                }
+                else
+                {
+                    printf("Dia invalido.\n");
+                }
             }
             while(dOk == 0);
 
@@ -360,8 +379,14 @@ void agregar_empleado()
             do
             {
                 nuevo.mes = ingresar_entero("Ingrese mes (1-12): ");
-                if(nuevo.mes >= 1 && nuevo.mes <= 12) mOk = 1;
-                else printf("Mes invalido.\n");
+                if(nuevo.mes >= 1 && nuevo.mes <= 12)
+                {
+                    mOk = 1;
+                }
+                else
+                {
+                    printf("Mes invalido.\n");
+                }
             }
             while(mOk == 0);
 
