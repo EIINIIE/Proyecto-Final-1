@@ -343,7 +343,7 @@ void agregar_empleado()
                     printf("Dia invalido.\n");
                 }
             }
-            while(!dOk);
+            while(dOk == 0);
 
             // Validar MES
             int mOk = 0;
@@ -359,7 +359,7 @@ void agregar_empleado()
                     printf("Mes invalido.\n");
                 }
             }
-            while(!mOk);
+            while(mOk == 0);
 
             // Validar ANIO
             int aOk = 0;
@@ -375,7 +375,7 @@ void agregar_empleado()
                     printf("Anio invalido (debe ser mayor de edad).\n");
                 }
             }
-            while(!aOk);
+            while(aOk == 0);
 
             // Validacion extra febrero
             if (nuevo.mes == 2 && nuevo.dia > 29)

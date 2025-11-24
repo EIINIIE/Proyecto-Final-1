@@ -118,7 +118,8 @@ Cliente cargar_persona()
                 printf("Error: El nombre solo puede contener letras y espacios. Intente nuevamente.\n");
             }
 
-        } while(nombreValido == 0);
+        }
+        while(nombreValido == 0);
 
 
         // --- CARGA DE TELEFONO ---
@@ -159,9 +160,44 @@ Cliente cargar_persona()
         while(telValido == 0);
 
         // --- CARGA DE DIRECCION ---
-        printf("Ingrese Direccion: ");
-        fflush(stdin);
-        gets(c.direccion); // Lectura simple
+
+        int direccionInt = 0;
+        char direccion[100];
+
+        do
+        {
+            printf("Ingrese direccion: ");
+            fflush(stdin);
+            gets(direccion);
+
+            int letras = 0;
+            int numeros = 0;
+
+            for(int i = 0; direccion[i] != '\0'; i++)
+            {
+                if( (direccion[i] >= 'A' && direccion[i] <= 'Z') ||
+                        (direccion[i] >= 'a' && direccion[i] <= 'z') )
+                {
+                    letras++;
+                }
+
+                if(direccion[i] >= '0' && direccion[i] <= '9')
+                {
+                    numeros++;
+                }
+            }
+
+            if(letras >= 4 && numeros >= 3)
+            {
+                direccionInt = 1;
+            }
+            else
+            {
+                printf("Direccion invalida: debe tener al menos 4 letras y minimo 3 o mas numeros.\n");
+            }
+
+        }
+        while(direccionInt == 0);
 
         strcpy(c.rol, "cliente");
         printf("Rol asignado automaticamente: cliente\n");
@@ -350,7 +386,8 @@ void modificar_cliente()
                     if(nombreValido == 0)
                         printf("Error: Solo letras y espacios.\n");
 
-                } while(nombreValido == 0);
+                }
+                while(nombreValido == 0);
                 break;
             }
 
@@ -383,10 +420,46 @@ void modificar_cliente()
             }
 
             case 4:
-                printf("Nueva direccion: ");
-                fflush(stdin);
-                gets(c.direccion);
+            {
+                int direccionInt = 0;
+                char direccion1[100];
+
+                do
+                {
+                    printf("Ingrese direccion: ");
+                    fflush(stdin);
+                    gets(direccion1);
+
+                    int letras = 0;
+                    int numeros = 0;
+
+                    for(int i = 0; direccion1[i] != '\0'; i++)
+                    {
+                        if( (direccion1[i] >= 'A' && direccion1[i] <= 'Z') ||
+                                (direccion1[i] >= 'a' && direccion1[i] <= 'z') )
+                        {
+                            letras++;
+                        }
+
+                        if(direccion1[i] >= '0' && direccion1[i] <= '9')
+                        {
+                            numeros++;
+                        }
+                    }
+
+                    if(letras >= 4 && numeros >= 3)
+                    {
+                        direccionInt = 1;
+                    }
+                    else
+                    {
+                        printf("Direccion invalida: debe tener al menos 4 letras y minimo 3 o mas numeros.\n");
+                    }
+
+                }
+                while(direccionInt == 0);
                 break;
+            }
 
             default:
                 printf("Opcion invalida.\n");

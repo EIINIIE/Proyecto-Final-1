@@ -129,7 +129,7 @@ stUsuario registro_Usuario()
         }
         else printf("Dia invalido.\n");
     }
-    while(!diaOk);
+    while(diaOk == 0);
 
     int mesOk = 0;
     do
@@ -144,16 +144,35 @@ stUsuario registro_Usuario()
             printf("Mes invalido.\n");
         }
     }
-    while(!mesOk);
+    while(mesOk == 0);
 
-    int anioOk = 0;
-    do
+int anioInt = 0;
+int anioActual = 2025;
+
+do
+{
+    nuevo.anios = ingresar_entero("Anio de nacimiento (1800-2025): ");
+
+    // 1. Anio dentro del rango permitido
+    if(nuevo.anios >= 1800 && nuevo.anios <= anioActual)
     {
-        nuevo.anios = ingresar_entero("Anio (1900-2024): ");
-        if(nuevo.anios >= 1900 && nuevo.anios <= 2024) anioOk = 1;
-        else printf("Anio invalido.\n");
+        int edad = anioActual - nuevo.anios;
+
+        if(edad > 17) /// verifico que tenga mas de 17 años
+        {
+            anioInt = 1;
+        }
+        else
+        {
+            printf("Debe ser mayor de 17 anios.\n");
+        }
     }
-    while(!anioOk);
+    else
+    {
+        printf("Anio invalido.\n");
+    }
+
+} while(anioInt == 0);
 
     printf("\nUsuario registrado con exito!\n");
     return nuevo;
