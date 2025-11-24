@@ -61,26 +61,6 @@ int existe_dni_empleado(int dni)
     return 0; // No existe
 }
 
-// Valida que la contraseña tenga al menos una letra (LOGICA MANUAL)
-int es_contrasenia_valida(char pass[])
-{
-    int i;
-    int tieneLetra = 0;
-
-    if(strlen(pass) < 4) return 0; // Minimo 4 caracteres por seguridad
-
-    for(i=0; i<strlen(pass); i++)
-    {
-        // Verificamos manualmente si es mayuscula o minuscula
-        if((pass[i] >= 'a' && pass[i] <= 'z') || (pass[i] >= 'A' && pass[i] <= 'Z'))
-        {
-            tieneLetra = 1;
-        }
-    }
-
-    return tieneLetra;
-}
-
 void menu_gerente()
 {
     int opcion;
@@ -101,6 +81,7 @@ void menu_gerente()
         printf("10. Ver lista de empleados\n");
         printf("11. Reportes\n");
         printf("12. Eliminar Cliente \n");
+        printf("13. Modificar Empleado (NUEVO)\n");
         printf("0. Volver al inicio\n");
         printf("--------------------------------------------------\n");
         printf("Seleccione una opcion: ");
@@ -159,13 +140,11 @@ void menu_gerente()
         case 4:
             mostrar_todos_autos_disponibles();
             gestionDePagos();
-
             break;
         case 5:
             agregar_empleado();
             break;
         case 6:
-
             eliminar_empleado();
             break;
         case 7:
@@ -174,7 +153,6 @@ void menu_gerente()
         case 8:
             mostrarVentas();
             break;
-
         case 9:
         {
             int opAuto;
@@ -189,7 +167,6 @@ void menu_gerente()
             else if(opAuto == 2) modificar_auto_stock();
             break;
         }
-
         case 10:
             mostrar_empleados();
             break;
@@ -198,6 +175,9 @@ void menu_gerente()
             break;
         case 12:
             eliminar_cliente();
+            break;
+        case 13:
+            modificar_empleado();
             break;
         case 0:
             printf("Volviendo al menu principal...\n");
@@ -304,20 +284,38 @@ void agregar_empleado()
         }
         while(correoOk == 0);
 
+        // 3. VALIDACION CONTRASEÑA (MANUAL)
         int passOk = 0;
         do
         {
-            printf("Ingrese contrasena (min 4 chars, debe tener letras): ");
+            printf("Ingrese contrasena (min 4 chars, letras y numeros): ");
             fflush(stdin);
             scanf("%s", nuevo.contrasena);
 
-            if(es_contrasenia_valida(nuevo.contrasena) == 0)
+            int largo = strlen(nuevo.contrasena);
+            int tieneLetra = 0;
+            int tieneNum = 0;
+
+            for(int k=0; k < largo; k++)
             {
-                printf("Error: La contrasena debe tener letras y ser mayor a 4 caracteres.\n");
+                if((nuevo.contrasena[k] >= 'a' && nuevo.contrasena[k] <= 'z') ||
+                   (nuevo.contrasena[k] >= 'A' && nuevo.contrasena[k] <= 'Z'))
+                {
+                    tieneLetra = 1;
+                }
+                if(nuevo.contrasena[k] >= '0' && nuevo.contrasena[k] <= '9')
+                {
+                    tieneNum = 1;
+                }
+            }
+
+            if(largo >= 4 && tieneLetra == 1 && tieneNum == 1)
+            {
+                passOk = 1;
             }
             else
             {
-                passOk = 1;
+                printf("Error: La contrasenia debe tener mas de 4 caracteres, al menos una letra y un numero.\n");
             }
         }
         while(passOk == 0);
@@ -334,14 +332,8 @@ void agregar_empleado()
             do
             {
                 nuevo.dia = ingresar_entero("Ingrese dia (1-31): ");
-                if(nuevo.dia >= 1 && nuevo.dia <= 31)
-                {
-                    dOk = 1;
-                }
-                else
-                {
-                    printf("Dia invalido.\n");
-                }
+                if(nuevo.dia >= 1 && nuevo.dia <= 31) dOk = 1;
+                else printf("Dia invalido.\n");
             }
             while(dOk == 0);
 
@@ -350,29 +342,23 @@ void agregar_empleado()
             do
             {
                 nuevo.mes = ingresar_entero("Ingrese mes (1-12): ");
-                if(nuevo.mes >= 1 && nuevo.mes <= 12)
-                {
-                    mOk = 1;
-                }
-                else
-                {
-                    printf("Mes invalido.\n");
-                }
+                if(nuevo.mes >= 1 && nuevo.mes <= 12) mOk = 1;
+                else printf("Mes invalido.\n");
             }
             while(mOk == 0);
 
-            // Validar ANIO
+            // Validar ANIO (1928 - 2025)
             int aOk = 0;
             do
             {
-                nuevo.anios = ingresar_entero("Ingrese anio (1950-2007): ");
-                if(nuevo.anios >= 1950 && nuevo.anios <= 2007)
+                nuevo.anios = ingresar_entero("Ingrese anio (1928-2025): ");
+                if(nuevo.anios >= 1928 && nuevo.anios <= 2025)
                 {
                     aOk = 1;
                 }
                 else
                 {
-                    printf("Anio invalido (debe ser mayor de edad).\n");
+                    printf("Anio invalido (1928-2025).\n");
                 }
             }
             while(aOk == 0);
@@ -383,7 +369,6 @@ void agregar_empleado()
                 printf("Febrero no tiene mas de 29 dias.\n");
                 fechaValida = 0;
             }
-
         }
         while (fechaValida == 0);
 
@@ -487,7 +472,6 @@ void eliminar_cliente()
     Cliente listaClientes[100];
     int cantidad = 0;
 
-
     while (fread(&listaClientes[cantidad], sizeof(Cliente), 1, archivo) == 1)
     {
         cantidad++;
@@ -529,4 +513,78 @@ void eliminar_cliente()
     {
         printf("No se encontro un cliente con ese DNI.\n");
     }
+}
+
+void modificar_empleado()
+{
+    FILE *file = fopen("empleados.bin", "r+b"); // r+b para leer y escribir
+    if (file == NULL)
+    {
+        printf("No se pudo abrir el archivo de empleados.\n");
+        return;
+    }
+
+    int dniBuscado;
+    printf("\nIngrese DNI del empleado a modificar: ");
+    scanf("%d", &dniBuscado);
+
+    stEmpleado e;
+    int encontrado = 0;
+
+    while (fread(&e, sizeof(stEmpleado), 1, file) == 1)
+    {
+        if (e.dni == dniBuscado)
+        {
+            encontrado = 1;
+            printf("\n--- EMPLEADO ENCONTRADO ---\n");
+            printf("Rol actual: %s\n", e.rol);
+            printf("Correo actual: %s\n", e.correo);
+
+            int opMod;
+            printf("\n1. Modificar Correo\n");
+            printf("2. Modificar Contrasenia\n");
+            printf("3. Modificar Rol (Ascender/Descender)\n");
+            printf("0. Cancelar\n");
+            printf("Opcion: ");
+            scanf("%d", &opMod);
+
+            switch(opMod)
+            {
+            case 1:
+                printf("Nuevo Correo: ");
+                fflush(stdin);
+                scanf("%s", e.correo);
+                break;
+            case 2:
+                printf("Nueva Contrasenia: ");
+                fflush(stdin);
+                scanf("%s", e.contrasena);
+                break;
+            case 3:
+                printf("Nuevo Rol (administrador / empleado): ");
+                fflush(stdin);
+                scanf("%s", e.rol);
+                break;
+            case 0:
+                printf("Cancelado.\n");
+                fclose(file);
+                return;
+            default:
+                printf("Opcion invalida.\n");
+            }
+
+            // Movemos el puntero hacia atras para sobrescribir
+            fseek(file, -sizeof(stEmpleado), SEEK_CUR);
+            fwrite(&e, sizeof(stEmpleado), 1, file);
+            printf("Empleado modificado correctamente.\n");
+            break;
+        }
+    }
+
+    if (!encontrado)
+    {
+        printf("No se encontro empleado con DNI %d.\n", dniBuscado);
+    }
+
+    fclose(file);
 }

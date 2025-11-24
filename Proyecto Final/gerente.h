@@ -11,10 +11,10 @@ typedef struct
     int mes;
     int anios;
     char rol[50];
-    int activo; // 1 = activo, 0 = eliminado
+    int activo;
 } stGerente;
 
-// ------- Prototipo -------
+// ------- Prototipos -------
 int iniciarSesionGerente();
 void menu_gerente();
 stGerente cargar_un_empleado();
@@ -23,7 +23,6 @@ void eliminar_empleado();
 void eliminar_cliente();
 void mostrar_empleados();
 int existe_dni_empleado();
-
+void modificar_empleado(); // <--- AGREGAR ESTO
 
 #endif // GERENTE_H_INCLUDED
-

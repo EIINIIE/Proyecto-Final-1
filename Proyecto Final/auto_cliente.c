@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h> // <--- FALTA ESTA LIBRERIA
 #include "auto_cliente.h"
 #include "cliente.h"
 
@@ -142,6 +143,7 @@ void modificar_auto_cliente_por_dni(char dniBuscado[])
 
     fclose(file);
 }
+
 /// FUNCION 6
 int cargar_autos_cliente_din(AutoCliente **listaAutos)
 {
@@ -180,4 +182,3 @@ int cargar_autos_cliente_din(AutoCliente **listaAutos)
     fclose(file);
     return cantidad;
 }
-

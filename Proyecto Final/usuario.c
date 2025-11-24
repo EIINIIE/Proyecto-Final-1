@@ -6,9 +6,35 @@
 #include "autos_disponibles.h"
 #include "cliente.h"
 #include "pagos.h"
-#include "auto.h" // Necesario para usar ingresar_entero
+#include "auto.h"
 
 #define ARCHIVO_USUARIOS "usuarios.bin"
+
+// --- FUNCION AUXILIAR PARA VALIDAR CONTRASEÑA (MANUAL) ---
+int es_contrasenia_segura(char pass[])
+{
+    if(strlen(pass) < 4) return 0; // Minimo 4 caracteres
+
+    int tieneLetra = 0;
+    int tieneNumero = 0;
+
+    for(int i = 0; i < strlen(pass); i++)
+    {
+        // Validacion manual de letras (Mayusculas o Minusculas)
+        if((pass[i] >= 'a' && pass[i] <= 'z') || (pass[i] >= 'A' && pass[i] <= 'Z'))
+        {
+            tieneLetra = 1;
+        }
+        // Validacion manual de numeros
+        if(pass[i] >= '0' && pass[i] <= '9')
+        {
+            tieneNumero = 1;
+        }
+    }
+
+    // Devuelve 1 solo si tiene ambos
+    return (tieneLetra && tieneNumero);
+}
 
 // --- VALIDACION SIMPLE DE CORREO ---
 int es_correo_valido(char email[])
@@ -77,11 +103,26 @@ stUsuario registro_Usuario()
         return nuevo;
     }
 
-    printf("Ingrese su contrasenia: ");
-    fflush(stdin);
-    scanf("%s", nuevo.contrasena);
+    // 2. Validacion de Contrasenia (CORREGIDO: MANUAL Y SEGURA)
+    int passValida = 0;
+    do
+    {
+        printf("Ingrese su contrasenia (Min 4 caracteres, letras y numeros): ");
+        fflush(stdin);
+        scanf("%s", nuevo.contrasena);
 
-    // 2. Validacion de DNI
+        if(es_contrasenia_segura(nuevo.contrasena))
+        {
+            passValida = 1;
+        }
+        else
+        {
+            printf("Error: La contrasenia debe tener al menos 4 caracteres, una letra y un numero.\n");
+        }
+    }
+    while(passValida == 0);
+
+    // 3. Validacion de DNI
     int dniValido = 0;
     while (dniValido == 0)
     {
@@ -90,7 +131,6 @@ stUsuario registro_Usuario()
         scanf("%s", nuevo.dni);
 
         dniValido = 1;
-        // Validar que sean numeros
         for (int i = 0; i < strlen(nuevo.dni); i++)
         {
             if (nuevo.dni[i] < '0' || nuevo.dni[i] > '9')
@@ -116,7 +156,7 @@ stUsuario registro_Usuario()
         }
     }
 
-    // 3. Validacion Fecha (Usando ingresar_entero para que no explote con letras)
+    // 4. Validacion Fecha
     printf("\n-- Fecha de Nacimiento --\n");
 
     int diaOk = 0;
@@ -146,33 +186,21 @@ stUsuario registro_Usuario()
     }
     while(mesOk == 0);
 
-int anioInt = 0;
-int anioActual = 2025;
-
-do
-{
-    nuevo.anios = ingresar_entero("Anio de nacimiento (1800-2025): ");
-
-    // 1. Anio dentro del rango permitido
-    if(nuevo.anios >= 1800 && nuevo.anios <= anioActual)
+    // 5. Validacion AÑO (CORREGIDO: 1928 - 2025)
+    int anioOk = 0;
+    do
     {
-        int edad = anioActual - nuevo.anios;
+        nuevo.anios = ingresar_entero("Anio de nacimiento (1928-2025): ");
 
-        if(edad > 17) /// verifico que tenga mas de 17 años
+        if(nuevo.anios >= 1928 && nuevo.anios <= 2025)
         {
-            anioInt = 1;
+            anioOk = 1;
         }
         else
         {
-            printf("Debe ser mayor de 17 anios.\n");
+            printf("Error: El anio debe estar entre 1928 y 2025.\n");
         }
-    }
-    else
-    {
-        printf("Anio invalido.\n");
-    }
-
-} while(anioInt == 0);
+    } while(anioOk == 0);
 
     printf("\nUsuario registrado con exito!\n");
     return nuevo;
@@ -237,7 +265,7 @@ void iniciarSesion()
     {
         printf("\nSesion iniciada correctamente \n\n");
 
-        int opcion_sesion = -1; // Iniciamos en valor seguro
+        int opcion_sesion = -1;
 
         do
         {
@@ -260,11 +288,10 @@ void iniciarSesion()
             {
             case 0:
                 printf("Saliendo...\n");
-                return; // Sale de la funcion
+                return;
 
             case 1:
             {
-                // AHORA SI SE GUARDA EL CLIENTE
                 printf("\n--- CARGA DE DATOS PERSONALES ---\n");
                 Cliente c = cargar_persona();
                 guardar_cliente_en_archivo(c);
@@ -285,7 +312,7 @@ void iniciarSesion()
 
             case 5:
                 printf("Volviendo al inicio...\n");
-                opcion_sesion = 0; // Fuerza salida del bucle
+                opcion_sesion = 0;
                 break;
 
             default:
@@ -304,11 +331,10 @@ void iniciarSesion()
     else
     {
         printf("\nCorreo o contrasenia incorrectos.\n");
-        system("pause"); // Pausa para que leas el error antes de salir
+        system("pause");
     }
 }
 
-// Funciones auxiliares restantes (no cambiaron)
 void mostrarTodosLosUsuarios()
 {
     stUsuario usuarios[100];
