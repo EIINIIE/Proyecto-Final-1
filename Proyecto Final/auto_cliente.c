@@ -1,29 +1,34 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h> // <--- FALTA ESTA LIBRERIA
+#include <string.h>
 #include "auto_cliente.h"
 #include "cliente.h"
 
 /// FUNCION 1
 AutoCliente cargar_auto_cliente()
 {
-    AutoCliente autos; /// Usamos la nueva estructura
+    AutoCliente autos;
 
     printf("----DATOS DEL AUTO DEL CLIENTE ----\n");
     printf("Patente: ");
+    fflush(stdin); // Limpieza preventiva
     scanf("%s", autos.patente);
     printf("Marca: ");
+    fflush(stdin);
     scanf("%s", autos.marca);
     printf("Modelo: ");
+    fflush(stdin);
     scanf("%s", autos.modelo);
+
     printf("Año: ");
     scanf("%d", &autos.anio);
+
     printf("Kilometros: ");
     scanf("%d", &autos.kms);
+
     printf("Precio: ");
     scanf("%f", &autos.precioDeAdquisicion);
 
-    /// Logica de precio simple por ahora para evitar conflictos circulares
     autos.precioFinal = autos.precioDeAdquisicion;
 
     printf("Precio original: $%.2f\n", autos.precioDeAdquisicion);
@@ -112,9 +117,11 @@ void modificar_auto_cliente_por_dni(char dniBuscado[])
             printf("\n--- MODIFICACIÓN DE DATOS DEL AUTO ---\n");
 
             printf("Nueva marca: ");
+            fflush(stdin);
             scanf("%s", aux.marca);
 
             printf("Nuevo modelo: ");
+            fflush(stdin);
             scanf("%s", aux.modelo);
 
             printf("Nuevo anio: ");
@@ -157,7 +164,6 @@ int cargar_autos_cliente_din(AutoCliente **listaAutos)
     AutoCliente temp;
     int cantidad = 0;
 
-
     while (fread(&temp, sizeof(AutoCliente), 1, file) == 1)
     {
         cantidad++;
@@ -176,7 +182,7 @@ int cargar_autos_cliente_din(AutoCliente **listaAutos)
 
     for (int i = 0; i < cantidad; i++)
     {
-        fread(&(*listaAutos)[i], sizeof(AutoCliente), 1, file); /// aca lo que hago es copiar cada auto en el arreglos Dinamicos
+        fread(&(*listaAutos)[i], sizeof(AutoCliente), 1, file);
     }
 
     fclose(file);

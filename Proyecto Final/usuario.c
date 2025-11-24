@@ -190,15 +190,15 @@ stUsuario registro_Usuario()
     int anioOk = 0;
     do
     {
-        nuevo.anios = ingresar_entero("Anio de nacimiento (1928-2025): ");
+        nuevo.anios = ingresar_entero("Anio de nacimiento : ");
 
-        if(nuevo.anios >= 1928 && nuevo.anios <= 2025)
+        if(nuevo.anios >= 1928 && nuevo.anios <= 2007)
         {
             anioOk = 1;
         }
         else
         {
-            printf("Error: El anio debe estar entre 1928 y 2025.\n");
+            printf("Error : debe ser mayor de edad.\n");
         }
     } while(anioOk == 0);
 

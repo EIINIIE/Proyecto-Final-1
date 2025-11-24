@@ -69,27 +69,38 @@ void menu_gerente()
         printf("\n==================================================\n");
         printf("       SESION INICIADA: ADMINISTRADOR (GERENTE)     \n");
         printf("==================================================\n");
-        printf("1. Gestion de Clientes (Agregar / Modificar)\n");
-        printf("2. Autos de cliente (Historial ventas)\n");
-        printf("3. Autos disponibles (Ver Stock Recursivo)\n");
-        printf("4. Realizar Venta (Pagos)\n");
-        printf("5. Registrar empleado\n");
-        printf("6. Eliminar empleado\n");
-        printf("7. Cerrar Sesion\n");
-        printf("8. Ventas (Ver historial)\n");
-        printf("9. Gestion Autos Stock (Agregar / Modificar)\n");
-        printf("10. Ver lista de empleados\n");
-        printf("11. Reportes\n");
-        printf("12. Eliminar Cliente \n");
-        printf("13. Modificar Empleado (NUEVO)\n");
-        printf("0. Volver al inicio\n");
-        printf("--------------------------------------------------\n");
+
+        printf(" --- GESTION DE CLIENTES ---\n");
+        printf(" 1. Clientes (Menu: Cargar / Modificar / Listar)\n");
+        printf(" 2. Eliminar Cliente\n");
+        printf(" 3. Ver Autos de clientes (Historial)\n");
+
+        printf("\n --- GESTION DE EMPLEADOS ---\n");
+        printf(" 4. Registrar Empleado\n");
+        printf(" 5. Modificar Empleado\n");
+        printf(" 6. Eliminar Empleado\n");
+        printf(" 7. Ver Lista de Empleados\n");
+
+        printf("\n --- GESTION DE AUTOS (STOCK) ---\n");
+        printf(" 8. Gestion Autos Stock (Agregar / Modificar)\n");
+        printf(" 9. Ver Stock Disponible\n");
+
+        printf("\n --- VENTAS Y REPORTES ---\n");
+        printf(" 10. Realizar Venta (Pagos)\n");
+        printf(" 11. Historial de Ventas\n");
+        printf(" 12. Reportes Generales\n");
+
+        printf("\n 0. Cerrar Sesion\n");
+        printf("==================================================\n");
         printf("Seleccione una opcion: ");
+
+        fflush(stdin); // Limpieza de buffer
         scanf("%d", &opcion);
         system("cls");
 
         switch (opcion)
         {
+        // --- CLIENTES ---
         case 1:
         {
             int op;
@@ -101,6 +112,7 @@ void menu_gerente()
                 printf("3. Ver listado de clientes\n");
                 printf("0. Volver al menu anterior\n");
                 printf("Elija opcion: ");
+                fflush(stdin);
                 scanf("%d", &op);
                 system("cls");
 
@@ -130,30 +142,29 @@ void menu_gerente()
             while(op != 0);
             break;
         }
-
         case 2:
-            mostrar_todos_autos_cliente();
+            eliminar_cliente();
             break;
         case 3:
-            mostrar_todos_autos_disponibles();
+            mostrar_todos_autos_cliente();
             break;
+
+        // --- EMPLEADOS ---
         case 4:
-            mostrar_todos_autos_disponibles();
-            gestionDePagos();
+            agregar_empleado();
             break;
         case 5:
-            agregar_empleado();
+            modificar_empleado();
             break;
         case 6:
             eliminar_empleado();
             break;
         case 7:
-            printf("Cerrando sesion...\n");
-            return;
-        case 8:
-            mostrarVentas();
+            mostrar_empleados();
             break;
-        case 9:
+
+        // --- AUTOS ---
+        case 8:
         {
             int opAuto;
             printf("\n--- GESTION DE AUTOS STOCK ---\n");
@@ -161,33 +172,40 @@ void menu_gerente()
             printf("2. Modificar auto existente\n");
             printf("0. Cancelar\n");
             printf("Opcion: ");
+            fflush(stdin);
             scanf("%d", &opAuto);
 
             if(opAuto == 1) agregar_auto_stock();
             else if(opAuto == 2) modificar_auto_stock();
             break;
         }
+        case 9:
+            mostrar_todos_autos_disponibles();
+            break;
+
+        // --- VENTAS ---
         case 10:
-            mostrar_empleados();
+            mostrar_todos_autos_disponibles();
+            gestionDePagos();
             break;
         case 11:
-            menu_reportes();
+            mostrarVentas();
             break;
         case 12:
-            eliminar_cliente();
+            menu_reportes();
             break;
-        case 13:
-            modificar_empleado();
-            break;
+
+        // --- SALIDA ---
         case 0:
-            printf("Volviendo al menu principal...\n");
-            break;
+            printf("Cerrando sesion...\n");
+            return;
+
         default:
             printf("Opcion invalida. Intente nuevamente.\n");
             break;
         }
 
-        if(opcion != 7 && opcion != 0)
+        if(opcion != 0)
         {
             printf("\nPresione una tecla para continuar...");
             getchar();
@@ -196,7 +214,7 @@ void menu_gerente()
         }
 
     }
-    while(opcion != 7 && opcion != 0);
+    while(opcion != 0);
 }
 
 void agregar_empleado()
@@ -543,7 +561,7 @@ void modificar_empleado()
             int opMod;
             printf("\n1. Modificar Correo\n");
             printf("2. Modificar Contrasenia\n");
-            printf("3. Modificar Rol (Ascender/Descender)\n");
+            // OPCION 3 ELIMINADA
             printf("0. Cancelar\n");
             printf("Opcion: ");
             scanf("%d", &opMod);
@@ -559,11 +577,6 @@ void modificar_empleado()
                 printf("Nueva Contrasenia: ");
                 fflush(stdin);
                 scanf("%s", e.contrasena);
-                break;
-            case 3:
-                printf("Nuevo Rol (administrador / empleado): ");
-                fflush(stdin);
-                scanf("%s", e.rol);
                 break;
             case 0:
                 printf("Cancelado.\n");

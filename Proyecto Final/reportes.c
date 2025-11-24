@@ -29,7 +29,6 @@ void menu_reportes()
         printf("5. Buscar persona por DNI\n");
         printf("6. Buscar auto por patente\n");
         printf("7. Ver detalle de una venta\n");
-        printf("8. Alerta de autos con venta lenta\n");
         printf("0. Volver\n");
         printf("Seleccione una opcion: ");
         scanf("%d", &opcion);
@@ -59,9 +58,7 @@ void menu_reportes()
         case 7:
             ver_venta_detalle();
             break;
-        case 8:
-            alerta_stock_lento();
-            break;
+
         case 0:
             printf("Volviendo al menu anterior...\n");
             break;
@@ -293,48 +290,4 @@ void ver_venta_detalle()
     }
 }
 
-/// --- ALERTA DE AUTOS CON VENTA LENTA ---
-void alerta_stock_lento()
-{
-    FILE *fA = fopen(ARCHIVO_AUTOS, "rb");
-    FILE *fV = fopen(ARCHIVO_VENTAS, "rb");
 
-    if(fA == NULL)
-    {
-        printf("No hay autos cargados.\n");
-        return;
-    }
-
-    Auto a;
-    Venta v;
-    int vendido;
-
-    printf("\n--- Autos que aun NO se vendieron ---\n");
-
-    while(fread(&a, sizeof(Auto), 1, fA) == 1)
-    {
-        vendido = 0;
-        if (fV != NULL)
-        {
-            rewind(fV);
-            while(fread(&v, sizeof(Venta), 1, fV) == 1)
-            {
-                if(strcmp(a.patente, v.patenteAutoVendido) == 0)
-                {
-                    vendido = 1;
-                    break;
-                }
-            }
-        }
-        if(vendido == 0)
-        {
-            mostrar_auto(a);
-        }
-    }
-
-    fclose(fA);
-    if(fV != NULL)
-    {
-        fclose(fV);
-    }
-}

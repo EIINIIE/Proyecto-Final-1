@@ -18,7 +18,7 @@ int main()
         printf("\n===================================================\n");
         printf("     CONSESIONARIA DE AUTOS - UTN \n");
         printf("===================================================\n\n");
-        printf("1. Ingresar Sistemas (Login)\n");
+        printf("1. Ingresar Sistemas\n");
         printf("0. Salir\n");
         printf("----------------------------------------------------\n");
 
@@ -42,7 +42,7 @@ int main()
             system("pause");
             break;
         }
-
+        system("pause");
         system("cls");
 
     }

@@ -14,7 +14,7 @@ void menu_empleado_directo()
     int opcion_sesion;
 
     printf("\n====================================================\n");
-    printf("          SESION INICIADA: EMPLEADO DE PLANTA       \n");
+    printf("          SESION INICIADA: EMPLEADO      \n");
     printf("====================================================\n");
 
     do

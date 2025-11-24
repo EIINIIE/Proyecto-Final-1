@@ -6,6 +6,7 @@
 
 #define ARCHIVO_AUTOS "autos.bin"
 
+// --- FUNCION CORREGIDA (SOLUCION ERROR VIDEO "Debe ingresar solo numeros") ---
 int ingresar_entero(char mensaje[])
 {
     char buffer[50];
@@ -16,17 +17,30 @@ int ingresar_entero(char mensaje[])
     {
         valido = 1;
         printf("%s", mensaje);
-        fflush(stdin);
-        gets(buffer);
+        fflush(stdin); // Limpia el buffer antes de pedir dato
 
-        if(strlen(buffer) == 0) valido = 0;
-
-        for(i = 0; i < strlen(buffer); i++)
+        // Usamos fgets para evitar que se salte inputs o lea basura
+        if (fgets(buffer, sizeof(buffer), stdin) == NULL)
         {
-            if(buffer[i] < '0' || buffer[i] > '9')
+            valido = 0;
+        }
+        else
+        {
+            // Eliminar el salto de linea al final si existe
+            size_t len = strlen(buffer);
+            if (len > 0 && buffer[len - 1] == '\n') {
+                buffer[len - 1] = '\0';
+            }
+
+            if(strlen(buffer) == 0) valido = 0;
+
+            for(i = 0; i < strlen(buffer); i++)
             {
-                valido = 0;
-                break;
+                if(buffer[i] < '0' || buffer[i] > '9')
+                {
+                    valido = 0;
+                    break;
+                }
             }
         }
 
@@ -38,6 +52,7 @@ int ingresar_entero(char mensaje[])
     return atoi(buffer);
 }
 
+// --- FUNCION CORREGIDA PARA FLOTANTES ---
 float ingresar_float(char mensaje[])
 {
     char buffer[50];
@@ -52,25 +67,29 @@ float ingresar_float(char mensaje[])
         puntos = 0;
         printf("%s", mensaje);
         fflush(stdin);
-        gets(buffer);
 
-        if(strlen(buffer) == 0) valido = 0;
-
-        for(i = 0; i < strlen(buffer); i++)
+        if (fgets(buffer, sizeof(buffer), stdin) == NULL)
         {
-            if(buffer[i] == '.')
+             valido = 0;
+        }
+        else
+        {
+            size_t len = strlen(buffer);
+            if (len > 0 && buffer[len - 1] == '\n') buffer[len - 1] = '\0';
+
+            if(strlen(buffer) == 0) valido = 0;
+
+            for(i = 0; i < strlen(buffer); i++)
             {
-                puntos++;
-                if(puntos > 1)
+                if(buffer[i] == '.')
                 {
-                    valido = 0;
-                    break;
+                    puntos++;
+                    if(puntos > 1) { valido = 0; break; }
                 }
-            }
-            else if(buffer[i] < '0' || buffer[i] > '9')
-            {
-                valido = 0;
-                break;
+                else if(buffer[i] < '0' || buffer[i] > '9')
+                {
+                    valido = 0; break;
+                }
             }
         }
 
@@ -105,116 +124,38 @@ int existe_patente_en_archivo(char patenteBuscada[])
     return 0;
 }
 
+// --- LOGICA COMPLETA DE MARCAS ---
 int es_marca_valida(char m[])
 {
     char temp[50];
     strcpy(temp, m);
     for(int i=0; i<strlen(temp); i++) temp[i] = toupper(temp[i]);
 
-    if(strcmp(temp, "FORD") == 0)
-    {
-        return 1;
-    }
-
-    if(strcmp(temp, "CHEVROLET") == 0)
-    {
-        return 1;
-    }
-
-    if(strcmp(temp, "FIAT") == 0)
-    {
-        return 1;
-    }
-
-    if(strcmp(temp, "VOLKSWAGEN") == 0)
-    {
-        return 1;
-    }
-
-    if(strcmp(temp, "VW") == 0)
-    {
-        return 1;
-    }
-
-    if(strcmp(temp, "TOYOTA") == 0)
-    {
-        return 1;
-    }
-
-    if(strcmp(temp, "RENAULT") == 0)
-    {
-        return 1;
-    }
-
-    if(strcmp(temp, "PEUGEOT") == 0)
-    {
-        return 1;
-    }
-
-    if(strcmp(temp, "NISSAN") == 0)
-    {
-        return 1;
-    }
-
-    if(strcmp(temp, "HONDA") == 0)
-    {
-        return 1;
-    }
-
-    if(strcmp(temp, "CITROEN") == 0)
-    {
-        return 1;
-    }
-
-    if(strcmp(temp, "JEEP") == 0)
-    {
-        return 1;
-    }
-
-    if(strcmp(temp, "BMW") == 0)
-    {
-        return 1;
-    }
-
-    if(strcmp(temp, "MERCEDES BENZ") == 0)
-    {
-        return 1;
-    }
-
-    if(strcmp(temp, "MERCEDES") == 0)
-    {
-        return 1;
-    }
-
-    if(strcmp(temp, "AUDI") == 0)
-    {
-        return 1;
-    }
-
-    if(strcmp(temp, "PORSCHE") == 0)
-    {
-        return 1;
-    }
-
-    if(strcmp(temp, "FERRARI") == 0)
-    {
-        return 1;
-    }
-
-    if(strcmp(temp, "LAMBORGHINI") == 0)
-    {
-        return 1;
-    }
-
-    if(strcmp(temp, "MCLAREN") == 0)
-    {
-        return 1;
-    }
-
+    if(strcmp(temp, "FORD") == 0) return 1;
+    if(strcmp(temp, "CHEVROLET") == 0) return 1;
+    if(strcmp(temp, "FIAT") == 0) return 1;
+    if(strcmp(temp, "VOLKSWAGEN") == 0) return 1;
+    if(strcmp(temp, "VW") == 0) return 1;
+    if(strcmp(temp, "TOYOTA") == 0) return 1;
+    if(strcmp(temp, "RENAULT") == 0) return 1;
+    if(strcmp(temp, "PEUGEOT")  == 0) return 1;
+    if(strcmp(temp, "HONDA") == 0)return 1;
+    if(strcmp(temp, "NISSANNDA") == 0) return 1;
+    if(strcmp(temp, "CITROEN") == 0) return 1;
+    if(strcmp(temp, "JEEP") == 0) return 1;
+    if(strcmp(temp, "BMW") == 0) return 1;
+    if(strcmp(temp, "MERCEDES BENZ") == 0) return 1;
+    if(strcmp(temp, "MERCEDES") == 0) return 1;
+    if(strcmp(temp, "AUDI") == 0) return 1;
+    if(strcmp(temp, "PORSCHE") == 0) return 1;
+    if(strcmp(temp, "FERRARI") == 0) return 1;
+    if(strcmp(temp, "LAMBORGHINI") == 0) return 1;
+    if(strcmp(temp, "MCLAREN") == 0) return 1;
 
     return 0;
 }
 
+// --- LOGICA COMPLETA DE MODELOS ---
 int es_modelo_valido(char marcaElegida[], char modeloIngresado[])
 {
     char m[50], mod[50];
@@ -228,162 +169,100 @@ int es_modelo_valido(char marcaElegida[], char modeloIngresado[])
     if(strcmp(m, "FORD") == 0)
     {
         if(strcmp(mod, "RANGER")==0 || strcmp(mod, "FIESTA")==0 || strcmp(mod, "FOCUS")==0 || strcmp(mod, "KA")==0 || strcmp(mod, "MUSTANG")==0 || strcmp(mod, "ECOSPORT")==0)
-        {
             return 1;
-        }
-        // 2. CHEVROLET
-        else if(strcmp(m, "CHEVROLET") == 0)
-        {
-            if(strcmp(mod, "CRUZE")==0 || strcmp(mod, "ONIX")==0 || strcmp(mod, "S10")==0 || strcmp(mod, "CAMARO")==0 || strcmp(mod, "TRACKER")==0)
-            {
-                return 1;
-            }
-
-        }
-        // 3. FIAT
-        else if(strcmp(m, "FIAT") == 0)
-        {
-            if(strcmp(mod, "CRONOS")==0 || strcmp(mod, "ARGO")==0 || strcmp(mod, "TORO")==0 || strcmp(mod, "STRADA")==0 || strcmp(mod, "PULSE")==0 || strcmp(mod, "MOBI")==0)
-
-            {
-                return 1;
-            }
-
-        }
-        // 4. PEUGEOT
-        else if(strcmp(m, "PEUGEOT") == 0)
-        {
-            if(strcmp(mod, "208")==0 || strcmp(mod, "2008")==0 || strcmp(mod, "308")==0 || strcmp(mod, "PARTNER")==0)
-            {
-                return 1;
-            }
-
-        }
-        // 5. VOLKSWAGEN
-        else if(strcmp(m, "VOLKSWAGEN") == 0 || strcmp(m, "VW") == 0)
-        {
-            if(strcmp(mod, "GOL")==0 || strcmp(mod, "GOL TREND")==0 || strcmp(mod, "AMAROK")==0 || strcmp(mod, "POLO")==0 || strcmp(mod, "VENTO")==0 || strcmp(mod, "TAOS")==0)
-            {
-                return 1;
-            }
-
-        }
-        // 6. TOYOTA
-        else if(strcmp(m, "TOYOTA") == 0)
-        {
-            if(strcmp(mod, "HILUX")==0 || strcmp(mod, "COROLLA")==0 || strcmp(mod, "ETIOS")==0 || strcmp(mod, "YARIS")==0 || strcmp(mod, "SW4")==0)
-
-            {
-                return 1;
-            }
-
-        }
-        // 7. RENAULT
-        else if(strcmp(m, "RENAULT") == 0)
-        {
-            if(strcmp(mod, "SANDERO")==0 || strcmp(mod, "LOGAN")==0 || strcmp(mod, "KANGOO")==0 || strcmp(mod, "DUSTER")==0 || strcmp(mod, "KWID")==0 || strcmp(mod, "ALASKAN")==0)
-            {
-                return 1;
-            }
-
-        }
-        // --- LAS QUE FALTABAN ---
-        else if(strcmp(m, "NISSAN") == 0)
-        {
-            if(strcmp(mod, "VERSA")==0 || strcmp(mod, "SENTRA")==0 || strcmp(mod, "KICKS")==0 || strcmp(mod, "FRONTIER")==0)
-
-            {
-                return 1;
-            }
-
-        }
-        else if(strcmp(m, "HONDA") == 0)
-        {
-            if(strcmp(mod, "CIVIC")==0 || strcmp(mod, "FIT")==0 || strcmp(mod, "HR-V")==0 || strcmp(mod, "CR-V")==0)
-
-            {
-                return 1;
-            }
-
-        }
-        else if(strcmp(m, "CITROEN") == 0)
-        {
-            if(strcmp(mod, "C3")==0 || strcmp(mod, "C4")==0 || strcmp(mod, "BERLINGO")==0 || strcmp(mod, "C4 CACTUS")==0)
-
-            {
-                return 1;
-            }
-
-        }
-        else if(strcmp(m, "JEEP") == 0)
-        {
-            if(strcmp(mod, "RENEGADE")==0 || strcmp(mod, "COMPASS")==0 || strcmp(mod, "WRANGLER")==0)
-
-            {
-                return 1;
-            }
-
-        }
-        // DEPORTIVOS / LUJO
-        else if(strcmp(m, "FERRARI") == 0)
-        {
-            if(strcmp(mod, "488")==0 || strcmp(mod, "F8")==0 || strcmp(mod, "PORTOFINO")==0)
-
-            {
-                return 1;
-            }
-
-        }
-        else if(strcmp(m, "BMW") == 0)
-        {
-            if(strcmp(mod, "X5")==0 || strcmp(mod, "SERIE 3")==0 || strcmp(mod, "320")==0 || strcmp(mod, "118")==0)
-
-            {
-                return 1;
-            }
-
-        }
-        else if(strcmp(m, "MERCEDES BENZ") == 0 || strcmp(m, "MERCEDES") == 0)
-        {
-            if(strcmp(mod, "CLASE A")==0 || strcmp(mod, "CLASE C")==0 || strcmp(mod, "GLA")==0 || strcmp(mod, "SPRINTER")==0)
-                return 1;
-        }
-
+    }
+    // 2. CHEVROLET
+    else if(strcmp(m, "CHEVROLET") == 0)
+    {
+        if(strcmp(mod, "CRUZE")==0 || strcmp(mod, "ONIX")==0 || strcmp(mod, "S10")==0 || strcmp(mod, "CAMARO")==0 || strcmp(mod, "TRACKER")==0)
+            return 1;
+    }
+    // 3. FIAT
+    else if(strcmp(m, "FIAT") == 0)
+    {
+        if(strcmp(mod, "CRONOS")==0 || strcmp(mod, "ARGO")==0 || strcmp(mod, "TORO")==0 || strcmp(mod, "STRADA")==0 || strcmp(mod, "PULSE")==0 || strcmp(mod, "MOBI")==0)
+            return 1;
+    }
+    // 4. PEUGEOT
+    else if(strcmp(m, "PEUGEOT") == 0)
+    {
+        if(strcmp(mod, "208")==0 || strcmp(mod, "2008")==0 || strcmp(mod, "308")==0 || strcmp(mod, "PARTNER")==0)
+            return 1;
+    }
+    // 5. VOLKSWAGEN
+    else if(strcmp(m, "VOLKSWAGEN") == 0 || strcmp(m, "VW") == 0)
+    {
+        if(strcmp(mod, "GOL")==0 || strcmp(mod, "GOL TREND")==0 || strcmp(mod, "AMAROK")==0 || strcmp(mod, "POLO")==0 || strcmp(mod, "VENTO")==0 || strcmp(mod, "TAOS")==0)
+            return 1;
+    }
+    // 6. TOYOTA
+    else if(strcmp(m, "TOYOTA") == 0)
+    {
+        if(strcmp(mod, "HILUX")==0 || strcmp(mod, "COROLLA")==0 || strcmp(mod, "ETIOS")==0 || strcmp(mod, "YARIS")==0 || strcmp(mod, "SW4")==0)
+            return 1;
+    }
+    // 7. RENAULT
+    else if(strcmp(m, "RENAULT") == 0)
+    {
+        if(strcmp(mod, "SANDERO")==0 || strcmp(mod, "LOGAN")==0 || strcmp(mod, "KANGOO")==0 || strcmp(mod, "DUSTER")==0 || strcmp(mod, "KWID")==0 || strcmp(mod, "ALASKAN")==0)
+            return 1;
+    }
+    // OTROS
+    else if(strcmp(m, "NISSAN") == 0)
+    {
+        if(strcmp(mod, "VERSA")==0 || strcmp(mod, "SENTRA")==0 || strcmp(mod, "KICKS")==0 || strcmp(mod, "FRONTIER")==0)
+            return 1;
+    }
+    else if(strcmp(m, "HONDA") == 0)
+    {
+        if(strcmp(mod, "CIVIC")==0 || strcmp(mod, "FIT")==0 || strcmp(mod, "HR-V")==0 || strcmp(mod, "CR-V")==0)
+            return 1;
+    }
+    else if(strcmp(m, "CITROEN") == 0)
+    {
+        if(strcmp(mod, "C3")==0 || strcmp(mod, "C4")==0 || strcmp(mod, "BERLINGO")==0 || strcmp(mod, "C4 CACTUS")==0)
+            return 1;
+    }
+    else if(strcmp(m, "JEEP") == 0)
+    {
+        if(strcmp(mod, "RENEGADE")==0 || strcmp(mod, "COMPASS")==0 || strcmp(mod, "WRANGLER")==0)
+            return 1;
+    }
+    // DEPORTIVOS / LUJO
+    else if(strcmp(m, "FERRARI") == 0)
+    {
+        if(strcmp(mod, "488")==0 || strcmp(mod, "F8")==0 || strcmp(mod, "PORTOFINO")==0)
+            return 1;
+    }
+    else if(strcmp(m, "BMW") == 0)
+    {
+        if(strcmp(mod, "X5")==0 || strcmp(mod, "SERIE 3")==0 || strcmp(mod, "320")==0 || strcmp(mod, "118")==0)
+            return 1;
+    }
+    else if(strcmp(m, "MERCEDES BENZ") == 0 || strcmp(m, "MERCEDES") == 0)
+    {
+        if(strcmp(mod, "CLASE A")==0 || strcmp(mod, "CLASE C")==0 || strcmp(mod, "GLA")==0 || strcmp(mod, "SPRINTER")==0)
+            return 1;
     }
     else if(strcmp(m, "AUDI") == 0)
     {
         if(strcmp(mod, "A1")==0 || strcmp(mod, "A3")==0 || strcmp(mod, "A4")==0 || strcmp(mod, "Q3")==0 || strcmp(mod, "Q5")==0)
-
-        {
             return 1;
-        }
-
     }
     else if(strcmp(m, "PORSCHE") == 0)
     {
         if(strcmp(mod, "911")==0 || strcmp(mod, "CAYENNE")==0 || strcmp(mod, "MACAN")==0 || strcmp(mod, "PANAMERA")==0)
-
-        {
             return 1;
-        }
-
     }
     else if(strcmp(m, "LAMBORGHINI") == 0)
     {
         if(strcmp(mod, "AVENTADOR")==0 || strcmp(mod, "HURACAN")==0 || strcmp(mod, "URUS")==0)
-        {
             return 1;
-        }
-
     }
     else if(strcmp(m, "MCLAREN") == 0)
     {
         if(strcmp(mod, "720S")==0 || strcmp(mod, "GT")==0 || strcmp(mod, "ARTURA")==0)
-
-        {
             return 1;
-        }
-
     }
 
     return 0;
@@ -403,7 +282,7 @@ Auto cargar_auto()
     do
     {
         printf("Patente (AA 123 CD): ");
-        fflush(stdin);
+        fflush(stdin); // LIMPIEZA IMPORTANTE
         gets(aux);
         for(int i=0; i<strlen(aux); i++)
         {
@@ -546,6 +425,7 @@ void mostrar_todos_autos(char archivo[])
     fclose(f);
 }
 
+// --- LOGICA COMPLETA DE MODIFICAR ---
 void modificar_auto_stock()
 {
     char patenteBuscada[20];

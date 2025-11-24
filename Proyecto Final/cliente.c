@@ -249,7 +249,7 @@ void guardar_cliente_en_archivo(Cliente c)
     {
         fwrite(&c, sizeof(Cliente), 1, file);
         fclose(file);
-        printf("\n>> Cliente guardado correctamente en el sistema.\n");
+        printf("\nCliente guardado correctamente en el sistema.\n");
     }
     else
     {
