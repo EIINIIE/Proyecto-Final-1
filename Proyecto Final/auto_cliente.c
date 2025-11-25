@@ -16,55 +16,82 @@ AutoCliente cargar_auto_cliente()
     printf("---- DATOS DEL AUTO DEL CLIENTE ----\n");
 
     // 1. PATENTE (Validar formato basico y convertir a mayusculas)
-    do {
+    do
+    {
         printf("Patente: ");
         fflush(stdin);
         gets(aux);
 
         // Convertir a mayusculas
-        for(int i=0; i<strlen(aux); i++) {
+        for(int i=0; i<strlen(aux); i++)
+        {
             aux[i] = toupper(aux[i]);
         }
 
-        if(strlen(aux) > 5) { // Validacion basica de largo
+        if(strlen(aux) > 5)   // Validacion basica de largo
+        {
             strcpy(autos.patente, aux);
             valido = 1;
-        } else {
+        }
+        else
+        {
             printf("ERROR: Patente muy corta o invalida.\n");
             valido = 0;
         }
-    } while(valido == 0);
+    }
+    while(valido == 0);
 
     // 2. MARCA (Usando validacion del sistema)
     valido = 0;
-    do {
+    do
+    {
         printf("Marca: ");
         fflush(stdin);
         gets(aux);
-        if(es_marca_valida(aux) == 1) {
+        if(es_marca_valida(aux) == 1)
+        {
             strcpy(autos.marca, aux);
             valido = 1;
-        } else {
+        }
+        else
+        {
             printf("ERROR: Marca no reconocida en el sistema.\n");
         }
-    } while(valido == 0);
+    }
+    while(valido == 0);
 
     // 3. MODELO (Validar segun la marca)
     valido = 0;
-    do {
+    do
+    {
         printf("Modelo: ");
         fflush(stdin);
         gets(aux);
-        if(es_modelo_valido(autos.marca, aux) == 1) {
+        if(es_modelo_valido(autos.marca, aux) == 1)
+        {
             strcpy(autos.modelo, aux);
             valido = 1;
-        } else {
+        }
+        else
+        {
             printf("ERROR: Modelo no valido para la marca %s.\n", autos.marca);
         }
-    } while(valido == 0);
+    }
+    while(valido == 0);
 
-    // 4. OTROS DATOS (Usando tu funcion corregida de enteros)
-    autos.anio = ingresar_entero("Anio: ");
+    int anio_actual = 2025;
+
+    // 4. OTROS DATOS
+    do
+    {
+        autos.anio = ingresar_entero("Anio: ");
+        if (autos.anio < 1900 || autos.anio > anio_actual)
+        {
+            printf("ERROR: Anio invalido (Debe estar entre 1900 y %d).\n", anio_actual);
+        }
+    }
+    while (autos.anio < 1900 || autos.anio > anio_actual);
+
     autos.kms = ingresar_entero("Kilometros: ");
     autos.precioDeAdquisicion = ingresar_float("Precio estimado: "); // Usamos la de float si la tienes disponible, sino scanf
 
@@ -160,33 +187,70 @@ void modificar_auto_cliente_por_dni(char dniBuscado[])
 
             printf("\n--- MODIFICACION DE DATOS DEL AUTO ---\n");
 
-            // 1. MARCA
+            // 0. PATENTE (Nueva)
             valido = 0;
-            do {
+            do
+            {
+                printf("Nueva Patente (Actual: %s): ", aux.patente);
+                fflush(stdin);
+                gets(buffer);
+
+                // Convertir a mayusculas
+                for(int i=0; i<strlen(buffer); i++)
+                {
+                    buffer[i] = toupper(buffer[i]);
+                }
+
+                if(strlen(buffer) > 5) // Validacion basica de largo
+                {
+                    strcpy(aux.patente, buffer);
+                    valido = 1;
+                }
+                else
+                {
+                    printf("ERROR: Patente muy corta o invalida.\n");
+                    valido = 0;
+                }
+            }
+            while(valido == 0);
+
+// 1. MARCA
+            valido = 0;
+            do
+            {
                 printf("Nueva marca (Actual: %s): ", aux.marca);
                 fflush(stdin);
                 gets(buffer);
-                if(es_marca_valida(buffer) == 1) {
+                if(es_marca_valida(buffer) == 1)
+                {
                     strcpy(aux.marca, buffer);
                     valido = 1;
-                } else {
+                }
+                else
+                {
                     printf("Marca invalida.\n");
                 }
-            } while(valido == 0);
+            }
+            while(valido == 0);
 
             // 2. MODELO
             valido = 0;
-            do {
+            do
+            {
                 printf("Nuevo modelo (Actual: %s): ", aux.modelo);
                 fflush(stdin);
                 gets(buffer);
-                if(es_modelo_valido(aux.marca, buffer) == 1) {
+                if(es_modelo_valido(aux.marca, buffer) == 1)
+                {
                     strcpy(aux.modelo, buffer);
                     valido = 1;
-                } else {
+                }
+                else
+                {
                     printf("Modelo invalido para %s.\n", aux.marca);
                 }
-            } while(valido == 0);
+            }
+            while(valido == 0);
 
             // 3. ANIO y KMS
             aux.anio = ingresar_entero("Nuevo anio: ");
@@ -224,7 +288,8 @@ int cargar_autos_cliente_din(AutoCliente **listaAutos)
     int cantidad = ftell(file) / sizeof(AutoCliente);
     rewind(file);
 
-    if (cantidad == 0) {
+    if (cantidad == 0)
+    {
         fclose(file);
         return 0;
     }

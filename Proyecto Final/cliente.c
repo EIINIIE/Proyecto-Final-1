@@ -466,6 +466,7 @@ void modificar_cliente()
                     if(letras >= 4 && numeros >= 3)
                     {
                         direccionInt = 1;
+                        strcpy(c.direccion, direccion1);
                     }
                     else
                     {
