@@ -29,7 +29,8 @@ void mostrar_todos_autos(char archivo[]);
 int ingresar_entero(char mensaje[]);
 float ingresar_float(char mensaje[]);
 int es_marca_valida(char m[]);
-int es_modelo_valido_para_marca(char marca[], char modelo[]);
+// CORREGIDO: El nombre debe coincidir con el de auto.c
+int es_modelo_valido(char marca[], char modelo[]);
 int existe_patente_en_archivo(char patente[]);
 
 #endif // AUTO_H_INCLUDED

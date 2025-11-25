@@ -1,33 +1,72 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>      // Necesario para toupper
 #include "auto_cliente.h"
 #include "cliente.h"
+#include "auto.h"       // Necesario para validar marca y modelo
 
-/// FUNCION 1
+/// FUNCION 1: Cargar Auto Cliente (CON VALIDACIONES)
 AutoCliente cargar_auto_cliente()
 {
     AutoCliente autos;
+    char aux[50];
+    int valido = 0;
 
-    printf("----DATOS DEL AUTO DEL CLIENTE ----\n");
-    printf("Patente: ");
-    fflush(stdin); // Limpieza preventiva
-    scanf("%s", autos.patente);
-    printf("Marca: ");
-    fflush(stdin);
-    scanf("%s", autos.marca);
-    printf("Modelo: ");
-    fflush(stdin);
-    scanf("%s", autos.modelo);
+    printf("---- DATOS DEL AUTO DEL CLIENTE ----\n");
 
-    printf("Año: ");
-    scanf("%d", &autos.anio);
+    // 1. PATENTE (Validar formato basico y convertir a mayusculas)
+    do {
+        printf("Patente: ");
+        fflush(stdin);
+        gets(aux);
 
-    printf("Kilometros: ");
-    scanf("%d", &autos.kms);
+        // Convertir a mayusculas
+        for(int i=0; i<strlen(aux); i++) {
+            aux[i] = toupper(aux[i]);
+        }
 
-    printf("Precio: ");
-    scanf("%f", &autos.precioDeAdquisicion);
+        if(strlen(aux) > 5) { // Validacion basica de largo
+            strcpy(autos.patente, aux);
+            valido = 1;
+        } else {
+            printf("ERROR: Patente muy corta o invalida.\n");
+            valido = 0;
+        }
+    } while(valido == 0);
+
+    // 2. MARCA (Usando validacion del sistema)
+    valido = 0;
+    do {
+        printf("Marca: ");
+        fflush(stdin);
+        gets(aux);
+        if(es_marca_valida(aux) == 1) {
+            strcpy(autos.marca, aux);
+            valido = 1;
+        } else {
+            printf("ERROR: Marca no reconocida en el sistema.\n");
+        }
+    } while(valido == 0);
+
+    // 3. MODELO (Validar segun la marca)
+    valido = 0;
+    do {
+        printf("Modelo: ");
+        fflush(stdin);
+        gets(aux);
+        if(es_modelo_valido(autos.marca, aux) == 1) {
+            strcpy(autos.modelo, aux);
+            valido = 1;
+        } else {
+            printf("ERROR: Modelo no valido para la marca %s.\n", autos.marca);
+        }
+    } while(valido == 0);
+
+    // 4. OTROS DATOS (Usando tu funcion corregida de enteros)
+    autos.anio = ingresar_entero("Anio: ");
+    autos.kms = ingresar_entero("Kilometros: ");
+    autos.precioDeAdquisicion = ingresar_float("Precio estimado: "); // Usamos la de float si la tienes disponible, sino scanf
 
     autos.precioFinal = autos.precioDeAdquisicion;
 
@@ -48,9 +87,11 @@ void agregar_autos_cliente()
     }
 
     AutoCliente nuevo_auto = cargar_auto_cliente();
+
+    printf("\n--- DATOS DEL TITULAR ---\n");
     nuevo_auto.titular = cargar_persona();
 
-    ///Guardo el cliente en clientes.bin
+    // Guardo el cliente en clientes.bin tambien por si no existe
     guardar_cliente_en_archivo(nuevo_auto.titular);
 
     fwrite(&nuevo_auto, sizeof(AutoCliente), 1, file);
@@ -63,15 +104,15 @@ void mostrar_auto_cliente(AutoCliente a)
 {
     printf("---- DATOS DEL VEHICULO (CLIENTE) ----\n");
     printf("Patente: %s\n", a.patente);
-    printf("Marca: %s\n", a.marca);
-    printf("Modelo: %s\n", a.modelo);
-    printf("Año: %d\n", a.anio);
-    printf("Kilometraje: %d\n", a.kms);
-    printf("Precio: $%.2f\n", a.precioFinal);
+    printf("Marca:   %s\n", a.marca);
+    printf("Modelo:  %s\n", a.modelo);
+    printf("Anio:    %d\n", a.anio);
+    printf("Kms:     %d\n", a.kms);
+    printf("Precio:  $%.2f\n", a.precioFinal);
 
     printf("---- DATOS DEL TITULAR ----\n");
-    printf("Nombre: %s\n", a.titular.nombre);
-    printf("DNI: %s\n", a.titular.dni);
+    printf("Nombre:  %s\n", a.titular.nombre);
+    printf("DNI:     %s\n", a.titular.dni);
     printf("---------------------------\n");
 }
 
@@ -81,7 +122,7 @@ void mostrar_todos_autos_cliente()
     FILE* file = fopen(ARCHIVO_AUTOS_CLIENTE, "rb");
     if(file == NULL)
     {
-        printf("Error al abrir el archivo de autos cliente\n");
+        printf("Error al abrir el archivo de autos cliente (o no existen registros).\n");
         return;
     }
 
@@ -94,58 +135,78 @@ void mostrar_todos_autos_cliente()
     fclose(file);
 }
 
-/// FUNCION 5
+/// FUNCION 5: Modificar Auto Cliente (CORREGIDA CON VALIDACIONES)
 void modificar_auto_cliente_por_dni(char dniBuscado[])
 {
     FILE *file = fopen(ARCHIVO_AUTOS_CLIENTE, "r+b");
     if (file == NULL)
     {
-        printf("No se pudo abrir.\n");
+        printf("No se pudo abrir el archivo.\n");
         return;
     }
 
     AutoCliente aux;
     int encontrado = 0;
+    char buffer[50];
+    int valido = 0;
+
     while (fread(&aux, sizeof(AutoCliente), 1, file) == 1)
     {
         if (strcmp(aux.titular.dni, dniBuscado) == 0)
         {
             encontrado = 1;
-            printf("\nAUTO ENCONTRADO\n");
+            printf("\nAUTO ENCONTRADO PARA EL DNI: %s\n", dniBuscado);
             mostrar_auto_cliente(aux);
 
-            printf("\n--- MODIFICACIÓN DE DATOS DEL AUTO ---\n");
+            printf("\n--- MODIFICACION DE DATOS DEL AUTO ---\n");
 
-            printf("Nueva marca: ");
-            fflush(stdin);
-            scanf("%s", aux.marca);
+            // 1. MARCA
+            valido = 0;
+            do {
+                printf("Nueva marca (Actual: %s): ", aux.marca);
+                fflush(stdin);
+                gets(buffer);
+                if(es_marca_valida(buffer) == 1) {
+                    strcpy(aux.marca, buffer);
+                    valido = 1;
+                } else {
+                    printf("Marca invalida.\n");
+                }
+            } while(valido == 0);
 
-            printf("Nuevo modelo: ");
-            fflush(stdin);
-            scanf("%s", aux.modelo);
+            // 2. MODELO
+            valido = 0;
+            do {
+                printf("Nuevo modelo (Actual: %s): ", aux.modelo);
+                fflush(stdin);
+                gets(buffer);
+                if(es_modelo_valido(aux.marca, buffer) == 1) {
+                    strcpy(aux.modelo, buffer);
+                    valido = 1;
+                } else {
+                    printf("Modelo invalido para %s.\n", aux.marca);
+                }
+            } while(valido == 0);
 
-            printf("Nuevo anio: ");
-            scanf("%d", &aux.anio);
+            // 3. ANIO y KMS
+            aux.anio = ingresar_entero("Nuevo anio: ");
+            aux.kms = ingresar_entero("Nuevo kilometraje: ");
 
-            printf("Nuevo kilometro: ");
-            scanf("%d", &aux.kms);
-
-            printf("Nuevo precio original: ");
-            scanf("%f", &aux.precioDeAdquisicion);
-
+            // 4. PRECIO
+            aux.precioDeAdquisicion = ingresar_float("Nuevo precio original: ");
             aux.precioFinal = aux.precioDeAdquisicion;
 
             fseek(file, -sizeof(AutoCliente), SEEK_CUR);
             fwrite(&aux, sizeof(AutoCliente), 1, file);
 
             printf("\nAuto modificado correctamente.\n");
-            break;
+            break; // Salimos despues de modificar el primero encontrado
         }
     }
 
     if (encontrado == 0)
     {
-        printf("No se encontro este DNI: %s.\n", dniBuscado);
+        printf("No se encontro auto registrado bajo el DNI: %s.\n", dniBuscado);
     }
     fclose(file);
 }
@@ -156,19 +217,17 @@ int cargar_autos_cliente_din(AutoCliente **listaAutos)
     FILE *file = fopen(ARCHIVO_AUTOS_CLIENTE, "rb");
     if (file == NULL)
     {
-        printf("No se pudo abrir el archivo.\n");
         return 0;
     }
 
-    AutoCliente temp;
-    int cantidad = 0;
-
-    while (fread(&temp, sizeof(AutoCliente), 1, file) == 1)
-    {
-        cantidad++;
-    }
-
+    fseek(file, 0, SEEK_END);
+    int cantidad = ftell(file) / sizeof(AutoCliente);
     rewind(file);
+
+    if (cantidad == 0) {
+        fclose(file);
+        return 0;
+    }
 
     *listaAutos = (AutoCliente *) malloc (cantidad * sizeof(AutoCliente));
 
@@ -179,11 +238,7 @@ int cargar_autos_cliente_din(AutoCliente **listaAutos)
         return 0;
     }
 
-    for (int i = 0; i < cantidad; i++)
-    {
-        fread(&(*listaAutos)[i], sizeof(AutoCliente), 1, file);
-    }
-
+    fread(*listaAutos, sizeof(AutoCliente), cantidad, file);
     fclose(file);
     return cantidad;
 }

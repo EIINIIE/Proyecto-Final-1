@@ -12,14 +12,14 @@ int ingresar_entero(char mensaje[])
     char buffer[50];
     int valido;
     int i;
+    int numeroFinal = 0; // Variable para guardar el numero convertido
 
     do
     {
         valido = 1;
         printf("%s", mensaje);
-        fflush(stdin);
+        fflush(stdin); // Limpia el buffer antes de pedir
 
-        // Usamos fgets para evitar que se salte inputs o lea basura
         if (fgets(buffer, sizeof(buffer), stdin) == NULL)
         {
             valido = 0;
@@ -33,11 +33,14 @@ int ingresar_entero(char mensaje[])
                 buffer[len - 1] = '\0';
             }
 
+            // Si el usuario apreto Enter sin escribir nada
             if(strlen(buffer) == 0)
             {
                 valido = 0;
+                continue; // Vuelve a pedir sin mostrar error
             }
 
+            // Verificamos que sean solo numeros
             for(i = 0; i < strlen(buffer); i++)
             {
                 if(buffer[i] < '0' || buffer[i] > '9')
@@ -56,7 +59,10 @@ int ingresar_entero(char mensaje[])
     }
     while(valido == 0);
 
-    return atoi(buffer);
+
+    sscanf(buffer, "%d", &numeroFinal);
+
+    return numeroFinal;
 }
 
 // --- FUNCION CORREGIDA PARA FLOTANTES ---
