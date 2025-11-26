@@ -295,9 +295,9 @@
 1764108586 c:\users\agust\onedrive\escritorio\git hub nashe\proyecto-final-1\proyecto final\auto.h
 	"cliente.h"
 
-1763863887 c:\users\agust\onedrive\escritorio\git hub nashe\proyecto-final-1\proyecto final\cliente.h
+1764122744 c:\users\agust\onedrive\escritorio\git hub nashe\proyecto-final-1\proyecto final\cliente.h
 
-1764117373 source:c:\users\agust\onedrive\escritorio\git hub nashe\proyecto-final-1\proyecto final\auto_cliente.c
+1764123954 source:c:\users\agust\onedrive\escritorio\git hub nashe\proyecto-final-1\proyecto final\auto_cliente.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -318,12 +318,12 @@
 1763694800 c:\users\agust\onedrive\escritorio\git hub nashe\proyecto-final-1\proyecto final\autos_disponibles.h
 	"auto.h"
 
-1764117373 source:c:\users\agust\onedrive\escritorio\git hub nashe\proyecto-final-1\proyecto final\cliente.c
+1764122744 source:c:\users\agust\onedrive\escritorio\git hub nashe\proyecto-final-1\proyecto final\cliente.c
 	<stdio.h>
 	<string.h>
 	"cliente.h"
 
-1764020843 source:c:\users\agust\onedrive\escritorio\git hub nashe\proyecto-final-1\proyecto final\empleado.c
+1764122744 source:c:\users\agust\onedrive\escritorio\git hub nashe\proyecto-final-1\proyecto final\empleado.c
 	<stdio.h>
 	<string.h>
 	<stdlib.h>
@@ -368,7 +368,7 @@
 1763870987 c:\users\agust\onedrive\escritorio\git hub nashe\proyecto-final-1\proyecto final\venta.h
 	"fecha.h"
 
-1764020843 source:c:\users\agust\onedrive\escritorio\git hub nashe\proyecto-final-1\proyecto final\loing.c
+1764124944 source:c:\users\agust\onedrive\escritorio\git hub nashe\proyecto-final-1\proyecto final\loing.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -376,6 +376,7 @@
 	"usuario.h"
 	"empleado.h"
 	"gerente.h"
+	"cliente.h"
 
 1763586165 c:\users\agust\onedrive\escritorio\git hub nashe\proyecto-final-1\proyecto final\loing.h
 
@@ -414,7 +415,7 @@
 	"cliente.h"
 	"fecha.h"
 
-1764021602 source:c:\users\agust\onedrive\escritorio\git hub nashe\proyecto-final-1\proyecto final\usuario.c
+1764123710 source:c:\users\agust\onedrive\escritorio\git hub nashe\proyecto-final-1\proyecto final\usuario.c
 	<stdio.h>
 	<string.h>
 	<stdlib.h>

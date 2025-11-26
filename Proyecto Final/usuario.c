@@ -274,13 +274,12 @@ void iniciarSesion()
             printf("Inicio de sesion exitoso - Rol: CLIENTE");
             printf("\n====================================================\n");
             printf("          PANEL DE CONTROL: CLIENTE      \n");
-            printf("====================================================");
-            printf("\n--- MENU DE CLIENTE ---\n");
-            printf("1. Datos del cliente (Cargar y Guardar)\n");
-            printf("2. Dato del auto del cliente (Cargar)\n");
-            printf("3. Autos disponibles (Ver Stock)\n");
-            printf("4. Pagos (Vender Auto)\n");
-            printf("5. Volver al inicio\n");
+            printf("====================================================\n");
+            printf("--- MENU DE CLIENTE ---\n");
+            printf("1. Cargar mi Auto (Registrar vehiculo)\n");
+            printf("2. Autos disponibles (Ver Stock)\n");
+            printf("3. Pagos (Vender Auto)\n");
+            printf("4. Volver al inicio\n");
             printf("0. Salir\n");
             printf("====================================================\n");
             printf("\nElija una opcion: ");
@@ -297,26 +296,19 @@ void iniciarSesion()
                 return;
 
             case 1:
-            {
-                printf("\n--- CARGA DE DATOS PERSONALES ---\n");
-                Cliente c = cargar_persona();
-                guardar_cliente_en_archivo(c);
-            }
-            break;
-
-            case 2:
+                // Antes era opcion 2, ahora es la 1
                 agregar_autos_cliente();
                 break;
 
-            case 3:
+            case 2:
                 mostrar_todos_autos_disponibles();
                 break;
 
-            case 4:
+            case 3:
                 gestionDePagos();
                 break;
 
-            case 5:
+            case 4:
                 printf("Volviendo al inicio...\n");
                 opcion_sesion = 0;
                 break;

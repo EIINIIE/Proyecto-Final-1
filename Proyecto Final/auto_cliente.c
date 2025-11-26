@@ -137,67 +137,59 @@ AutoCliente cargar_auto_cliente()
 }
 
 
-/// FUNCION 2
+/// FUNCION 2: Agregar auto (Con reintento de DNI)
 void agregar_autos_cliente()
 {
-FILE *file = fopen(ARCHIVO_AUTOS_CLIENTE, "ab");
+    FILE *file = fopen(ARCHIVO_AUTOS_CLIENTE, "ab");
     if(file == NULL)
     {
         printf("ERROR: No se pudo abrir el archivo de autos de clientes.\n");
         return;
     }
 
-    AutoCliente aux;
-    char dniBuscado[30];
-    int valido = 0;
-    int existeCliente;
-
     printf("\n--- CARGA DE AUTO DE CLIENTE ---\n");
 
-    // 1. Petición y Validación del DNI del Titular (Cumple con "si pone otro dni error")
-    do
-    {
-        printf("Ingrese DNI del titular (debe estar registrado como cliente): ");
-        fflush(stdin);
-        scanf("%s", dniBuscado);
-        system("cls");
-
-        valido = 0; // Se asume invalido hasta que se demuestre lo contrario
-
-        // Se puede agregar validación de solo números aquí, pero se asume que `cliente_existente` lo hace o que el input es correcto
-
-        if (strlen(dniBuscado) > 0)
-        {
-            // Validar que el DNI exista en el archivo de clientes
-            existeCliente = cliente_existente(dniBuscado); // Prototipo en cliente.h
-
-            if(existeCliente == 1)
-            {
-                // DNI Válido y existe
-                strcpy(aux.titular.dni, dniBuscado);
-                // Obtenemos los datos completos del cliente
-                aux.titular = obtener_datos_cliente(dniBuscado); // obtener_datos_cliente está en cliente.h/c
-                valido = 1;
-            }
-            else
-            {
-                printf("ERROR: El DNI %s no corresponde a un cliente registrado. Intente nuevamente.\n", dniBuscado);
-            }
-        }
-
-    }
-    while(valido == 0);
-
-    // 2. Carga de los datos del Auto
-    // Cargar_auto_cliente() solo carga los datos del vehículo (patente, marca, modelo, etc.)
+    // 1. PRIMERO: Cargamos los datos del auto (Patente, Marca, Modelo...)
     AutoCliente autoNuevo = cargar_auto_cliente();
 
-    // Copiamos los datos del titular ya validados
-    autoNuevo.titular = aux.titular;
+    // 2. SEGUNDO: Pedimos el DNI para confirmar titularidad (CON BUCLE)
+    char dniIngresado[30];
+    int existe = 0;
 
-    // 3. Escribir en el archivo
+    do
+    {
+        printf("\n------------------------------------------------\n");
+        printf("PARA FINALIZAR EL REGISTRO DEL VEHICULO:\n");
+        printf("Ingrese su DNI para confirmar titularidad: ");
+        fflush(stdin);
+        scanf("%s", dniIngresado);
+
+        // Validamos si el DNI ingresado coincide con algun cliente registrado
+        existe = cliente_existente(dniIngresado);
+
+        if (existe == 0)
+        {
+            // SI NO ES EL MISMO (No existe o puso mal el DNI):
+            printf("\n[ERROR] El DNI ingresado no coincide con nuestros registros.\n");
+            printf("Intente nuevamente.\n");
+        }
+
+    } while (existe == 0); // Repite mientras no se encuentre el cliente
+
+    // 3. SI SALIO DEL BUCLE, ES PORQUE EXISTE
+    // Recuperamos los datos completos del cliente (Nombre, Telefono, etc)
+    autoNuevo.titular = obtener_datos_cliente(dniIngresado);
+
+    printf("\n>>> TITULAR CONFIRMADO <<<\n");
+    printf("Nombre:    %s\n", autoNuevo.titular.nombre);
+    printf("DNI:       %s\n", autoNuevo.titular.dni);
+    printf("Telefono:  %s\n", autoNuevo.titular.telefono); // Aseguramos que imprima el telefono
+    printf("---------------------------\n");
+
+    // Guardamos en el archivo
     fwrite(&autoNuevo, sizeof(AutoCliente), 1, file);
-    printf("\nAuto del cliente registrado correctamente.\n");
+    printf("\n[EXITO] Auto vinculado a su cuenta correctamente.\n");
+
     fclose(file);
 }
 
