@@ -127,17 +127,12 @@ void menu_gerente()
                 {
                 case 1:
                 {
-                    // --- MODIFICACION: PRIMERO CREAMOS USUARIO (LOGIN) ---
-                    printf("--- PASO 1: CREAR CREDENCIALES DE ACCESO (LOGIN) ---\n");
                     stUsuario nuevoU = registro_Usuario();
 
                     if(strcmp(nuevoU.dni, "-1") != 0)
                     {
                         guardar_Usuario(nuevoU); // Guardamos el usuario (login)
 
-                        printf("\n--- PASO 2: CARGAR DATOS PERSONALES ---\n");
-                        // Pasamos el DNI del usuario para que NO lo pida de nuevo
-                        // Aqui es donde pedira Nombre, Telefono y Direccion
                         Cliente nuevoC = cargar_persona(nuevoU.dni);
 
                         guardar_cliente_en_archivo(nuevoC);

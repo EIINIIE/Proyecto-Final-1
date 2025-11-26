@@ -126,11 +126,11 @@ Cliente cargar_persona(char dniExterno[])
     do
     {
         valido = 1;
-        printf("Ingrese Telefono (solo numeros, 8-15 digitos): ");
+        printf("Ingrese Telefono (solo numeros, 10 digitos): ");
         fflush(stdin);
         scanf("%s", c.telefono);
 
-        if(strlen(c.telefono) < 8 || strlen(c.telefono) > 15)
+        if(strlen(c.telefono) == 10)
         {
             printf("Longitud de telefono invalida.\n");
             valido = 0;
