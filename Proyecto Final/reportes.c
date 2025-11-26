@@ -93,13 +93,13 @@ void recaudacion_mensual()
     do
     {
         // Esta funcion es para asegurar que sea un numero
-        anio = ingresar_entero("Ingrese anio (1900-2025): ");
+        anio = ingresar_entero("Ingrese anio (1928-2025): ");
 
-        if (anio < 1900 || anio > 2025)
+        if (anio < 1928 || anio > 2025)
         {
-            printf("Anio fuera de rango. Debe ser entre 1900 y 2025.\n");
+            printf("Anio fuera de rango. Debe ser entre 1928 y 2025.\n");
         }
-    } while(anio < 1900 || anio > 2025);
+    } while(anio < 1928 || anio > 2025);
 
     while(fread(&v, sizeof(Venta), 1, f) == 1)
     {
@@ -145,7 +145,7 @@ void venta_mayor_ganancia()
     }
 }
 
-/// --- STOCK JOVEN (Autos < 10 a os) ---
+/// --- STOCK JOVEN (Autos < 10 anios) ---
 void stock_joven()
 {
     FILE *f = fopen(ARCHIVO_AUTOS, "rb");
@@ -200,6 +200,7 @@ void ver_listado_personas()
 
     Cliente c;
     printf("\n--- LISTA DE PERSONAS ---\n");
+
     while(fread(&c, sizeof(Cliente), 1, f) == 1)
         printf("DNI: %s | Nombre: %s | Rol: %s\n", c.dni, c.nombre, c.rol);
 
@@ -253,7 +254,7 @@ void buscar_auto_patente()
     int ok = 0;
 
     Auto a;
-    printf("Ingrese patente: ");
+    printf("Ingrese Patente: ");
     fflush(stdin);
     gets(pat);
 
