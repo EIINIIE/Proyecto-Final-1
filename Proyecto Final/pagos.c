@@ -49,7 +49,11 @@ void eliminar_auto_stock(char patenteEliminar[])
     if (archivo == NULL) return;
 
     FILE *temporal = fopen("temp.bin", "wb");
-    if (temporal == NULL) { fclose(archivo); return; }
+    if (temporal == NULL)
+    {
+        fclose(archivo);
+        return;
+    }
 
     Auto a;
     int encontrado = 0;

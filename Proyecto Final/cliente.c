@@ -91,14 +91,12 @@ Cliente cargar_persona(char dniExterno[])
         printf("DNI Asignado: %s\n", c.dni);
     }
 
-    // --- CARGA NOMBRE (SOLUCIONADO SALTO DE LINEA) ---
+    // --- CARGA NOMBRE ---
     do
     {
         valido = 1;
         printf("Ingrese Nombre y Apellido: ");
-        // El espacio antes de %[^\n] limpia el buffer automaticamente
-        // Esto evita que se salte la carga si venias de un scanf
-        fflush(stdin); // Por seguridad extra
+        fflush(stdin);
         scanf(" %[^\n]", aux);
 
         if (strlen(aux) < 4)
@@ -108,14 +106,13 @@ Cliente cargar_persona(char dniExterno[])
         }
         else
         {
-            // Proteccion contra desbordamiento (c.nombre es de 50)
             strncpy(c.nombre, aux, 49);
-            c.nombre[49] = '\0'; // Asegurar terminacion
+            c.nombre[49] = '\0';
         }
     }
     while(valido == 0);
 
-    // --- CARGA TELEFONO (VALIDACION 10 DIGITOS) ---
+    // --- CARGA TELEFONO ---
     do
     {
         valido = 1;
@@ -126,7 +123,7 @@ Cliente cargar_persona(char dniExterno[])
         // Validacion estricta de longitud
         if(strlen(c.telefono) != 10)
         {
-            // Usamos %zu para size_t o %d con cast para evitar warnings
+            // Usamos cast a int para evitar el tipo size_t
             printf("Longitud invalida: Ingreso %d digitos (Debe ser de 10).\n", (int)strlen(c.telefono));
             valido = 0;
         }
@@ -160,8 +157,8 @@ Cliente cargar_persona(char dniExterno[])
     do
     {
         printf("Ingrese Direccion (calle y numero, min 4 letras y 3 numeros): ");
-        fflush(stdin); // Limpieza necesaria antes de gets/scanf con espacios
-        scanf(" %[^\n]", direccion1); // Usamos scanf seguro en lugar de gets
+        fflush(stdin);
+        scanf(" %[^\n]", direccion1);
 
         int letras = 0;
         int numeros = 0;
@@ -192,8 +189,8 @@ Cliente cargar_persona(char dniExterno[])
     }
     while(direccionInt == 0);
 
-    strcpy(c.rol, "usuario");
-    printf("Rol asignado automaticamente: USUARIO\n");
+    strcpy(c.rol, "cliente");
+    printf("Rol asignado automaticamente: CLIENTE\n");
 
     return c;
 }
@@ -241,7 +238,7 @@ void guardar_cliente_en_archivo(Cliente c)
     {
         fwrite(&c, sizeof(Cliente), 1, file);
         fclose(file);
-        printf("\nCliente guardado correctamente en el sistema.\n");
+        printf("\nCliente guardado correctamente.\n");
     }
     else
     {
@@ -358,7 +355,6 @@ void modificar_cliente()
                 do
                 {
                     printf("Nuevo nombre: ");
-                    // Limpieza y lectura segura
                     fflush(stdin);
                     scanf(" %[^\n]", c.nombre);
                     nombreValido = 1;

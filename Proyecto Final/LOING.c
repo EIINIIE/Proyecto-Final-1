@@ -107,7 +107,6 @@ void menu_login()
     while (opcion_login != 0);
 }
 
-// ... (Resto de funciones login_administrador y login_empresa siguen igual) ...
 void login_administrador()
 {
     char correo[50];
@@ -142,7 +141,6 @@ void login_empresa()
 
     printf("Contrasena: ");
     fflush(stdin);
-    // --- CORRECCION: Usamos scanf en lugar de gets para evitar errores de buffer ---
     scanf("%s", contrasena);
 
     system("cls");
@@ -150,7 +148,7 @@ void login_empresa()
     FILE* file = fopen("empleados.bin", "rb");
     if (file == NULL)
     {
-        printf("Error: No se pudo abrir el archivo de empleados (o no existe aun).\n");
+        printf("Error: No se pudo abrir.\n");
         return;
     }
 

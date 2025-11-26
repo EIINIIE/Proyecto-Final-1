@@ -43,7 +43,6 @@ void menu_empleado_directo()
             break;
 
         case 3:
-            // --- CAMBIO AQUI: PASAMOS "0" PARA MODO MANUAL ---
             gestionDePagos("0");
             break;
 

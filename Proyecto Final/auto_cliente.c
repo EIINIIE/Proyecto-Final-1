@@ -6,14 +6,13 @@
 #include "cliente.h"
 #include "auto.h"       // Necesario para validar marca y modelo
 
-/// FUNCION 1: Cargar Auto Cliente (SOLUCION FINAL - LIMPIEZA FORZADA)
+/// FUNCION 1: Cargar Auto Cliente
 AutoCliente cargar_auto_cliente()
 {
     AutoCliente autos;
     char aux[50];
     int valido = 0;
 
-    // --- LIMPIEZA CLAVE ---
     // Limpiamos el teclado apenas entramos para borrar el Enter del menu
     fflush(stdin);
 
@@ -137,13 +136,13 @@ AutoCliente cargar_auto_cliente()
 }
 
 
-/// FUNCION 2: Agregar auto (Con reintento de DNI)
+/// FUNCION 2: Agregar auto
 void agregar_autos_cliente()
 {
     FILE *file = fopen(ARCHIVO_AUTOS_CLIENTE, "ab");
     if(file == NULL)
     {
-        printf("ERROR: No se pudo abrir el archivo de autos de clientes.\n");
+        printf("ERROR: No se pudo abrir.\n");
         return;
     }
 
@@ -216,7 +215,7 @@ void mostrar_todos_autos_cliente()
     FILE* file = fopen(ARCHIVO_AUTOS_CLIENTE, "rb");
     if(file == NULL)
     {
-        printf("Error al abrir el archivo de autos cliente (o no existen registros).\n");
+        printf("Error al abrir.\n");
         return;
     }
 

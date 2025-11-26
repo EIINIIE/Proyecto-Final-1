@@ -41,7 +41,6 @@ void mostrar_todos_autos_disponibles()
     if(file == NULL)
     {
         printf("\nNo hay autos disponibles en stock por el momento.\n");
-        printf("(El gerente debe cargar autos primero).\n");
         return;
     }
 

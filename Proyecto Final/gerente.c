@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
 #include "gerente.h"
 #include "cliente.h"
 #include "empleado.h"
@@ -12,7 +11,7 @@
 #include "auto_cliente.h"
 #include "venta.h"
 #include "usuario.h"
-#include "fecha.h" // Incluir para la funcion estricta
+#include "fecha.h"
 
 // Valida formato de correo (al menos un @)
 int es_correo_valido_gerente(char email[])
@@ -20,7 +19,10 @@ int es_correo_valido_gerente(char email[])
     int i;
     for(i=0; i<strlen(email); i++)
     {
-        if(email[i] == '@') return 1;
+        if(email[i] == '@')
+        {
+            return 1;
+        }
     }
     return 0;
 }
@@ -365,7 +367,6 @@ void agregar_empleado()
         }
         while(passOk == 0);
 
-        // --- SOLUCION PUNTO 1 PARA EMPLEADOS TAMBIEN ---
         cargar_fecha_estricta(&nuevo.dia, &nuevo.mes, &nuevo.anios);
 
         strcpy(nuevo.rol, "empleado");
@@ -428,7 +429,7 @@ void eliminar_empleado()
     archivo = fopen("empleados.bin", "wb");
     if (archivo == NULL)
     {
-        printf("Error critico al reabrir el archivo.\n");
+        printf("Error al abrir.\n");
         return;
     }
 
@@ -456,118 +457,143 @@ void eliminar_empleado()
     }
 }
 
-// --- SOLUCION PUNTO 2: ELIMINACION REAL Y SEGURA ---
+
+
 void eliminar_cliente()
 {
     char dniBorrar[30];
     int borreCliente = 0;
     int borreUsuario = 0;
 
-    ver_listado_clientes(); // Mostramos para que elija
+    // Mostramos la lista para que el usuario elija
+    ver_listado_clientes();
 
     printf("\nIngrese DNI del cliente a eliminar TOTALMENTE: ");
     fflush(stdin);
     scanf("%s", dniBorrar);
 
-    // --------------------------------------------------------
-    // PASO 1: BORRAR DE CLIENTES.BIN
-    // --------------------------------------------------------
+    // ========================================================
+    // PASO 1: ELIMINAR DE CLIENTES.BIN
+    // ========================================================
     FILE *fCli = fopen("clientes.bin", "rb");
     FILE *fTempC = fopen("tempC.bin", "wb");
 
-    if(fCli == NULL || fTempC == NULL)
+    if (fCli == NULL)
     {
-        printf("Error al abrir archivos de clientes para procesar.\n");
-        if(fCli) fclose(fCli);
-        if(fTempC) fclose(fTempC);
-        return;
+        printf("No se pudo abrir el archivo de clientes.\n");
+        if (fTempC != NULL) fclose(fTempC);
     }
-
-    Cliente c;
-    while(fread(&c, sizeof(Cliente), 1, fCli) == 1)
+    else if (fTempC == NULL)
     {
-        // Si NO es el DNI que busco, lo guardo en el temporal.
-        // Si ES el DNI, no hago nada (asi se borra).
-        if(strcmp(c.dni, dniBorrar) != 0)
-        {
-            fwrite(&c, sizeof(Cliente), 1, fTempC);
-        }
-        else
-        {
-            borreCliente = 1; // Encontre al cliente
-        }
-    }
-    fclose(fCli);
-    fclose(fTempC);
-
-    // Aplicamos cambios en Clientes
-    if(borreCliente)
-    {
-        if(remove("clientes.bin") != 0) printf("[ALERTA] No se pudo borrar clientes.bin original.\n");
-        if(rename("tempC.bin", "clientes.bin") != 0) printf("[ALERTA] No se pudo renombrar el temporal de clientes.\n");
+        printf("Error al crear archivo temporal de clientes.\n");
+        fclose(fCli);
     }
     else
     {
-        remove("tempC.bin"); // Si no encontre nada, borro el temporal
-        printf("[INFO] DNI no encontrado en Clientes.\n");
-    }
-
-    // --------------------------------------------------------
-    // PASO 2: BORRAR DE USUARIOS.BIN (Para liberar el Login)
-    // --------------------------------------------------------
-    FILE *fUsu = fopen("usuarios.bin", "rb");
-    FILE *fTempU = fopen("tempU.bin", "wb");
-
-    if(fUsu == NULL)
-    {
-        printf("[INFO] No existe archivo de usuarios o error al abrir.\n");
-        if(fTempU) fclose(fTempU);
-    }
-    else if(fTempU == NULL)
-    {
-        printf("[ERROR] No se pudo crear temporal de usuarios.\n");
-        fclose(fUsu);
-    }
-    else
-    {
-        stUsuario u;
-        while(fread(&u, sizeof(stUsuario), 1, fUsu) == 1)
+        Cliente c;
+        // 1. Copiamos al temporal SOLO los que NO coinciden con el DNI
+        while (fread(&c, sizeof(Cliente), 1, fCli) == 1)
         {
-            // Misma logica: Copio todos MENOS el que tiene ese DNI
-            if(strcmp(u.dni, dniBorrar) != 0)
+            if (strcmp(c.dni, dniBorrar) != 0)
             {
-                fwrite(&u, sizeof(stUsuario), 1, fTempU);
+                fwrite(&c, sizeof(Cliente), 1, fTempC);
             }
             else
             {
-                borreUsuario = 1;
+                borreCliente = 1; // Encontramos al que queriamos borrar
             }
         }
-        fclose(fUsu);
-        fclose(fTempU);
 
-        // Aplicamos cambios en Usuarios
-        if(borreUsuario)
+        // Cerramos para guardar cambios en el temporal
+        fclose(fCli);
+        fclose(fTempC);
+
+        // 2. Si encontramos el cliente, SOBRESCRIBIMOS el original con el temporal limpio
+        if (borreCliente == 1)
         {
-            if(remove("usuarios.bin") != 0) printf("[ALERTA] No se pudo borrar usuarios.bin original.\n");
-            if(rename("tempU.bin", "usuarios.bin") != 0) printf("[ALERTA] No se pudo renombrar temporal de usuarios.\n");
+            fTempC = fopen("tempC.bin", "rb");    // Lectura del limpio
+            fCli = fopen("clientes.bin", "wb");   // Escritura (borra contenido viejo)
+
+            if (fTempC != NULL && fCli != NULL)
+            {
+                while (fread(&c, sizeof(Cliente), 1, fTempC) == 1)
+                {
+                    fwrite(&c, sizeof(Cliente), 1, fCli);
+                }
+            }
+
+            if (fTempC != NULL) fclose(fTempC);
+            if (fCli != NULL) fclose(fCli);
         }
         else
         {
-            remove("tempU.bin");
+            printf("[INFO] DNI no encontrado en Clientes.\n");
         }
     }
 
-    // --------------------------------------------------------
-    // MENSAJE FINAL
-    // --------------------------------------------------------
-    if(borreCliente == 1 || borreUsuario == 1)
+    // ========================================================
+    // PASO 2: ELIMINAR DE USUARIOS.BIN (Liberar Login)
+    // ========================================================
+    FILE *fUsu = fopen("usuarios.bin", "rb");
+
+    // Si no existe el archivo de usuarios, no hacemos nada
+    if (fUsu != NULL)
     {
-        printf("\n[EXITO] Registro eliminado. El DNI %s esta liberado.\n", dniBorrar);
+        FILE *fTempU = fopen("tempU.bin", "wb");
+
+        if (fTempU != NULL)
+        {
+            stUsuario u;
+            // 1. Copiamos al temporal SOLO los usuarios que NO coinciden con el DNI
+            while (fread(&u, sizeof(stUsuario), 1, fUsu) == 1)
+            {
+                if (strcmp(u.dni, dniBorrar) != 0)
+                {
+                    fwrite(&u, sizeof(stUsuario), 1, fTempU);
+                }
+                else
+                {
+                    borreUsuario = 1; // Encontramos el usuario asociado
+                }
+            }
+
+            fclose(fUsu);
+            fclose(fTempU);
+
+            // 2. Si se borro algo, actualizamos el archivo original manualmente
+            if (borreUsuario == 1)
+            {
+                fTempU = fopen("tempU.bin", "rb");
+                fUsu = fopen("usuarios.bin", "wb"); // "wb" limpia el archivo original
+
+                if (fTempU != NULL && fUsu != NULL)
+                {
+                    while (fread(&u, sizeof(stUsuario), 1, fTempU) == 1)
+                    {
+                        fwrite(&u, sizeof(stUsuario), 1, fUsu);
+                    }
+                }
+
+                if (fTempU != NULL) fclose(fTempU);
+                if (fUsu != NULL) fclose(fUsu);
+            }
+        }
+        else
+        {
+            fclose(fUsu); // Cerramos fUsu si no pudimos abrir el temporal
+        }
+    }
+
+    // ========================================================
+    // PASO 3: CONFIRMACION FINAL
+    // ========================================================
+    if (borreCliente == 1 || borreUsuario == 1)
+    {
+        printf("\n[EXITO] Registro eliminado. El DNI %s ha sido liberado del sistema.\n", dniBorrar);
     }
     else
     {
-        printf("\n[ERROR] No se encontraron registros para eliminar.\n");
+        printf("\n[ALERTA] No se realizaron cambios (DNI no encontrado).\n");
     }
 }
 

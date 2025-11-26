@@ -6,19 +6,18 @@
 
 #define ARCHIVO_AUTOS "autos.bin"
 
-// --- FUNCION CORREGIDA (SOLUCION ERROR VIDEO "Debe ingresar solo numeros") ---
 int ingresar_entero(char mensaje[])
 {
     char buffer[50];
     int valido;
     int i;
-    int numeroFinal = 0; // Variable para guardar el numero convertido
+    int numeroFinal = 0;
 
     do
     {
         valido = 1;
         printf("%s", mensaje);
-        fflush(stdin); // Limpia el buffer antes de pedir
+        fflush(stdin);
 
         if (fgets(buffer, sizeof(buffer), stdin) == NULL)
         {
@@ -26,46 +25,55 @@ int ingresar_entero(char mensaje[])
         }
         else
         {
-            // Eliminar el salto de linea al final si existe
-            size_t len = strlen(buffer);
+            // 1. Detectar si el usuario escribio mas de lo que entra en el buffer
+            int len = strlen(buffer);
+
+            // Si el buffer esta lleno y NO termina en enter, sobraron caracteres en el teclado
+            if (len == sizeof(buffer) - 1 && buffer[len - 1] != '\n')
+            {
+                // Limpiamos el sobrante del teclado para que no rompa el siguiente ciclo
+                int c;
+                while ((c = getchar()) != '\n' && c != EOF);
+            }
+
+            // 2. Limpiar el \n si existe
             if (len > 0 && buffer[len - 1] == '\n')
             {
                 buffer[len - 1] = '\0';
+                len--;
             }
 
-            // Si el usuario apreto Enter sin escribir nada
-            if(strlen(buffer) == 0)
+            if(len == 0) // Si apreto Enter sin nada
             {
                 valido = 0;
-                continue; // Vuelve a pedir sin mostrar error
             }
-
-            // Verificamos que sean solo numeros
-            for(i = 0; i < strlen(buffer); i++)
+            else
             {
-                if(buffer[i] < '0' || buffer[i] > '9')
+                // Verificamos que sean solo numeros
+                for(i = 0; i < len; i++)
                 {
-                    valido = 0;
-                    break;
+                    if(buffer[i] < '0' || buffer[i] > '9')
+                    {
+                        valido = 0;
+                        break;
+                    }
                 }
             }
         }
 
         if(valido == 0)
         {
-            printf("ERROR: Debe ingresar solo numeros enteros.\n");
+            printf("ERROR: Debe ingresar solo numeros enteros validos.\n");
         }
 
     }
     while(valido == 0);
-
 
     sscanf(buffer, "%d", &numeroFinal);
 
     return numeroFinal;
 }
 
-// --- FUNCION CORREGIDA PARA FLOTANTES ---
 float ingresar_float(char mensaje[])
 {
     char buffer[50];
@@ -87,7 +95,9 @@ float ingresar_float(char mensaje[])
         }
         else
         {
-            size_t len = strlen(buffer);
+            // CAMBIO AQUI: size_t reemplazado por int
+            int len = strlen(buffer);
+
             if (len > 0 && buffer[len - 1] == '\n')
             {
                 buffer[len - 1] = '\0';
@@ -119,7 +129,7 @@ float ingresar_float(char mensaje[])
 
         if(valido == 0)
         {
-            printf("ERROR: Debe ingresar un precio valido (ej: 15000.50).\n");
+            printf("ERROR: Debe ingresar un precio valido.\n");
         }
 
     }
@@ -151,22 +161,26 @@ int existe_patente_en_archivo(char patenteBuscada[])
     return 0;
 }
 
-// --- LOGICA COMPLETA DE MARCAS ---
+
 int es_marca_valida(char m[])
 {
+    /// Declara una variable auxiliar para no tocar la original 'm'
     char temp[50];
+    /// Copia el contenido de 'm' dentro de 'temp'
     strcpy(temp, m);
 
-    // Convertir a mayúsculas
+    /// Recorre letra por letra la palabra copiada
     for(int i=0; i<strlen(temp); i++)
     {
+        /// Convierte cada letra minúscula a MAYÚSCULA
         temp[i] = toupper(temp[i]);
     }
 
     // --- MARCAS GENERALES ---
+    /// Compara si la palabra en 'temp' es idéntica a "FORD"
     if(strcmp(temp, "FORD") == 0)
     {
-        return 1;
+        return 1; /// Si es igual, devuelve 1 (Verdadero) y termina la función acá
     }
     if(strcmp(temp, "CHEVROLET") == 0)
     {
@@ -940,7 +954,7 @@ void modificar_auto_stock()
                         {
                             strcpy(a.patente, aux);
                             valido = 1;
-                            printf("Patente cambiada temporalmente.\n");
+                            printf("Patente cambiada.\n");
                         }
                         else
                         {
@@ -1001,7 +1015,7 @@ void modificar_auto_stock()
                     valido = 0;
                     do
                     {
-                        a.anio = ingresar_entero("Nuevo Anio (1885-2025): ");
+                        a.anio = ingresar_entero("Nuevo Anio: ");
                         if(a.anio >= 1885 && a.anio <= 2025)
                         {
                             valido = 1;

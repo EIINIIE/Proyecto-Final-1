@@ -67,7 +67,7 @@ stUsuario registro_Usuario()
 {
     stUsuario nuevo;
     int correoValido = 0;
-    printf("\n--- REGISTRO DE USUARIO ---\n");
+    printf("\n--- REGISTRO DE CLIENTE ---\n");
     do
     {
         printf("Ingrese su correo: ");
@@ -161,7 +161,6 @@ void iniciarSesion()
 
     if(verificar_Usuario(correo, contrasena))
     {
-        // --- RECUPERAMOS EL DNI DEL USUARIO ---
         char dniLogueado[30];
         obtener_dni_por_correo(correo, dniLogueado);
 

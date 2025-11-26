@@ -27,7 +27,6 @@ void menu_reportes()
         printf("3. Autos con menos de 10 anios (stock joven)\n");
         printf("4. Listado de personas\n");
         printf("5. Buscar persona por DNI\n");
-        printf("6. Buscar auto por patente\n");
         printf("0. Volver\n");
         printf("Seleccione una opcion: ");
         scanf("%d", &opcion);
@@ -50,9 +49,6 @@ void menu_reportes()
             break;
         case 5:
             buscar_persona_dni();
-            break;
-        case 6:
-            buscar_auto_patente();
             break;
 
         case 0:
@@ -77,29 +73,21 @@ void recaudacion_mensual()
         return;
     }
 
-    int mes, anio;
+    int mes;
+    int anio = 2025; // AÑO FIJO AUTOMATICO
     float total = 0;
     Venta v;
 
-{
-        // Esta funcion es para asegurar que sea un numero
+    printf("\n--- CONSULTAR RECAUDACION MENSUAL ---\n");
+    // Solo pedimos el mes
+    do
+    {
         mes = ingresar_entero("Ingrese mes (1-12): ");
         if (mes < 1 || mes > 12)
         {
             printf("[ERROR] Mes fuera de rango. Debe ser entre 1 y 12.\n");
         }
     } while(mes < 1 || mes > 12);
-
-    do
-    {
-        // Esta funcion es para asegurar que sea un numero
-        anio = ingresar_entero("Ingrese anio (1928-2025): ");
-
-        if (anio < 1928 || anio > 2025)
-        {
-            printf("Anio fuera de rango. Debe ser entre 1928 y 2025.\n");
-        }
-    } while(anio < 1928 || anio > 2025);
 
     while(fread(&v, sizeof(Venta), 1, f) == 1)
     {
@@ -109,9 +97,12 @@ void recaudacion_mensual()
         }
     }
     fclose(f);
-    printf("\nRecaudacion del %d/%d = $%.2f\n", mes, anio, total);
-}
 
+    printf("\n---------------------------------------\n");
+    printf(" Recaudacion del Mes %d (Anio %d)\n", mes, anio);
+    printf(" TOTAL: $%.2f\n", total);
+    printf("---------------------------------------\n");
+}
 /// --- VENTA CON MAYOR GANANCIA ---
 void venta_mayor_ganancia()
 {
@@ -240,35 +231,3 @@ void buscar_persona_dni()
     }
 }
 
-/// --- BUSCAR AUTO POR PATENTE ---
-void buscar_auto_patente()
-{
-    FILE *f = fopen(ARCHIVO_AUTOS, "rb");
-    if(f == NULL)
-    {
-        printf("No hay autos registrados.\n");
-        return;
-    }
-
-    char pat[20];
-    int ok = 0;
-
-    Auto a;
-    printf("Ingrese Patente: ");
-    fflush(stdin);
-    gets(pat);
-
-    while(fread(&a, sizeof(Auto), 1, f) == 1)
-    {
-        if(strcmp(a.patente, pat) == 0)
-        {
-            ok = 1;
-            mostrar_auto(a);
-        }
-    }
-    fclose(f);
-    if(ok == 0)
-    {
-        printf("No existe un auto con esa patente.\n");
-    }
-}
