@@ -43,7 +43,8 @@ void menu_empleado_directo()
             break;
 
         case 3:
-            gestionDePagos();
+            // --- CAMBIO AQUI: PASAMOS "0" PARA MODO MANUAL ---
+            gestionDePagos("0");
             break;
 
         case 4:
@@ -53,7 +54,6 @@ void menu_empleado_directo()
 
         case 0:
             printf("Cerrando sesion y volviendo al inicio...\n");
-
             break;
 
         default:

@@ -9,12 +9,13 @@ typedef struct {
     char rol[30];
 } Cliente;
 
-// Alias para cumplir estrictamente con la pauta que pide "Persona"
+// Alias para cumplir con "Persona"
 typedef Cliente Persona;
 
-// Prototipos
+// --- CAMBIO CLAVE: Recibe el DNI para no pedirlo de nuevo ---
+Cliente cargar_persona(char dniExterno[]);
+
 Cliente obtener_datos_cliente(char dni[]);
-Cliente cargar_persona();
 void guardar_cliente_en_archivo(Cliente c);
 void modificar_cliente();
 void ver_listado_clientes();

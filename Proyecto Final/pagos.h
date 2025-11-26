@@ -8,6 +8,8 @@ void eliminar_auto_stock(char patenteEliminar[]);
 void registrar_venta_archivo(Auto autoVendido, char dniComprador[]);
 void ordenarPorPatente(Auto autos[], int validos);
 int buscarPatenteBinaria(Auto autos[], int validos, char patenteBuscada[]);
-void gestionDePagos();
+
+// --- CAMBIO AQUI: Ahora recibe parametro ---
+void gestionDePagos(char dniSesion[]);
 
 #endif // PAGOS_H_INCLUDED

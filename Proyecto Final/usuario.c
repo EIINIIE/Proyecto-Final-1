@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <ctype.h>
 #include "usuario.h"
 #include "auto_cliente.h"
 #include "autos_disponibles.h"
@@ -10,201 +11,110 @@
 
 #define ARCHIVO_USUARIOS "usuarios.bin"
 
-// --- FUNCION AUXILIAR PARA VALIDAR CONTRASEÑA (MANUAL) ---
+// Funciones auxiliares
 int es_contrasenia_segura(char pass[])
 {
-    if(strlen(pass) < 4)
+    if(strlen(pass)<4) return 0;
+    int l=0, n=0;
+    for(int i=0; i<strlen(pass); i++)
     {
-        return 0; // Minimo 4 caracteres
+        if(isalpha(pass[i])) l=1;
+        if(isdigit(pass[i])) n=1;
     }
-
-    int tieneLetra = 0;
-    int tieneNumero = 0;
-
-    for(int i = 0; i < strlen(pass); i++)
-    {
-        // Validacion manual de letras (Mayusculas o Minusculas)
-        if((pass[i] >= 'a' && pass[i] <= 'z') || (pass[i] >= 'A' && pass[i] <= 'Z'))
-        {
-            tieneLetra = 1;
-        }
-        // Validacion manual de numeros
-        if(pass[i] >= '0' && pass[i] <= '9')
-        {
-            tieneNumero = 1;
-        }
-    }
-
-    // Devuelve 1 solo si tiene ambos
-    return (tieneLetra && tieneNumero);
+    return (l && n);
 }
-
-// --- VALIDACION SIMPLE DE CORREO ---
 int es_correo_valido(char email[])
 {
-    int i;
-    for(i=0; i<strlen(email); i++)
-    {
-        if(email[i] == '@')
+    for(int i=0; i<strlen(email); i++) if(email[i]=='@') return 1;
+    return 0;
+}
+int usuario_Existente(char correo[])
+{
+    FILE* f=fopen(ARCHIVO_USUARIOS,"rb");
+    if(!f) return 0;
+    stUsuario u;
+    while(fread(&u,sizeof(stUsuario),1,f)) if(strcmp(u.correo,correo)==0)
         {
-            return 1; // Debe tener al menos un arroba
+            fclose(f);
+            return 1;
         }
-    }
+    fclose(f);
     return 0;
 }
 
-int usuario_Existente(char correo[])
+// --- FUNCION PARA RECUPERAR DNI POR CORREO ---
+void obtener_dni_por_correo(char correo[], char dniDestino[])
 {
-    FILE* file = fopen(ARCHIVO_USUARIOS, "rb");
-    if(file == NULL)
-    {
-        return 0;
-    }
+    FILE *file = fopen(ARCHIVO_USUARIOS, "rb");
+    strcpy(dniDestino, "0"); // Por defecto
+    if(file == NULL) return;
 
-    stUsuario usuario;
-    while(fread(&usuario, sizeof(stUsuario), 1, file) == 1)
+    stUsuario u;
+    while(fread(&u, sizeof(stUsuario), 1, file))
     {
-        if(strcmp(usuario.correo, correo) == 0)
+        if(strcmp(u.correo, correo) == 0)
         {
-            fclose(file);
-            return 1;
+            strcpy(dniDestino, u.dni);
+            break;
         }
     }
     fclose(file);
-    return 0;
 }
 
 stUsuario registro_Usuario()
 {
     stUsuario nuevo;
     int correoValido = 0;
-
     printf("\n--- REGISTRO DE USUARIO ---\n");
-
-    // 1. Validacion de Correo
     do
     {
         printf("Ingrese su correo: ");
         fflush(stdin);
         scanf("%s", nuevo.correo);
-
-        if(es_correo_valido(nuevo.correo))
-        {
-            correoValido = 1;
-        }
-        else
-        {
-            printf("Error: El correo debe contener '@'. Intente nuevamente.\n");
-        }
+        if(es_correo_valido(nuevo.correo)) correoValido = 1;
+        else printf("Error: Falta '@'.\n");
     }
     while(correoValido == 0);
 
     if(usuario_Existente(nuevo.correo))
     {
-        printf("Este usuario ya esta registrado.\n");
+        printf("Usuario ya registrado.\n");
         strcpy(nuevo.dni, "-1");
         return nuevo;
     }
 
-    // 2. Validacion de Contrasenia (CORREGIDO: MANUAL Y SEGURA)
     int passValida = 0;
     do
     {
-        printf("Ingrese su contrasenia (Min 4 caracteres, letras y numeros): ");
+        printf("Ingrese su contrasenia (Min 4 chars, letras y numeros): ");
         fflush(stdin);
         scanf("%s", nuevo.contrasena);
-
-        if(es_contrasenia_segura(nuevo.contrasena))
-        {
-            passValida = 1;
-        }
-        else
-        {
-            printf("Error: La contrasenia debe tener al menos 4 caracteres, una letra y un numero.\n");
-        }
+        if(es_contrasenia_segura(nuevo.contrasena)) passValida = 1;
+        else printf("Error: Contrasenia insegura.\n");
     }
     while(passValida == 0);
 
-    // 3. Validacion de DNI
     int dniValido = 0;
     while (dniValido == 0)
     {
         printf("Ingrese DNI (solo numeros): ");
         fflush(stdin);
         scanf("%s", nuevo.dni);
-
         dniValido = 1;
-        for (int i = 0; i < strlen(nuevo.dni); i++)
+        for (int i = 0; i < strlen(nuevo.dni); i++) if (!isdigit(nuevo.dni[i])) dniValido = 0;
+        if(dniValido && (strlen(nuevo.dni)<7 || strlen(nuevo.dni)>8)) dniValido = 0;
+        else if (dniValido && dni_Existente_usuario(nuevo.dni))
         {
-            if (nuevo.dni[i] < '0' || nuevo.dni[i] > '9')
-            {
-                dniValido = 0;
-                break;
-            }
-        }
-
-        if (dniValido == 0)
-        {
-            printf("Error: El DNI solo puede contener numeros.\n");
-        }
-        else if (strlen(nuevo.dni) < 7 || strlen(nuevo.dni) > 8)
-        {
+            printf("DNI ya existe.\n");
             dniValido = 0;
-            printf("Error: El DNI debe tener 7 u 8 digitos.\n");
         }
-        else if (dni_Existente_usuario(nuevo.dni))
-        {
-            dniValido = 0;
-            printf("Error: El DNI ya existe.\n");
-        }
+        if(!dniValido) printf("Error en DNI.\n");
     }
 
-    // 4. Validacion Fecha
     printf("\n-- Fecha de Nacimiento --\n");
-
-    int diaOk = 0;
-    do
-    {
-        nuevo.dia = ingresar_entero("Dia (1-31): ");
-        if(nuevo.dia >= 1 && nuevo.dia <= 31)
-        {
-            diaOk = 1;
-        }
-        else printf("Dia invalido.\n");
-    }
-    while(diaOk == 0);
-
-    int mesOk = 0;
-    do
-    {
-        nuevo.mes = ingresar_entero("Mes (1-12): ");
-        if(nuevo.mes >= 1 && nuevo.mes <= 12)
-        {
-            mesOk = 1;
-        }
-        else
-        {
-            printf("Mes invalido.\n");
-        }
-    }
-    while(mesOk == 0);
-
-    // 5. Validacion ANIO (CORREGIDO: 1928 - 2007)
-    int anioOk = 0;
-    do
-    {
-        nuevo.anios = ingresar_entero("Anio de nacimiento : ");
-
-        if(nuevo.anios >= 1928 && nuevo.anios <= 2007)
-        {
-            anioOk = 1;
-        }
-        else
-        {
-            printf("Error : debe ser mayor de edad.\n");
-        }
-    }
-    while(anioOk == 0);
+    nuevo.dia = ingresar_entero("Dia: ");
+    nuevo.mes = ingresar_entero("Mes: ");
+    nuevo.anios = ingresar_entero("Anio: ");
 
     printf("\nUsuario registrado con exito!\n");
     return nuevo;
@@ -212,17 +122,9 @@ stUsuario registro_Usuario()
 
 void guardar_Usuario(stUsuario usuario)
 {
-    if (strcmp(usuario.dni, "-1") == 0)
-    {
-        return;
-    }
-
+    if (strcmp(usuario.dni, "-1") == 0) return;
     FILE *file = fopen(ARCHIVO_USUARIOS, "ab");
-    if (file == NULL)
-    {
-        printf("Error al guardar usuario.\n");
-        return;
-    }
+    if (file == NULL) return;
     fwrite(&usuario, sizeof(stUsuario), 1, file);
     fclose(file);
 }
@@ -230,14 +132,9 @@ void guardar_Usuario(stUsuario usuario)
 int verificar_Usuario(char correo[], char contrasena[])
 {
     FILE *file = fopen(ARCHIVO_USUARIOS, "rb");
-    if(file == NULL)
-    {
-        return 0;
-    }
-
+    if(file == NULL) return 0;
     stUsuario usuario;
     int encontrado = 0;
-
     while(fread(&usuario, sizeof(stUsuario), 1, file) == 1)
     {
         if(strcmp(usuario.correo, correo) == 0 && strcmp(usuario.contrasena, contrasena) == 0)
@@ -254,21 +151,21 @@ void iniciarSesion()
 {
     char correo[50], contrasena[50];
     printf("\n------ INICIAR SESION ------\n");
-
     printf("Correo: ");
     fflush(stdin);
     scanf("%s", correo);
-
     printf("Contrasena: ");
     fflush(stdin);
     scanf("%s", contrasena);
-
     system("cls");
 
     if(verificar_Usuario(correo, contrasena))
     {
-        int opcion_sesion = -1;
+        // --- RECUPERAMOS EL DNI DEL USUARIO ---
+        char dniLogueado[30];
+        obtener_dni_por_correo(correo, dniLogueado);
 
+        int opcion_sesion = -1;
         do
         {
             printf("Inicio de sesion exitoso - Rol: CLIENTE");
@@ -286,7 +183,6 @@ void iniciarSesion()
 
             fflush(stdin);
             scanf("%d", &opcion_sesion);
-
             system("cls");
 
             switch(opcion_sesion)
@@ -294,25 +190,22 @@ void iniciarSesion()
             case 0:
                 printf("Saliendo...\n");
                 return;
-
             case 1:
-                // Antes era opcion 2, ahora es la 1
                 agregar_autos_cliente();
                 break;
-
             case 2:
                 mostrar_todos_autos_disponibles();
                 break;
 
             case 3:
-                gestionDePagos();
+                // --- CORRECCION AQUI: PASAMOS EL DNI LOGUEADO ---
+                gestionDePagos(dniLogueado);
                 break;
 
             case 4:
                 printf("Volviendo al inicio...\n");
                 opcion_sesion = 0;
                 break;
-
             default:
                 printf("Opcion no valida\n");
                 break;
@@ -335,39 +228,25 @@ void iniciarSesion()
 
 void mostrarTodosLosUsuarios()
 {
-    stUsuario usuarios[100];
-    int cantidad = cargarUsuariosEnArreglo(usuarios, 50);
-    if(cantidad == 0)
-    {
-        printf("No hay usuarios.\n");
-        return;
-    }
-    printf("\n--- LISTA DE USUARIOS ---\n");
-    mostrarUsuariosRecursivo(usuarios, 0, cantidad);
+    stUsuario u[100];
+    int c = cargarUsuariosEnArreglo(u, 50);
+    if(c==0) return;
+    mostrarUsuariosRecursivo(u, 0, c);
 }
 
 int cargarUsuariosEnArreglo(stUsuario arr[], int tope)
 {
-    FILE* file = fopen(ARCHIVO_USUARIOS, "rb");
-    if(file == NULL)
-    {
-        return 0;
-    }
+    FILE* f = fopen(ARCHIVO_USUARIOS, "rb");
+    if(!f) return 0;
     int i = 0;
-    while(i < tope && fread(&arr[i], sizeof(stUsuario), 1, file) == 1)
-    {
-        i++;
-    }
-    fclose(file);
+    while(i < tope && fread(&arr[i], sizeof(stUsuario), 1, f) == 1) i++;
+    fclose(f);
     return i;
 }
 
 void mostrarUsuariosRecursivo(stUsuario arr[], int pos, int total)
 {
-    if(pos == total)
-    {
-        return;
-    }
+    if(pos == total) return;
     printf("Correo: %s | DNI: %s\n", arr[pos].correo, arr[pos].dni);
     mostrarUsuariosRecursivo(arr, pos + 1, total);
 }
@@ -375,10 +254,7 @@ void mostrarUsuariosRecursivo(stUsuario arr[], int pos, int total)
 int dni_Existente_usuario(char dni[])
 {
     FILE *file = fopen(ARCHIVO_USUARIOS, "rb");
-    if(file == NULL)
-    {
-        return 0;
-    }
+    if(file == NULL) return 0;
     stUsuario aux;
     while (fread(&aux, sizeof (stUsuario), 1, file))
     {

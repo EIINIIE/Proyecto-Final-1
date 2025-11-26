@@ -25,36 +25,35 @@ void transferir_auto_a_cliente(Auto autoVendido, char dniComprador[])
     autoNuevo.precioDeAdquisicion = autoVendido.precioDeAdquisicion;
     autoNuevo.precioFinal = autoVendido.precioFinal;
 
-    strcpy(autoNuevo.titular.dni, dniComprador);
-    strcpy(autoNuevo.titular.nombre, "Propietario (Venta)");
-    strcpy(autoNuevo.titular.rol, "comprador");
+    // Buscamos datos reales del comprador para poner en la tarjeta del auto
+    Cliente c = obtener_datos_cliente(dniComprador);
+    if(strcmp(c.dni, "0") != 0)
+    {
+        autoNuevo.titular = c;
+    }
+    else
+    {
+        strcpy(autoNuevo.titular.dni, dniComprador);
+        strcpy(autoNuevo.titular.nombre, "Propietario (Venta)");
+        strcpy(autoNuevo.titular.rol, "comprador");
+    }
 
     fwrite(&autoNuevo, sizeof(AutoCliente), 1, file);
     fclose(file);
-    printf("\nTransferencia de propiedad registrada.\n");
+    printf("\nTransferencia de propiedad registrada a nombre de %s.\n", autoNuevo.titular.nombre);
 }
 
 void eliminar_auto_stock(char patenteEliminar[])
 {
     FILE *archivo = fopen("autos.bin", "rb");
-    if (archivo == NULL)
-    {
-        printf("Hubo un problema al abrir (Auto)\n");
-        return;
-    }
+    if (archivo == NULL) return;
 
     FILE *temporal = fopen("temp.bin", "wb");
-    if (temporal == NULL)
-    {
-        fclose(archivo);
-        printf("Hubo un problema al abrir (temp)\n");
-        return;
-    }
+    if (temporal == NULL) { fclose(archivo); return; }
 
     Auto a;
     int encontrado = 0;
 
-    // Copio todos menos la parte de que quiero eliminar
     while (fread(&a, sizeof(Auto), 1, archivo) == 1)
     {
         if (strcmp(a.patente, patenteEliminar) != 0)
@@ -70,32 +69,21 @@ void eliminar_auto_stock(char patenteEliminar[])
     fclose(archivo);
     fclose(temporal);
 
-    archivo = fopen("autos.bin", "wb");   // lo vaciamos porque esta en wb
-    temporal = fopen("temp.bin", "rb");   // lo leemos porque esta en rb
+    archivo = fopen("autos.bin", "wb");
+    temporal = fopen("temp.bin", "rb");
 
-    if (archivo == NULL || temporal == NULL)
+    if (archivo && temporal)
     {
-        printf("Error al reabrir archivos.\n");
-        return;
+        while (fread(&a, sizeof(Auto), 1, temporal) == 1)
+        {
+            fwrite(&a, sizeof(Auto), 1, archivo);
+        }
     }
 
-    // Copio todo lo que quedó en temp.bin a autos.bin
-    while (fread(&a, sizeof(Auto), 1, temporal) == 1)
-    {
-        fwrite(&a, sizeof(Auto), 1, archivo);
-    }
+    if(archivo) fclose(archivo);
+    if(temporal) fclose(temporal);
 
-    fclose(archivo);
-    fclose(temporal);
-
-    if (encontrado == 1)
-    {
-        printf("Auto eliminado del stock.\n");
-    }
-    else
-    {
-        printf("No se encontro la patente.\n");
-    }
+    if (encontrado == 1) printf("Auto eliminado del stock.\n");
 }
 
 void registrar_venta_archivo(Auto autoVendido, char dniComprador[])
@@ -108,32 +96,23 @@ void registrar_venta_archivo(Auto autoVendido, char dniComprador[])
     }
 
     Venta nuevaVenta;
-
-    // 1. Obtenemos la fecha actual
     Fecha fechaActual = hoy();
 
-    // 2. Mostramos por pantalla (solo informativo)
-    printf("Hoy es: ");
+    printf("Fecha de operacion: ");
     mostrar_Fecha(fechaActual);
 
-    // 3. --- ESTA ES LA LINEA QUE FALTABA ---
-    // Guardamos la fecha calculada dentro de la estructura de la venta
     nuevaVenta.fecha = fechaActual;
-
-    // 4. Llenamos el resto de datos
     strcpy(nuevaVenta.patenteAutoVendido, autoVendido.patente);
     nuevaVenta.precioVenta = autoVendido.precioFinal;
     nuevaVenta.ganancia = autoVendido.precioFinal - autoVendido.precioDeAdquisicion;
     strcpy(nuevaVenta.dniComprador, dniComprador);
 
-    // 5. Guardamos en el archivo
     fwrite(&nuevaVenta, sizeof(Venta), 1, file);
     fclose(file);
 
     printf("\nVenta registrada exitosamente.\n");
     printf("Ganancia obtenida: $%.2f\n", nuevaVenta.ganancia);
 }
-
 
 // --- ORDENAMIENTO ---
 void ordenarPorPatente(Auto autos[], int validos)
@@ -163,23 +142,15 @@ int buscarPatenteBinaria(Auto autos[], int validos, char patenteBuscada[])
         int medio = inicio + (fin - inicio) / 2;
         int comparacion = strcmp(autos[medio].patente, patenteBuscada);
 
-        if(comparacion == 0)
-        {
-            return medio;
-        }
-        if(comparacion < 0)
-        {
-            inicio = medio + 1;
-        }
-        else
-        {
-            fin = medio - 1;
-        }
+        if(comparacion == 0) return medio;
+        if(comparacion < 0) inicio = medio + 1;
+        else fin = medio - 1;
     }
     return -1;
 }
 
-void gestionDePagos()
+// --- FUNCION MODIFICADA PARA DETECTAR DNI AUTOMATICO O MANUAL ---
+void gestionDePagos(char dniSesion[])
 {
     mostrar_todos_autos_disponibles();
 
@@ -212,9 +183,10 @@ void gestionDePagos()
     do
     {
         printf("\n--- VENTA DE UNIDAD ---\n");
-        printf("Ingrese patente del auto: ");
+        printf("Ingrese patente del auto (o '0' para salir): ");
         fflush(stdin);
         gets(patenteBusq);
+        if(strcmp(patenteBusq, "0")==0) return;
     }
     while(strlen(patenteBusq) == 0);
 
@@ -230,7 +202,6 @@ void gestionDePagos()
         printf("\n--- AUTO SELECCIONADO ---\n");
         printf("Modelo: %s %s\n", listaAutos[pos].marca, listaAutos[pos].modelo);
         printf("Precio: $%.2f\n", listaAutos[pos].precioFinal);
-        printf("Ganancia estimada: $%.2f\n", listaAutos[pos].precioFinal - listaAutos[pos].precioDeAdquisicion);
 
         char confirmacion;
         printf("\n Confirmar venta? (s/n): ");
@@ -239,11 +210,43 @@ void gestionDePagos()
 
         if(confirmacion == 's' || confirmacion == 'S')
         {
-            char dniComprador[15];
+            char dniComprador[30];
 
-            printf("\nDNI del Comprador: ");
-            fflush(stdin);
-            scanf("%s", dniComprador);
+            // --- AQUI ESTA LA CORRECCION ---
+            if(strcmp(dniSesion, "0") != 0)
+            {
+                // CASO 1: CLIENTE LOGUEADO (DNI AUTOMATICO)
+                strcpy(dniComprador, dniSesion);
+                printf("\n[INFO] Comprador identificado automaticamente: DNI %s\n", dniComprador);
+            }
+            else
+            {
+                // CASO 2: EMPLEADO VENDIENDO (DNI MANUAL CON VALIDACION)
+                int dniValido = 0;
+                do
+                {
+                    dniValido = 1;
+                    printf("\nDNI del Comprador (Solo numeros): ");
+                    fflush(stdin);
+                    scanf("%s", dniComprador);
+
+                    for(int k=0; k<strlen(dniComprador); k++)
+                    {
+                        if(!isdigit(dniComprador[k]))
+                        {
+                            dniValido = 0;
+                            printf("Error: Ingrese solo numeros.\n");
+                            break;
+                        }
+                    }
+                    if(dniValido && (strlen(dniComprador) < 7 || strlen(dniComprador) > 8))
+                    {
+                        dniValido = 0;
+                        printf("Error: DNI debe tener 7 u 8 digitos.\n");
+                    }
+                }
+                while(dniValido == 0);
+            }
 
             registrar_venta_archivo(listaAutos[pos], dniComprador);
             transferir_auto_a_cliente(listaAutos[pos], dniComprador);

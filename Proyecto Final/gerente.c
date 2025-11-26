@@ -11,6 +11,7 @@
 #include "pagos.h"
 #include "auto_cliente.h"
 #include "venta.h"
+#include "usuario.h" // NECESARIO PARA REGISTRAR USUARIO DESDE ADMIN
 
 // Valida formato de correo (al menos un @)
 int es_correo_valido_gerente(char email[])
@@ -113,7 +114,7 @@ void menu_gerente()
             do
             {
                 printf("\n--- GESTION DE CLIENTES ---\n");
-                printf("1. Cargar Nuevo Cliente\n");
+                printf("1. Cargar Nuevo Cliente (Crear Usuario Completo)\n");
                 printf("2. Modificar Cliente Existente\n");
                 printf("3. Ver listado de clientes\n");
                 printf("0. Volver al menu anterior\n");
@@ -126,8 +127,26 @@ void menu_gerente()
                 {
                 case 1:
                 {
-                    Cliente nuevoC = cargar_persona();
-                    guardar_cliente_en_archivo(nuevoC);
+                    // --- MODIFICACION: PRIMERO CREAMOS USUARIO (LOGIN) ---
+                    printf("--- PASO 1: CREAR CREDENCIALES DE ACCESO (LOGIN) ---\n");
+                    stUsuario nuevoU = registro_Usuario();
+
+                    if(strcmp(nuevoU.dni, "-1") != 0)
+                    {
+                        guardar_Usuario(nuevoU); // Guardamos el usuario (login)
+
+                        printf("\n--- PASO 2: CARGAR DATOS PERSONALES ---\n");
+                        // Pasamos el DNI del usuario para que NO lo pida de nuevo
+                        // Aqui es donde pedira Nombre, Telefono y Direccion
+                        Cliente nuevoC = cargar_persona(nuevoU.dni);
+
+                        guardar_cliente_en_archivo(nuevoC);
+                        printf("\nCliente registrado exitosamente (Login habilitado).\n");
+                    }
+                    else
+                    {
+                        printf("Operacion cancelada o usuario existente.\n");
+                    }
                     break;
                 }
                 case 2:
@@ -198,8 +217,7 @@ void menu_gerente()
         // --- VENTAS ---
         case 10:
             mostrar_todos_autos_disponibles();
-            gestionDePagos();
-            break;
+gestionDePagos("0"); // <--- CAMBIO AQUI            break;
         case 11:
             mostrarVentas();
             break;
