@@ -8,6 +8,7 @@
 #include "cliente.h"
 #include "pagos.h"
 #include "auto.h"
+#include "fecha.h" // Importante incluir esto
 
 #define ARCHIVO_USUARIOS "usuarios.bin"
 
@@ -61,6 +62,7 @@ void obtener_dni_por_correo(char correo[], char dniDestino[])
     fclose(file);
 }
 
+// --- AQUI ESTA TU FUNCION MODIFICADA ---
 stUsuario registro_Usuario()
 {
     stUsuario nuevo;
@@ -111,10 +113,8 @@ stUsuario registro_Usuario()
         if(!dniValido) printf("Error en DNI.\n");
     }
 
-    printf("\n-- Fecha de Nacimiento --\n");
-    nuevo.dia = ingresar_entero("Dia: ");
-    nuevo.mes = ingresar_entero("Mes: ");
-    nuevo.anios = ingresar_entero("Anio: ");
+    // --- CAMBIO AQUI: LLAMADA A LA FUNCION ESTRICTA ---
+    cargar_fecha_estricta(&nuevo.dia, &nuevo.mes, &nuevo.anios);
 
     printf("\nUsuario registrado con exito!\n");
     return nuevo;
@@ -198,7 +198,6 @@ void iniciarSesion()
                 break;
 
             case 3:
-                // --- CORRECCION AQUI: PASAMOS EL DNI LOGUEADO ---
                 gestionDePagos(dniLogueado);
                 break;
 

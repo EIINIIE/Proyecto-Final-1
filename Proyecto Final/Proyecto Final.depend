@@ -319,7 +319,7 @@
 1763694800 c:\users\agust\onedrive\escritorio\git hub nashe\proyecto-final-1\proyecto final\autos_disponibles.h
 	"auto.h"
 
-1764165624 source:c:\users\agust\onedrive\escritorio\git hub nashe\proyecto-final-1\proyecto final\cliente.c
+1764181547 source:c:\users\agust\onedrive\escritorio\git hub nashe\proyecto-final-1\proyecto final\cliente.c
 	<stdio.h>
 	<string.h>
 	"cliente.h"
@@ -341,15 +341,16 @@
 1764167575 c:\users\agust\onedrive\escritorio\git hub nashe\proyecto-final-1\proyecto final\pagos.h
 	"auto.h"
 
-1764009970 source:c:\users\agust\onedrive\escritorio\git hub nashe\proyecto-final-1\proyecto final\fecha.c
+1764185173 source:c:\users\agust\onedrive\escritorio\git hub nashe\proyecto-final-1\proyecto final\fecha.c
 	<stdio.h>
+	<stdlib.h>
 	<string.h>
 	<time.h>
 	"fecha.h"
 
-1763746017 c:\users\agust\onedrive\escritorio\git hub nashe\proyecto-final-1\proyecto final\fecha.h
+1764185173 c:\users\agust\onedrive\escritorio\git hub nashe\proyecto-final-1\proyecto final\fecha.h
 
-1764167940 source:c:\users\agust\onedrive\escritorio\git hub nashe\proyecto-final-1\proyecto final\gerente.c
+1764185173 source:c:\users\agust\onedrive\escritorio\git hub nashe\proyecto-final-1\proyecto final\gerente.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -363,6 +364,7 @@
 	"auto_cliente.h"
 	"venta.h"
 	"usuario.h"
+	"fecha.h"
 
 1764005695 c:\users\agust\onedrive\escritorio\git hub nashe\proyecto-final-1\proyecto final\gerente.h
 
@@ -418,7 +420,7 @@
 	"cliente.h"
 	"fecha.h"
 
-1764168228 source:c:\users\agust\onedrive\escritorio\git hub nashe\proyecto-final-1\proyecto final\usuario.c
+1764185173 source:c:\users\agust\onedrive\escritorio\git hub nashe\proyecto-final-1\proyecto final\usuario.c
 	<stdio.h>
 	<string.h>
 	<stdlib.h>
@@ -429,6 +431,7 @@
 	"cliente.h"
 	"pagos.h"
 	"auto.h"
+	"fecha.h"
 
 1763954581 source:c:\users\agust\onedrive\escritorio\git hub nashe\proyecto-final-1\proyecto final\venta.c
 	<stdio.h>

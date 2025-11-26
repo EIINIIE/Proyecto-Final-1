@@ -30,7 +30,7 @@ Cliente obtener_datos_cliente(char dni[])
     return c;
 }
 
-// --- FUNCION MODIFICADA ---
+// --- FUNCION MODIFICADA Y ROBUSTA ---
 Cliente cargar_persona(char dniExterno[])
 {
     Cliente c;
@@ -40,10 +40,7 @@ Cliente cargar_persona(char dniExterno[])
 
     printf("\n---- DATOS DE CONTACTO DEL CLIENTE ----\n");
 
-    // 1. LOGICA DEL DNI:
-    // Si dniExterno es "-1", significa que NO tenemos DNI previo y hay que pedirlo.
-    // Si dniExterno trae un numero, lo usamos directamente y no preguntamos.
-
+    // 1. LOGICA DEL DNI
     if (strcmp(dniExterno, "-1") == 0)
     {
         do
@@ -90,39 +87,35 @@ Cliente cargar_persona(char dniExterno[])
     }
     else
     {
-        // Si ya viene el DNI (desde el registro de usuario), lo asignamos directo.
         strcpy(c.dni, dniExterno);
         printf("DNI Asignado: %s\n", c.dni);
     }
 
-    // --- CARGA NOMBRE ---
+    // --- CARGA NOMBRE (SOLUCIONADO SALTO DE LINEA) ---
     do
     {
         valido = 1;
         printf("Ingrese Nombre y Apellido: ");
-        fflush(stdin); // Limpieza importante
-        if (fgets(aux, sizeof(aux), stdin) == NULL || strlen(aux) <= 1)
+        // El espacio antes de %[^\n] limpia el buffer automaticamente
+        // Esto evita que se salte la carga si venias de un scanf
+        fflush(stdin); // Por seguridad extra
+        scanf(" %[^\n]", aux);
+
+        if (strlen(aux) < 4)
         {
+            printf("Nombre y Apellido deben tener al menos 4 caracteres.\n");
             valido = 0;
         }
         else
         {
-            if(aux[strlen(aux)-1] == '\n') aux[strlen(aux)-1] = '\0'; // Sacar salto de linea
-
-            if (strlen(aux) < 4)
-            {
-                printf("Nombre y Apellido deben tener al menos 4 caracteres.\n");
-                valido = 0;
-            }
-            else
-            {
-                strcpy(c.nombre, aux);
-            }
+            // Proteccion contra desbordamiento (c.nombre es de 50)
+            strncpy(c.nombre, aux, 49);
+            c.nombre[49] = '\0'; // Asegurar terminacion
         }
     }
     while(valido == 0);
 
-    // --- CARGA TELEFONO ---
+    // --- CARGA TELEFONO (VALIDACION 10 DIGITOS) ---
     do
     {
         valido = 1;
@@ -130,14 +123,16 @@ Cliente cargar_persona(char dniExterno[])
         fflush(stdin);
         scanf("%s", c.telefono);
 
-        if(strlen(c.telefono) == 10)
+        // Validacion estricta de longitud
+        if(strlen(c.telefono) != 10)
         {
-            printf("Longitud de telefono invalida.\n");
+            // Usamos %zu para size_t o %d con cast para evitar warnings
+            printf("Longitud invalida: Ingreso %d digitos (Debe ser de 10).\n", (int)strlen(c.telefono));
             valido = 0;
         }
         else
         {
-            for(i = 0; i < strlen(c.telefono); i++)
+            for(i = 0; i < 10; i++)
             {
                 if(c.telefono[i] < '0' || c.telefono[i] > '9')
                 {
@@ -165,8 +160,8 @@ Cliente cargar_persona(char dniExterno[])
     do
     {
         printf("Ingrese Direccion (calle y numero, min 4 letras y 3 numeros): ");
-        fflush(stdin);
-        gets(direccion1);
+        fflush(stdin); // Limpieza necesaria antes de gets/scanf con espacios
+        scanf(" %[^\n]", direccion1); // Usamos scanf seguro en lugar de gets
 
         int letras = 0;
         int numeros = 0;
@@ -264,14 +259,12 @@ void ver_listado_clientes()
     }
 
     Cliente c;
-    // --- CABECERA ACOMODADA ---
     printf("\n======================================================================================\n");
     printf("%-12s %-25s %-15s %-10s\n", "DNI", "NOMBRE", "TELEFONO", "ROL");
     printf("======================================================================================\n");
 
     while(fread(&c, sizeof(Cliente), 1, file) == 1)
     {
-        // --- DATOS ACOMODADOS ---
         printf("%-12s %-25s %-15s %-10s\n", c.dni, c.nombre, c.telefono, c.rol);
     }
     printf("======================================================================================\n");
@@ -365,8 +358,9 @@ void modificar_cliente()
                 do
                 {
                     printf("Nuevo nombre: ");
+                    // Limpieza y lectura segura
                     fflush(stdin);
-                    gets(c.nombre);
+                    scanf(" %[^\n]", c.nombre);
                     nombreValido = 1;
                     if(strlen(c.nombre) == 0) nombreValido = 0;
                 }
@@ -386,6 +380,7 @@ void modificar_cliente()
                     {
                         if(c.telefono[i] < '0' || c.telefono[i] > '9') valido = 0;
                     }
+                    if(strlen(c.telefono) != 10) valido = 0;
                 }
                 while(valido==0);
                 break;
@@ -394,7 +389,7 @@ void modificar_cliente()
             {
                 printf("Ingrese nueva direccion: ");
                 fflush(stdin);
-                gets(c.direccion);
+                scanf(" %[^\n]", c.direccion);
                 break;
             }
             default:

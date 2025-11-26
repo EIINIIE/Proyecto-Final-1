@@ -136,13 +136,23 @@ void login_empresa()
     char contrasena[50];
     system("cls");
     printf("--- INICIAR SESION EMPRESA ---\n");
-    printf("Correo: "); scanf("%s", correo);
+    printf("Correo: ");
     fflush(stdin);
-    printf("Contrasena: "); gets(contrasena);
+    scanf("%s", correo);
+
+    printf("Contrasena: ");
+    fflush(stdin);
+    // --- CORRECCION: Usamos scanf en lugar de gets para evitar errores de buffer ---
+    scanf("%s", contrasena);
+
     system("cls");
 
     FILE* file = fopen("empleados.bin", "rb");
-    if (file == NULL) { printf("Error apertura empleados.\n"); return; }
+    if (file == NULL)
+    {
+        printf("Error: No se pudo abrir el archivo de empleados (o no existe aun).\n");
+        return;
+    }
 
     stEmpleado emple;
     int encontrado = 0;
@@ -159,5 +169,10 @@ void login_empresa()
         }
     }
     fclose(file);
-    if (encontrado == 0) printf("Datos incorrectos.\n");
+
+    if (encontrado == 0)
+    {
+        printf("\n[ERROR] Datos incorrectos o usuario no encontrado.\n");
+        printf("Verifique que el correo y contrasenia sean exactos.\n");
+    }
 }

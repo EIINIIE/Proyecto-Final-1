@@ -11,7 +11,8 @@
 #include "pagos.h"
 #include "auto_cliente.h"
 #include "venta.h"
-#include "usuario.h" // NECESARIO PARA REGISTRAR USUARIO DESDE ADMIN
+#include "usuario.h"
+#include "fecha.h" // Incluir para la funcion estricta
 
 // Valida formato de correo (al menos un @)
 int es_correo_valido_gerente(char email[])
@@ -101,7 +102,7 @@ void menu_gerente()
         printf("==================================================\n");
         printf("Seleccione una opcion: ");
 
-        fflush(stdin); // Limpieza de buffer
+        fflush(stdin);
         scanf("%d", &opcion);
         system("cls");
 
@@ -212,7 +213,8 @@ void menu_gerente()
         // --- VENTAS ---
         case 10:
             mostrar_todos_autos_disponibles();
-gestionDePagos("0"); // <--- CAMBIO AQUI            break;
+            gestionDePagos("0");
+            break;
         case 11:
             mostrarVentas();
             break;
@@ -304,7 +306,7 @@ void agregar_empleado()
         }
         while (dniValido == 0);
 
-        // 2. VALIDACION CORREO (Formato y no repetido)
+        // 2. VALIDACION CORREO
         int correoOk = 0;
         do
         {
@@ -327,7 +329,7 @@ void agregar_empleado()
         }
         while(correoOk == 0);
 
-        // 3. VALIDACION CONTRASEÑA (MANUAL)
+        // 3. VALIDACION CONTRASEÑA
         int passOk = 0;
         do
         {
@@ -363,69 +365,8 @@ void agregar_empleado()
         }
         while(passOk == 0);
 
-
-        int fechaValida = 0;
-        printf("\n-- Fecha de Nacimiento --\n");
-        do
-        {
-            fechaValida = 1;
-
-            // Validar DIA
-            int dOk = 0;
-            do
-            {
-                nuevo.dia = ingresar_entero("Ingrese dia (1-31): ");
-                if(nuevo.dia >= 1 && nuevo.dia <= 31)
-                {
-                    dOk = 1;
-                }
-                else
-                {
-                    printf("Dia invalido.\n");
-                }
-            }
-            while(dOk == 0);
-
-            // Validar MES
-            int mOk = 0;
-            do
-            {
-                nuevo.mes = ingresar_entero("Ingrese mes (1-12): ");
-                if(nuevo.mes >= 1 && nuevo.mes <= 12)
-                {
-                    mOk = 1;
-                }
-                else
-                {
-                    printf("Mes invalido.\n");
-                }
-            }
-            while(mOk == 0);
-
-            // Validar ANIO (1928 - 2025)
-            int aOk = 0;
-            do
-            {
-                nuevo.anios = ingresar_entero("Ingrese anio (1928-2025): ");
-                if(nuevo.anios >= 1928 && nuevo.anios <= 2025)
-                {
-                    aOk = 1;
-                }
-                else
-                {
-                    printf("Anio invalido (1928-2025).\n");
-                }
-            }
-            while(aOk == 0);
-
-            // Validacion extra febrero
-            if (nuevo.mes == 2 && nuevo.dia > 29)
-            {
-                printf("Febrero no tiene mas de 29 dias.\n");
-                fechaValida = 0;
-            }
-        }
-        while (fechaValida == 0);
+        // --- SOLUCION PUNTO 1 PARA EMPLEADOS TAMBIEN ---
+        cargar_fecha_estricta(&nuevo.dia, &nuevo.mes, &nuevo.anios);
 
         strcpy(nuevo.rol, "empleado");
         printf("\nRol asignado automaticamente: %s\n", nuevo.rol);
@@ -515,58 +456,118 @@ void eliminar_empleado()
     }
 }
 
+// --- SOLUCION PUNTO 2: ELIMINACION REAL Y SEGURA ---
 void eliminar_cliente()
 {
-    FILE *archivo = fopen("clientes.bin", "rb");
-    if (archivo == NULL)
-    {
-        printf("No hay clientes registrados o error al abrir.\n");
-        return;
-    }
+    char dniBorrar[30];
+    int borreCliente = 0;
+    int borreUsuario = 0;
 
-    Cliente listaClientes[100];
-    int cantidad = 0;
+    ver_listado_clientes(); // Mostramos para que elija
 
-    while (fread(&listaClientes[cantidad], sizeof(Cliente), 1, archivo) == 1)
-    {
-        cantidad++;
-    }
-    fclose(archivo);
-
-    char dniBuscar[30];
-    ver_listado_clientes();
-    printf("\nIngrese el DNI del cliente a eliminar: ");
+    printf("\nIngrese DNI del cliente a eliminar TOTALMENTE: ");
     fflush(stdin);
-    scanf("%s", dniBuscar);
+    scanf("%s", dniBorrar);
 
-    archivo = fopen("clientes.bin", "wb");
-    if (archivo == NULL)
+    // --------------------------------------------------------
+    // PASO 1: BORRAR DE CLIENTES.BIN
+    // --------------------------------------------------------
+    FILE *fCli = fopen("clientes.bin", "rb");
+    FILE *fTempC = fopen("tempC.bin", "wb");
+
+    if(fCli == NULL || fTempC == NULL)
     {
-        printf("Error critico al reabrir el archivo.\n");
+        printf("Error al abrir archivos de clientes para procesar.\n");
+        if(fCli) fclose(fCli);
+        if(fTempC) fclose(fTempC);
         return;
     }
 
-    int encontrado = 0;
-    for(int i = 0; i < cantidad; i++)
+    Cliente c;
+    while(fread(&c, sizeof(Cliente), 1, fCli) == 1)
     {
-        if (strcmp(listaClientes[i].dni, dniBuscar) != 0)
+        // Si NO es el DNI que busco, lo guardo en el temporal.
+        // Si ES el DNI, no hago nada (asi se borra).
+        if(strcmp(c.dni, dniBorrar) != 0)
         {
-            fwrite(&listaClientes[i], sizeof(Cliente), 1, archivo);
+            fwrite(&c, sizeof(Cliente), 1, fTempC);
         }
         else
         {
-            encontrado = 1;
+            borreCliente = 1; // Encontre al cliente
         }
     }
-    fclose(archivo);
+    fclose(fCli);
+    fclose(fTempC);
 
-    if (encontrado == 1)
+    // Aplicamos cambios en Clientes
+    if(borreCliente)
     {
-        printf("Cliente eliminado correctamente.\n");
+        if(remove("clientes.bin") != 0) printf("[ALERTA] No se pudo borrar clientes.bin original.\n");
+        if(rename("tempC.bin", "clientes.bin") != 0) printf("[ALERTA] No se pudo renombrar el temporal de clientes.\n");
     }
     else
     {
-        printf("No se encontro un cliente con ese DNI.\n");
+        remove("tempC.bin"); // Si no encontre nada, borro el temporal
+        printf("[INFO] DNI no encontrado en Clientes.\n");
+    }
+
+    // --------------------------------------------------------
+    // PASO 2: BORRAR DE USUARIOS.BIN (Para liberar el Login)
+    // --------------------------------------------------------
+    FILE *fUsu = fopen("usuarios.bin", "rb");
+    FILE *fTempU = fopen("tempU.bin", "wb");
+
+    if(fUsu == NULL)
+    {
+        printf("[INFO] No existe archivo de usuarios o error al abrir.\n");
+        if(fTempU) fclose(fTempU);
+    }
+    else if(fTempU == NULL)
+    {
+        printf("[ERROR] No se pudo crear temporal de usuarios.\n");
+        fclose(fUsu);
+    }
+    else
+    {
+        stUsuario u;
+        while(fread(&u, sizeof(stUsuario), 1, fUsu) == 1)
+        {
+            // Misma logica: Copio todos MENOS el que tiene ese DNI
+            if(strcmp(u.dni, dniBorrar) != 0)
+            {
+                fwrite(&u, sizeof(stUsuario), 1, fTempU);
+            }
+            else
+            {
+                borreUsuario = 1;
+            }
+        }
+        fclose(fUsu);
+        fclose(fTempU);
+
+        // Aplicamos cambios en Usuarios
+        if(borreUsuario)
+        {
+            if(remove("usuarios.bin") != 0) printf("[ALERTA] No se pudo borrar usuarios.bin original.\n");
+            if(rename("tempU.bin", "usuarios.bin") != 0) printf("[ALERTA] No se pudo renombrar temporal de usuarios.\n");
+        }
+        else
+        {
+            remove("tempU.bin");
+        }
+    }
+
+    // --------------------------------------------------------
+    // MENSAJE FINAL
+    // --------------------------------------------------------
+    if(borreCliente == 1 || borreUsuario == 1)
+    {
+        printf("\n[EXITO] Registro eliminado. El DNI %s esta liberado.\n", dniBorrar);
+    }
+    else
+    {
+        printf("\n[ERROR] No se encontraron registros para eliminar.\n");
     }
 }
 
