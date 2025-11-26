@@ -37,15 +37,63 @@ Cliente cargar_persona()
     char aux[100]; // Buffer para fgets
     int existe = 0; // Se mantiene por si era parte del cuerpo original, pero ya no se usa para DNI.
 
-    printf("\n---- DATOS ADICIONALES DEL CLIENTE (Nombre, Telefono, Direccion) ----\n");
+    printf("\n---- DATOS ADICIONALES DEL CLIENTE ----\n");
 
     // NOTA: Se ha eliminado la carga de DNI para evitar la duplicacion en el registro de usuario.
     // El DNI debe ser cargado y asignado por la funcion que llame a esta.
-    strcpy(c.dni, "0"); // Inicializamos el DNI a "0"
+    /// strcpy(c.dni, "0"); // Inicializamos el DNI a "0"
 
     // --- CARGA NOMBRE ---
     do
     {
+        valido = 1;
+        printf("Ingrese DNI (solo numeros, 7-8 digitos): ");
+        fflush(stdin); // Limpiamos el buffer
+        scanf("%s", aux); // Usamos scanf simple para leer la cadena del DNI
+
+        int len = strlen(aux); // Usamos int para la longitud
+
+        // 1. Validacion de longitud
+        if (len < 7 || len > 8)
+        {
+            printf("El DNI debe tener entre 7 y 8 digitos.\n");
+            valido = 0;
+        }
+
+        // 2. Validacion de solo numeros (Solo si la longitud es correcta)
+        if (valido == 1)
+        {
+            for(i = 0; i < len; i++)
+            {
+                if(aux[i] < '0' || aux[i] > '9')
+                {
+                    printf("El DNI solo debe contener numeros.\n");
+                    valido = 0;
+                    break;
+}
+}
+}
+        // 3. Verificacion de existencia (Solo si es valido hasta ahora)
+        if (valido == 1)
+        {
+            // Necesita las funciones dni_Existente_cliente() y dni_Existente_usuario()
+            if (dni_Existente_cliente(aux) || dni_Existente_usuario(aux))
+            {
+                printf("ERROR: Ya existe un registro. Por favor ingrese otro.\n", aux);
+                valido = 0;
+            }
+            else
+            {
+                // Si todo es correcto, asignamos el DNI
+                strcpy(c.dni, aux);
+            }
+        }
+    }
+    while(valido == 0);
+
+        do
+        {
+
         valido = 1;
         printf("Ingrese Nombre y Apellido: ");
         fflush(stdin);
@@ -55,13 +103,6 @@ Cliente cargar_persona()
         }
         else
         {
-            // Eliminar el salto de linea al final si existe
-            size_t len = strlen(aux);
-            if (len > 0 && aux[len - 1] == '\n')
-            {
-                aux[len - 1] = '\0';
-            }
-
             if (strlen(aux) < 4)
             {
                 printf("Nombre y Apellido deben tener al menos 4 caracteres.\n");
@@ -83,9 +124,9 @@ Cliente cargar_persona()
         fflush(stdin);
         scanf("%s", c.telefono);
 
-        if(strlen(c.telefono) < 8 || strlen(c.telefono) > 15)
+        if(strlen(c.telefono) != 10)
         {
-            printf("El telefono debe tener entre 8 y 15 digitos.\n");
+            printf("El telefono debe tener 10 digitos.\n");
             valido = 0;
         }
         else
@@ -152,6 +193,9 @@ Cliente cargar_persona()
 
     }
     while(direccionInt == 0);
+
+    strcpy(c.rol, "usuario"); // Asignacion automatica del rol
+    printf("Rol asignado automaticamente: USUARIO\n");
 
     return c;
 }
