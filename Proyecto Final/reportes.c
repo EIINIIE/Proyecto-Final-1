@@ -81,10 +81,25 @@ void recaudacion_mensual()
     float total = 0;
     Venta v;
 
-    printf("Ingrese mes (1-12): ");
-    scanf("%d", &mes);
-    printf("Ingrese anio: ");
-    scanf("%d", &anio);
+{
+        // Esta funcion es para asegurar que sea un numero
+        mes = ingresar_entero("Ingrese mes (1-12): ");
+        if (mes < 1 || mes > 12)
+        {
+            printf("[ERROR] Mes fuera de rango. Debe ser entre 1 y 12.\n");
+        }
+    } while(mes < 1 || mes > 12);
+
+    do
+    {
+        // Esta funcion es para asegurar que sea un numero
+        anio = ingresar_entero("Ingrese anio (1900-2025): ");
+
+        if (anio < 1900 || anio > 2025)
+        {
+            printf("Anio fuera de rango. Debe ser entre 1900 y 2025.\n");
+        }
+    } while(anio < 1900 || anio > 2025);
 
     while(fread(&v, sizeof(Venta), 1, f) == 1)
     {
@@ -94,7 +109,7 @@ void recaudacion_mensual()
         }
     }
     fclose(f);
-    printf("\nRecaudacion del %02d/%d = $%.2f\n", mes, anio, total);
+    printf("\nRecaudacion del %d/%d = $%.2f\n", mes, anio, total);
 }
 
 /// --- VENTA CON MAYOR GANANCIA ---

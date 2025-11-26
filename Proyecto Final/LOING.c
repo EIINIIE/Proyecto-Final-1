@@ -130,6 +130,7 @@ void login_administrador()
     {
         printf("\nCredenciales Correctas. Accediendo...\n");
         system("pause"); // Pausa para leer
+        system("cls");
         menu_gerente();
     }
     else
