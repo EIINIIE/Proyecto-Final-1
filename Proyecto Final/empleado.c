@@ -20,11 +20,10 @@ void menu_empleado_directo()
     do
     {
         printf("\n--- MENU DE EMPLEADO ---\n");
-        printf("1. Datos del cliente (Cargar)\n");
-        printf("2. Dato del auto del cliente (Cargar)\n");
-        printf("3. Autos disponibles (Ver Stock)\n");
-        printf("4. Pagos (Vender Auto)\n");
-        printf("5. Volver al inicio\n");
+        printf("1. Dato del auto del cliente (Cargar)\n");
+        printf("2. Autos disponibles (Ver Stock)\n");
+        printf("3. Pagos (Vender Auto)\n");
+        printf("4. Volver al inicio\n");
         printf("0. Salir (Volver al Login)\n");
         printf("-------------------------------------\n");
 
@@ -35,25 +34,19 @@ void menu_empleado_directo()
         switch(opcion_sesion)
         {
         case 1:
-            printf("\n--- CARGA DE CLIENTE ---\n");
-            Cliente nuevoC = cargar_persona();
-            guardar_cliente_en_archivo(nuevoC);
-            break;
-
-        case 2:
             printf("\n--- CARGA DE AUTO DE CLIENTE ---\n");
             agregar_autos_cliente();
             break;
 
-        case 3:
+        case 2:
             mostrar_todos_autos_disponibles();
             break;
 
-        case 4:
+        case 3:
             gestionDePagos();
             break;
 
-        case 5:
+        case 4:
             printf("Volviendo al menu principal...\n");
             opcion_sesion = 0;
             break;

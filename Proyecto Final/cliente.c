@@ -34,179 +34,124 @@ Cliente cargar_persona()
     Cliente c;
     int valido = 0;
     int i;
-    int existe = 0;
+    char aux[100]; // Buffer para fgets
+    int existe = 0; // Se mantiene por si era parte del cuerpo original, pero ya no se usa para DNI.
 
-    printf("\n---- DATOS DE LA PERSONA ----\n");
+    printf("\n---- DATOS ADICIONALES DEL CLIENTE (Nombre, Telefono, Direccion) ----\n");
 
-    // --- CARGA DNI ---
+    // NOTA: Se ha eliminado la carga de DNI para evitar la duplicacion en el registro de usuario.
+    // El DNI debe ser cargado y asignado por la funcion que llame a esta.
+    strcpy(c.dni, "0"); // Inicializamos el DNI a "0"
+
+    // --- CARGA NOMBRE ---
     do
     {
-        printf("Ingrese DNI (solo numeros): ");
-        fflush(stdin);
-        scanf("%s", c.dni);
-
         valido = 1;
-        existe = 0;
-
-        for(i = 0; i < strlen(c.dni); i++)
-        {
-            if(c.dni[i] < '0' || c.dni[i] > '9')
-            {
-                valido = 0;
-                break;
-            }
-        }
-
-        if(valido == 0)
-        {
-            printf("Error: El DNI solo puede contener numeros.\n");
-        }
-        else if (strlen(c.dni) < 7 || strlen(c.dni) > 8)
+        printf("Ingrese Nombre y Apellido: ");
+        fflush(stdin);
+        if (fgets(aux, sizeof(aux), stdin) == NULL || strlen(aux) <= 1)
         {
             valido = 0;
-            printf("Error: El DNI debe tener 7 o 8 digitos.\n");
         }
         else
         {
-            if (dni_Existente_cliente(c.dni))
+            // Eliminar el salto de linea al final si existe
+            size_t len = strlen(aux);
+            if (len > 0 && aux[len - 1] == '\n')
             {
-                existe = 1;
-                valido = 1;
+                aux[len - 1] = '\0';
+            }
+
+            if (strlen(aux) < 4)
+            {
+                printf("Nombre y Apellido deben tener al menos 4 caracteres.\n");
+                valido = 0;
+            }
+            else
+            {
+                strcpy(c.nombre, aux);
             }
         }
     }
     while(valido == 0);
 
-    if (existe == 1)
+    // --- CARGA TELEFONO ---
+    do
     {
-        c = obtener_datos_cliente(c.dni);
-        printf("\nCLIENTE ENCONTRADO EN BASE DE DATOS\n");
-        printf("Nombre:    %s\n", c.nombre);
-        printf("Telefono:  %s\n", c.telefono);
-        printf("Direccion: %s\n", c.direccion);
-        printf("-------------------------------------------\n");
-    }
-    else
-    {
-        // --- NOMBRE ---
-        int nombreValido = 0;
-
-        // LIMPIEZA CLAVE: Borra el Enter que dejo el DNI
+        valido = 1;
+        printf("Ingrese Telefono (solo numeros, 8-15 digitos): ");
         fflush(stdin);
+        scanf("%s", c.telefono);
 
-        do
+        if(strlen(c.telefono) < 8 || strlen(c.telefono) > 15)
         {
-            printf("Ingrese Nombre: ");
-            gets(c.nombre);
-
-            nombreValido = 1;
-            // Si esta vacio (apreto enter sin querer), repetimos sin error
-            if(strlen(c.nombre) == 0)
-            {
-                 nombreValido = 0;
-                 continue;
-            }
-
-            for(int j=0; j<strlen(c.nombre); j++)
-            {
-                int esMinuscula = (c.nombre[j] >= 'a' && c.nombre[j] <= 'z');
-                int esMayuscula = (c.nombre[j] >= 'A' && c.nombre[j] <= 'Z');
-                int esEspacio   = (c.nombre[j] == ' ');
-
-                if( !esMinuscula && !esMayuscula && !esEspacio )
-                {
-                    nombreValido = 0;
-                    break;
-                }
-            }
-
-            if(nombreValido == 0)
-            {
-                printf("Error: El nombre solo puede contener letras y espacios.\n");
-            }
+            printf("El telefono debe tener entre 8 y 15 digitos.\n");
+            valido = 0;
         }
-        while(nombreValido == 0);
-
-        // --- TELEFONO ---
-        int telValido = 0;
-        do
+        else
         {
-            printf("Ingrese Telefono (10 digitos): ");
-            // Aca usamos scanf, asi que dejara un Enter sucio al final
-            fflush(stdin);
-            scanf("%s", c.telefono);
-
-            telValido = 1;
             for(i = 0; i < strlen(c.telefono); i++)
             {
                 if(c.telefono[i] < '0' || c.telefono[i] > '9')
                 {
-                    telValido = 0;
+                    valido = 0;
+                    printf("El telefono solo debe contener numeros.\n");
                     break;
                 }
             }
-
-            if(telValido == 0) printf("Error: Solo numeros.\n");
-            else if (strlen(c.telefono) != 10)
+            if(valido == 1)
             {
-                telValido = 0;
-                printf("Error: El telefono debe tener EXACTAMENTE 10 digitos.\n");
-            }
-            else if (telefono_Existente(c.telefono))
-            {
-                telValido = 0;
-                printf("Error: Ese telefono ya esta registrado.\n");
-            }
-        }
-        while(telValido == 0);
-
-        // --- DIRECCION ---
-        int direccionInt = 0;
-        char direccion[100];
-
-        // LIMPIEZA CLAVE: Borra el Enter que dejo el Telefono
-        fflush(stdin);
-
-        do
-        {
-            printf("Ingrese direccion: ");
-            gets(direccion);
-
-            // Si apreta enter sin querer, repite
-            if(strlen(direccion) == 0) continue;
-
-            int letras = 0;
-            int numeros = 0;
-
-            for(int i = 0; direccion[i] != '\0'; i++)
-            {
-                if( (direccion[i] >= 'A' && direccion[i] <= 'Z') ||
-                        (direccion[i] >= 'a' && direccion[i] <= 'z') )
+                // Se asume que telefono_Existente existe en cliente.h/c
+                if (telefono_Existente(c.telefono) == 1)
                 {
-                    letras++;
-                }
-                if(direccion[i] >= '0' && direccion[i] <= '9')
-                {
-                    numeros++;
+                    printf("Ya existe un cliente con este telefono. Ingrese otro.\n");
+                    valido = 0;
                 }
             }
-
-            if(letras >= 4 && numeros >= 3)
-            {
-                direccionInt = 1;
-                strcpy(c.direccion, direccion);
-            }
-            else
-            {
-                printf("Direccion invalida: debe tener al menos 4 letras y 3 numeros.\n");
-            }
-
         }
-        while(direccionInt == 0);
-
-        strcpy(c.rol, "cliente");
-        printf("Rol asignado automaticamente: cliente\n");
     }
+    while(valido == 0);
+
+
+    // --- CARGA DIRECCION ---
+    char direccion1[100];
+    int direccionInt = 0;
+
+    do
+    {
+        printf("Ingrese Direccion (calle y numero, min 4 letras y 3 numeros): ");
+        fflush(stdin);
+        gets(direccion1);
+
+        int letras = 0;
+        int numeros = 0;
+
+        for(int i = 0; direccion1[i] != '\0'; i++)
+        {
+            if( (direccion1[i] >= 'A' && direccion1[i] <= 'Z') ||
+                (direccion1[i] >= 'a' && direccion1[i] <= 'z') )
+            {
+                letras++;
+            }
+
+            if(direccion1[i] >= '0' && direccion1[i] <= '9')
+            {
+                numeros++;
+            }
+        }
+
+        if(letras >= 4 && numeros >= 3)
+        {
+            direccionInt = 1;
+            strcpy(c.direccion, direccion1);
+        }
+        else
+        {
+            printf("Direccion invalida: debe tener al menos 4 letras y minimo 3 o mas numeros.\n");
+        }
+
+    }
+    while(direccionInt == 0);
 
     return c;
 }

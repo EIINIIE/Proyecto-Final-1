@@ -146,9 +146,9 @@
 1764108647 c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\auto.h
 	"cliente.h"
 
-1763859834 c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\cliente.h
+1764122455 c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\cliente.h
 
-1764113079 source:c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\auto_cliente.c
+1764122152 source:c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\auto_cliente.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -169,7 +169,7 @@
 1763769959 c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\autos_disponibles.h
 	"auto.h"
 
-1764017863 source:c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\empleado.c
+1764122152 source:c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\empleado.c
 	<stdio.h>
 	<string.h>
 	<stdlib.h>
@@ -193,7 +193,7 @@
 
 1763689240 c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\fecha.h
 
-1764017863 source:c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\loing.c
+1764122455 source:c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\loing.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -201,12 +201,13 @@
 	"usuario.h"
 	"empleado.h"
 	"gerente.h"
+	"cliente.h"
 
 1763584272 c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\loing.h
 
 1764003949 c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\usuario.h
 
-1764007558 c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\gerente.h
+1764117886 c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\gerente.h
 
 1764014250 source:c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\main.c
 	<stdio.h>
@@ -234,7 +235,7 @@
 1764019003 c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\venta.h
 	"fecha.h"
 
-1764014250 source:c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\reportes.c
+1764117886 source:c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\reportes.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -244,7 +245,7 @@
 	"cliente.h"
 	"fecha.h"
 
-1764010741 c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\reportes.h
+1764117886 c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\reportes.h
 
 1764021057 source:c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\usuario.c
 	<stdio.h>
@@ -265,7 +266,7 @@
 	"cliente.h"
 	"fecha.h"
 
-1764111414 source:c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\cliente.c
+1764122152 source:c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\cliente.c
 	<stdio.h>
 	<string.h>
 	"cliente.h"

@@ -5,6 +5,8 @@
 #include "usuario.h"
 #include "empleado.h"
 #include "gerente.h"
+#include "cliente.h"
+
 
 void menu_login()
 {
@@ -34,48 +36,30 @@ void menu_login()
 
         case 2:
         {
-            int opcion_cliente;
-            do
-            {
-                printf("\n---------- ACCESO CLIENTE ----------\n");
-                printf("1. Iniciar sesion\n");
-                printf("2. Registrarse\n");
-                printf("0. Volver atras\n");
-                printf("------------------------------------\n");
-                printf("Opcion: ");
-                scanf("%d", &opcion_cliente);
-                getchar();
-                system("cls");
+    // FUNCIONALIDAD DE REGISTRO EN LOING.c
+    stUsuario u = registro_Usuario();
+    guardar_Usuario(u);
 
-                switch(opcion_cliente)
-                {
-                case 1:
-                    iniciarSesion();
-                    break;
-                case 2:
-                {
-                    stUsuario n = registro_Usuario();
-                    if(strcmp(n.dni, "-1") != 0)
-                    {
-                        guardar_Usuario(n);
-                        printf("Registrado. Inicie sesion.\n");
-                    }
-                    break;
-                }
-                case 0:
-                    break;
-                default:
-                    printf("Opcion invalida\n");
-                }
-                if(opcion_cliente!=0)
-                {
-                    system("pause");
-                    system("cls");
-                }
-            }
-            while(opcion_cliente != 0);
-        }
-        break;
+    // VERIFICAR Y CARGAR DATOS ADICIONALES DEL CLIENTE
+    Cliente c = obtener_datos_cliente(u.dni); // Busca si ya existe un registro de cliente con ese DNI
+
+    if(strcmp(c.dni, "0") == 0) // Si no existe (dni = "0")
+    {
+        // Se llama a cargar_persona, que ahora solo pide Nombre, Telefono y Direccion.
+        c = cargar_persona();
+
+        // Asignamos el DNI y el rol obtenidos del registro de usuario (cumpliendo con "agregarla en el registrar")
+        strcpy(c.dni, u.dni); // Se asigna el DNI del Usuario
+        strcpy(c.rol, "usuario");
+        guardar_cliente_en_archivo(c);
+        printf("\nRegistro de Cliente completado con exito. Puede iniciar sesion.\n");
+    }
+    else
+    {
+         printf("\nEl registro de cliente ya existe. Puede iniciar sesion.\n");
+    }
+}
+break;
 
         case 3: // ADMINISTRADOR
             login_administrador();
@@ -147,7 +131,7 @@ void login_empresa()
     FILE* file = fopen("empleados.bin", "rb");
     if (file == NULL)
     {
-        printf("No se pudo abrir el archivo de empleados o no hay empleados registrados.\n");
+        printf("No se pudo abrir o no hay empleados registrados.\n");
         return;
     }
 
