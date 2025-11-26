@@ -38,6 +38,7 @@ Cliente cargar_persona()
 
     printf("\n---- DATOS DE LA PERSONA ----\n");
 
+    // --- CARGA DNI ---
     do
     {
         printf("Ingrese DNI (solo numeros): ");
@@ -73,7 +74,6 @@ Cliente cargar_persona()
                 valido = 1;
             }
         }
-
     }
     while(valido == 0);
 
@@ -88,30 +88,31 @@ Cliente cargar_persona()
     }
     else
     {
+        // --- NOMBRE ---
         int nombreValido = 0;
+
+        // LIMPIEZA CLAVE: Borra el Enter que dejo el DNI
+        fflush(stdin);
+
         do
         {
             printf("Ingrese Nombre: ");
-            fflush(stdin);
             gets(c.nombre);
 
             nombreValido = 1;
-
-            // Si está vacío, error
+            // Si esta vacio (apreto enter sin querer), repetimos sin error
             if(strlen(c.nombre) == 0)
             {
-                nombreValido = 0;
+                 nombreValido = 0;
+                 continue;
             }
 
-            // Recorremos letra por letra
             for(int j=0; j<strlen(c.nombre); j++)
             {
-                // Verificamos si es letra minúscula, mayúscula o espacio
                 int esMinuscula = (c.nombre[j] >= 'a' && c.nombre[j] <= 'z');
                 int esMayuscula = (c.nombre[j] >= 'A' && c.nombre[j] <= 'Z');
                 int esEspacio   = (c.nombre[j] == ' ');
 
-                // Si NO es ninguna de las tres, es un carácter inválido
                 if( !esMinuscula && !esMayuscula && !esEspacio )
                 {
                     nombreValido = 0;
@@ -121,21 +122,21 @@ Cliente cargar_persona()
 
             if(nombreValido == 0)
             {
-                printf("Error: El nombre solo puede contener letras y espacios. Intente nuevamente.\n");
+                printf("Error: El nombre solo puede contener letras y espacios.\n");
             }
         }
         while(nombreValido == 0);
 
-        // --- CARGA DE TELEFONO ---
+        // --- TELEFONO ---
         int telValido = 0;
         do
         {
             printf("Ingrese Telefono (10 digitos): ");
+            // Aca usamos scanf, asi que dejara un Enter sucio al final
             fflush(stdin);
             scanf("%s", c.telefono);
 
             telValido = 1;
-
             for(i = 0; i < strlen(c.telefono); i++)
             {
                 if(c.telefono[i] < '0' || c.telefono[i] > '9')
@@ -145,10 +146,7 @@ Cliente cargar_persona()
                 }
             }
 
-            if(telValido == 0)
-            {
-                printf("Error: El telefono solo puede contener numeros positivos.\n");
-            }
+            if(telValido == 0) printf("Error: Solo numeros.\n");
             else if (strlen(c.telefono) != 10)
             {
                 telValido = 0;
@@ -157,21 +155,25 @@ Cliente cargar_persona()
             else if (telefono_Existente(c.telefono))
             {
                 telValido = 0;
-                printf("Error: Ese telefono ya esta registrado por otro cliente.\n");
+                printf("Error: Ese telefono ya esta registrado.\n");
             }
         }
         while(telValido == 0);
 
-        // --- CARGA DE DIRECCION ---
-
+        // --- DIRECCION ---
         int direccionInt = 0;
         char direccion[100];
+
+        // LIMPIEZA CLAVE: Borra el Enter que dejo el Telefono
+        fflush(stdin);
 
         do
         {
             printf("Ingrese direccion: ");
-            fflush(stdin);
             gets(direccion);
+
+            // Si apreta enter sin querer, repite
+            if(strlen(direccion) == 0) continue;
 
             int letras = 0;
             int numeros = 0;
@@ -183,7 +185,6 @@ Cliente cargar_persona()
                 {
                     letras++;
                 }
-
                 if(direccion[i] >= '0' && direccion[i] <= '9')
                 {
                     numeros++;
@@ -193,10 +194,11 @@ Cliente cargar_persona()
             if(letras >= 4 && numeros >= 3)
             {
                 direccionInt = 1;
+                strcpy(c.direccion, direccion);
             }
             else
             {
-                printf("Direccion invalida: debe tener al menos 4 letras y minimo 3 o mas numeros.\n");
+                printf("Direccion invalida: debe tener al menos 4 letras y 3 numeros.\n");
             }
 
         }

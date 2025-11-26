@@ -6,75 +6,108 @@
 #include "cliente.h"
 #include "auto.h"       // Necesario para validar marca y modelo
 
-/// FUNCION 1: Cargar Auto Cliente (CON VALIDACIONES)
+/// FUNCION 1: Cargar Auto Cliente (SOLUCION FINAL - LIMPIEZA FORZADA)
 AutoCliente cargar_auto_cliente()
 {
     AutoCliente autos;
     char aux[50];
     int valido = 0;
 
+    // --- LIMPIEZA CLAVE ---
+    // Limpiamos el teclado apenas entramos para borrar el Enter del menu
+    fflush(stdin);
+
     printf("---- DATOS DEL AUTO DEL CLIENTE ----\n");
 
-    // 1. PATENTE (Validar formato basico y convertir a mayusculas)
+    // 1. PATENTE
     do
     {
-        printf("Patente: ");
-        fflush(stdin);
+        valido = 0;
+        printf("Patente (AA 123 CD): ");
         gets(aux);
 
-        // Convertir a mayusculas
-        for(int i=0; i<strlen(aux); i++)
+        // Si el usuario aprieta Enter sin querer (vacio), repetimos el bucle
+        // pero sin mostrar errores, simplemente vuelve a pedir.
+        if(strlen(aux) > 0)
         {
-            aux[i] = toupper(aux[i]);
-        }
+            // Convertir a mayusculas
+            for(int i=0; i<strlen(aux); i++)
+            {
+                aux[i] = toupper(aux[i]);
+            }
 
-        if(strlen(aux) > 5)   // Validacion basica de largo
-        {
-            strcpy(autos.patente, aux);
-            valido = 1;
-        }
-        else
-        {
-            printf("ERROR: Patente muy corta o invalida.\n");
-            valido = 0;
+            // Validacion estricta de formato (AA 123 CD)
+            if(strlen(aux)==9 &&
+               aux[0]>='A' && aux[0]<='Z' &&
+               aux[1]>='A' && aux[1]<='Z' &&
+               aux[2]==' ' &&
+               aux[3]>='0' && aux[3]<='9' &&
+               aux[4]>='0' && aux[4]<='9' &&
+               aux[5]>='0' && aux[5]<='9' &&
+               aux[6]==' ' &&
+               aux[7]>='A' && aux[7]<='Z' &&
+               aux[8]>='A' && aux[8]<='Z')
+            {
+                 if(existe_patente_en_archivo(aux) == 1)
+                 {
+                     printf("ERROR: Esa patente ya existe en el sistema.\n");
+                 }
+                 else
+                 {
+                     strcpy(autos.patente, aux);
+                     valido = 1;
+                 }
+            }
+            else
+            {
+                printf("ERROR: Formato invalido. Use: AA 123 CD (respetando espacios).\n");
+            }
         }
     }
     while(valido == 0);
 
-    // 2. MARCA (Usando validacion del sistema)
+    // 2. MARCA
     valido = 0;
     do
     {
         printf("Marca: ");
-        fflush(stdin);
+        fflush(stdin); // Aseguramos limpieza antes de leer
         gets(aux);
-        if(es_marca_valida(aux) == 1)
+
+        if(strlen(aux) > 0)
         {
-            strcpy(autos.marca, aux);
-            valido = 1;
-        }
-        else
-        {
-            printf("ERROR: Marca no reconocida en el sistema.\n");
+            if(es_marca_valida(aux) == 1)
+            {
+                strcpy(autos.marca, aux);
+                valido = 1;
+            }
+            else
+            {
+                printf("ERROR: Marca no reconocida en el sistema.\n");
+            }
         }
     }
     while(valido == 0);
 
-    // 3. MODELO (Validar segun la marca)
+    // 3. MODELO
     valido = 0;
     do
     {
         printf("Modelo: ");
         fflush(stdin);
         gets(aux);
-        if(es_modelo_valido(autos.marca, aux) == 1)
+
+        if(strlen(aux) > 0)
         {
-            strcpy(autos.modelo, aux);
-            valido = 1;
-        }
-        else
-        {
-            printf("ERROR: Modelo no valido para la marca %s.\n", autos.marca);
+            if(es_modelo_valido(autos.marca, aux) == 1)
+            {
+                strcpy(autos.modelo, aux);
+                valido = 1;
+            }
+            else
+            {
+                printf("ERROR: Modelo no valido para la marca %s.\n", autos.marca);
+            }
         }
     }
     while(valido == 0);
@@ -87,13 +120,13 @@ AutoCliente cargar_auto_cliente()
         autos.anio = ingresar_entero("Anio: ");
         if (autos.anio < 1900 || autos.anio > anio_actual)
         {
-            printf("ERROR: Anio invalido (Debe estar entre 1900 y %d).\n", anio_actual);
+            printf("ERROR: Anio invalido (1900-%d).\n", anio_actual);
         }
     }
     while (autos.anio < 1900 || autos.anio > anio_actual);
 
     autos.kms = ingresar_entero("Kilometros: ");
-    autos.precioDeAdquisicion = ingresar_float("Precio estimado: "); // Usamos la de float si la tienes disponible, sino scanf
+    autos.precioDeAdquisicion = ingresar_float("Precio estimado: ");
 
     autos.precioFinal = autos.precioDeAdquisicion;
 
@@ -102,6 +135,7 @@ AutoCliente cargar_auto_cliente()
 
     return autos;
 }
+
 
 /// FUNCION 2
 void agregar_autos_cliente()
@@ -115,7 +149,6 @@ void agregar_autos_cliente()
 
     AutoCliente nuevo_auto = cargar_auto_cliente();
 
-    printf("\n--- DATOS DEL TITULAR ---\n");
     nuevo_auto.titular = cargar_persona();
 
     // Guardo el cliente en clientes.bin tambien por si no existe
@@ -123,7 +156,7 @@ void agregar_autos_cliente()
 
     fwrite(&nuevo_auto, sizeof(AutoCliente), 1, file);
     fclose(file);
-    printf("Auto y titular cargados correctamente en autos_cliente.bin\n");
+    printf("Auto y titular cargados correctamente\n");
 }
 
 /// FUNCION 3
