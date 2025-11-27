@@ -39,7 +39,7 @@ void cargar_fecha_estricta(int *dia, int *mes, int *anio)
         // 1. DIA (Validacion generica 1-31)
         do
         {
-            printf("Dia (1-31): ");
+            printf("Dia : ");
             fflush(stdin);
             if(scanf("%d", &d) != 1)
             {
@@ -56,7 +56,7 @@ void cargar_fecha_estricta(int *dia, int *mes, int *anio)
         // 2. MES (1-12)
         do
         {
-            printf("Mes (1-12): ");
+            printf("Mes : ");
             fflush(stdin);
             if(scanf("%d", &m) != 1)
             {
@@ -74,7 +74,7 @@ void cargar_fecha_estricta(int *dia, int *mes, int *anio)
         do
         {
             validoAnio = 0;
-            printf("Anio (Ej: 1999): ");
+            printf("Anio : ");
             fflush(stdin);
             scanf("%s", auxAnio);
 
@@ -86,13 +86,12 @@ void cargar_fecha_estricta(int *dia, int *mes, int *anio)
             }
             else
             {
-                printf("[ERROR] Ingrese un anio valido (1928-2025).\n");
+                printf("[ERROR] Ingrese un anio valido .\n");
             }
         }
         while(validoAnio == 0);
 
         // --- VALIDACION FINAL DE COHERENCIA ---
-        // Ahora que tenemos Dia, Mes y Anio, revisamos si la fecha existe.
         int maxDias = 31;
         if(m == 4 || m == 6 || m == 9 || m == 11)
         {

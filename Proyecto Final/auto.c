@@ -9,54 +9,31 @@
 int ingresar_entero(char mensaje[])
 {
     char buffer[50];
-    int valido;
+    int valido = 0;
     int i;
-    int numeroFinal = 0;
+    int numeroFinal = 0; // Aca guardaremos el resultado
 
     do
     {
         valido = 1;
         printf("%s", mensaje);
-        fflush(stdin);
+        fflush(stdin); // Limpieza
+        gets(buffer);  // Lectura simple
 
-        if (fgets(buffer, sizeof(buffer), stdin) == NULL)
+        // 1. Validar si esta vacio
+        if(strlen(buffer) == 0)
         {
             valido = 0;
         }
         else
         {
-            // 1. Detectar si el usuario escribio mas de lo que entra en el buffer
-            int len = strlen(buffer);
-
-            // Si el buffer esta lleno y NO termina en enter, sobraron caracteres en el teclado
-            if (len == sizeof(buffer) - 1 && buffer[len - 1] != '\n')
+            // 2. Validar que sean solo numeros
+            for(i = 0; i < strlen(buffer); i++)
             {
-                // Limpiamos el sobrante del teclado para que no rompa el siguiente ciclo
-                int c;
-                while ((c = getchar()) != '\n' && c != EOF);
-            }
-
-            // 2. Limpiar el \n si existe
-            if (len > 0 && buffer[len - 1] == '\n')
-            {
-                buffer[len - 1] = '\0';
-                len--;
-            }
-
-            if(len == 0) // Si apreto Enter sin nada
-            {
-                valido = 0;
-            }
-            else
-            {
-                // Verificamos que sean solo numeros
-                for(i = 0; i < len; i++)
+                if(buffer[i] < '0' || buffer[i] > '9')
                 {
-                    if(buffer[i] < '0' || buffer[i] > '9')
-                    {
-                        valido = 0;
-                        break;
-                    }
+                    valido = 0;
+                    break;
                 }
             }
         }
@@ -66,56 +43,51 @@ int ingresar_entero(char mensaje[])
             printf("ERROR: Debe ingresar solo numeros enteros validos.\n");
         }
 
-    }
-    while(valido == 0);
+    } while(valido == 0);
 
-// Recorremos la cadena validada y hacemos la conversión manual
-    for (i = 0; buffer[i] != '\0'; i++)
+    // --- CONVERSION MANUAL (Sin atoi) ---
+    // Recorremos el texto validado
+    for(i = 0; i < strlen(buffer); i++)
     {
-        // 1. Multiplicamos el número actual por 10 para hacer espacio para el nuevo dígito.
-        numeroFinal *= 10;
+        // 1. Multiplicamos por 10 para correr el lugar (Unidad -> Decena -> Centena)
+        numeroFinal = numeroFinal * 10;
 
-        // 2. Convertimos el carácter a su valor numérico restándole '0' (ASCII).
-        // Por ejemplo: '5' - '0' = 5
-        numeroFinal += (buffer[i] - '0');
+        // 2. Sumamos el digito actual convertido de char a int
+        // (Restar '0' convierte el caracter ASCII en su valor numerico real)
+        numeroFinal = numeroFinal + (buffer[i] - '0');
     }
 
     return numeroFinal;
 }
-
 float ingresar_float(char mensaje[])
 {
     char buffer[50];
-    int valido;
+    int valido = 0;
     int i;
     int puntos;
+
+    // Variables para la conversion manual
     float numeroFinal = 0;
+    float divisor = 1;
+    int esDecimal = 0;
 
     do
     {
         valido = 1;
         puntos = 0;
+
         printf("%s", mensaje);
         fflush(stdin);
+        gets(buffer);
 
-        if (fgets(buffer, sizeof(buffer), stdin) == NULL)
+        // 1. Validar vacio
+        if(strlen(buffer) == 0)
         {
             valido = 0;
         }
         else
         {
-            int len = strlen(buffer);
-
-            if (len > 0 && buffer[len - 1] == '\n')
-            {
-                buffer[len - 1] = '\0';
-            }
-
-            if(strlen(buffer) == 0)
-            {
-                valido = 0;
-            }
-
+            // 2. Validar numeros y puntos
             for(i = 0; i < strlen(buffer); i++)
             {
                 if(buffer[i] == '.')
@@ -137,13 +109,33 @@ float ingresar_float(char mensaje[])
 
         if(valido == 0)
         {
-            printf("ERROR: Debe ingresar un precio valido.\n");
+            printf("ERROR: Debe ingresar un valor numerico valido.\n");
         }
 
-    }
-    while(valido == 0);
+    } while(valido == 0);
 
-    sscanf(buffer, "%f", &numeroFinal);
+    for(i = 0; i < strlen(buffer); i++)
+    {
+        if(buffer[i] == '.')
+        {
+            esDecimal = 1;
+        }
+        else
+        {
+            // Si NO es punto, es un numero, asi que calculamos
+            if(esDecimal == 0)
+            {
+                // PARTE ENTERA
+                numeroFinal = numeroFinal * 10 + (buffer[i] - '0');
+            }
+            else
+            {
+                // PARTE DECIMAL
+                divisor = divisor * 10;
+                numeroFinal = numeroFinal + (buffer[i] - '0') / divisor;
+            }
+        }
+    }
 
     return numeroFinal;
 }
@@ -728,7 +720,7 @@ Auto cargar_auto()
     do
     {
         printf("Patente (AA 123 CD): ");
-        fflush(stdin); // LIMPIEZA IMPORTANTE
+        fflush(stdin);
         gets(aux);
         for(int i=0; i<strlen(aux); i++)
         {
