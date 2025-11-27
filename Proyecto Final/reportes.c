@@ -87,7 +87,8 @@ void recaudacion_mensual()
         {
             printf("[ERROR] Mes fuera de rango. Debe ser entre 1 y 12.\n");
         }
-    } while(mes < 1 || mes > 12);
+    }
+    while(mes < 1 || mes > 12);
 
     while(fread(&v, sizeof(Venta), 1, f) == 1)
     {

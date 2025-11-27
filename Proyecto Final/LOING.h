@@ -2,7 +2,7 @@
 #define LOING_H_INCLUDED
 
 // ------- Prototipos P blicos -------
-void menu_login(); // Prototipo del men  de login
+void menu_login();
 void login_empresa();
 void login_administrador();
 

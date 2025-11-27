@@ -1,7 +1,8 @@
 #ifndef CLIENTE_H
 #define CLIENTE_H
 
-typedef struct {
+typedef struct
+{
     char dni[30];
     char nombre[50];
     char telefono[20];
@@ -9,12 +10,7 @@ typedef struct {
     char rol[30];
 } Cliente;
 
-// Alias para cumplir con "Persona"
-typedef Cliente Persona;
-
-// --- CAMBIO CLAVE: Recibe el DNI para no pedirlo de nuevo ---
 Cliente cargar_persona(char dniExterno[]);
-
 Cliente obtener_datos_cliente(char dni[]);
 void guardar_cliente_en_archivo(Cliente c);
 void modificar_cliente();

@@ -522,8 +522,14 @@ void eliminar_cliente()
                 }
             }
 
-            if (fTempC != NULL) fclose(fTempC);
-            if (fCli != NULL) fclose(fCli);
+            if (fTempC != NULL)
+            {
+                fclose(fTempC);
+            }
+            if (fCli != NULL)
+            {
+                fclose(fCli);
+            }
         }
         else
         {
@@ -574,8 +580,14 @@ void eliminar_cliente()
                     }
                 }
 
-                if (fTempU != NULL) fclose(fTempU);
-                if (fUsu != NULL) fclose(fUsu);
+                if (fTempU != NULL)
+                {
+                    fclose(fTempU);
+                }
+                if (fUsu != NULL)
+                {
+                    fclose(fUsu);
+                }
             }
         }
         else
@@ -653,12 +665,13 @@ void modificar_empleado()
             // Movemos el puntero hacia atras para sobrescribir
             fseek(file, -sizeof(stEmpleado), SEEK_CUR);
             fwrite(&e, sizeof(stEmpleado), 1, file);
+
             printf("Empleado modificado correctamente.\n");
             break;
         }
     }
 
-    if (!encontrado)
+    if (encontrado == 0)
     {
         printf("No se encontro empleado con DNI %d.\n", dniBuscado);
     }

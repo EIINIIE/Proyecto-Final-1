@@ -1,7 +1,6 @@
 #ifndef FECHA_H_INCLUDED
 #define FECHA_H_INCLUDED
 
-// ------- Estructura Fecha -------
 typedef struct stFecha
 {
     int dia;
@@ -9,10 +8,8 @@ typedef struct stFecha
     int anio;
 } Fecha;
 
-// ------- Prototipos -------
 void mostrar_Fecha(Fecha f);
 Fecha hoy();
-
 // --- FUNCION DE VALIDACION ESTRICTA ---
 // Carga completa de una fecha (Dia/Mes/Anio) con validacion 1928-2025
 void cargar_fecha_estricta(int *dia, int *mes, int *anio);

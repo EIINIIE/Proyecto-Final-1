@@ -172,6 +172,7 @@ void registrarVenta()
     Venta v = cargarVenta();
 
     FILE *f = fopen(ARCHIVO_VENTAS, "ab");
+
     if(f != NULL)
     {
         fwrite(&v, sizeof(Venta), 1, f);
@@ -180,6 +181,7 @@ void registrarVenta()
 
         printf("Venta registrada y auto transferido correctamente.\n");
     }
+
     else
     {
         printf("No se pudo abrir.\n");
@@ -199,6 +201,7 @@ void mostrarVenta(Venta v)
 void mostrarVentas()
 {
     FILE *f = fopen(ARCHIVO_VENTAS, "rb");
+
     if(f == NULL)
     {
         printf("No hay ventas registradas.\n");

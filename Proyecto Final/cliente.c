@@ -166,7 +166,7 @@ Cliente cargar_persona(char dniExterno[])
         for(int i = 0; direccion1[i] != '\0'; i++)
         {
             if( (direccion1[i] >= 'A' && direccion1[i] <= 'Z') ||
-                (direccion1[i] >= 'a' && direccion1[i] <= 'z') )
+                    (direccion1[i] >= 'a' && direccion1[i] <= 'z') )
             {
                 letras++;
             }
@@ -198,7 +198,10 @@ Cliente cargar_persona(char dniExterno[])
 int telefono_Existente (char telefono[])
 {
     FILE *file = fopen(ARCHIVO_CLIENTES, "rb");
-    if(file == NULL) return 0;
+    if(file == NULL)
+    {
+        return 0;
+    }
 
     Cliente aux;
     while (fread(&aux, sizeof (Cliente), 1, file))
@@ -216,7 +219,10 @@ int telefono_Existente (char telefono[])
 int cliente_existente(char dniBuscado[])
 {
     FILE *file = fopen(ARCHIVO_CLIENTES, "rb");
-    if (file == NULL) return 0;
+    if (file == NULL)
+    {
+        return 0;
+    }
 
     Cliente c;
     while (fread(&c, sizeof(Cliente), 1, file) > 0)
@@ -271,7 +277,10 @@ void ver_listado_clientes()
 int dni_Existente_cliente(char dni[])
 {
     FILE *file = fopen(ARCHIVO_CLIENTES, "rb");
-    if (file == NULL) return 0;
+    if (file == NULL)
+    {
+        return 0;
+    }
 
     Cliente aux;
     while (fread(&aux, sizeof(Cliente), 1, file))
@@ -358,7 +367,10 @@ void modificar_cliente()
                     fflush(stdin);
                     scanf(" %[^\n]", c.nombre);
                     nombreValido = 1;
-                    if(strlen(c.nombre) == 0) nombreValido = 0;
+                    if(strlen(c.nombre) == 0)
+                    {
+                        nombreValido = 0;
+                    }
                 }
                 while(nombreValido == 0);
                 break;
@@ -374,9 +386,15 @@ void modificar_cliente()
                     valido = 1;
                     for(int i=0; i<strlen(c.telefono); i++)
                     {
-                        if(c.telefono[i] < '0' || c.telefono[i] > '9') valido = 0;
+                        if(c.telefono[i] < '0' || c.telefono[i] > '9')
+                        {
+                            valido = 0;
+                        }
                     }
-                    if(strlen(c.telefono) != 10) valido = 0;
+                    if(strlen(c.telefono) != 10)
+                    {
+                        valido = 0;
+                    }
                 }
                 while(valido==0);
                 break;

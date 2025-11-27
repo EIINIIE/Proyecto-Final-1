@@ -8,7 +8,6 @@
 #include "cliente.h"
 #include "pagos.h"
 
-
 void menu_empleado_directo()
 {
     int opcion_sesion;
@@ -17,6 +16,7 @@ void menu_empleado_directo()
     printf("\n====================================================\n");
     printf("          PANEL DE CONTROL: EMPLEADO      \n");
     printf("====================================================");
+
     do
     {
         printf("\n--- MENU DE EMPLEADO ---\n");

@@ -8,37 +8,58 @@
 #include "cliente.h"
 #include "pagos.h"
 #include "auto.h"
-#include "fecha.h" // Importante incluir esto
+#include "fecha.h"
 
 #define ARCHIVO_USUARIOS "usuarios.bin"
 
 // Funciones auxiliares
 int es_contrasenia_segura(char pass[])
 {
-    if(strlen(pass)<4) return 0;
-    int l=0, n=0;
-    for(int i=0; i<strlen(pass); i++)
+    if(strlen(pass)<4)
     {
-        if(isalpha(pass[i])) l=1;
-        if(isdigit(pass[i])) n=1;
+        return 0;
+    }
+    int l=0, n=0;
+    for(int i=0; i < strlen(pass); i++)
+    {
+        if(isalpha(pass[i]))
+        {
+            l=1;
+        }
+        if(isdigit(pass[i]))
+        {
+            n=1;
+        }
     }
     return (l && n);
 }
 int es_correo_valido(char email[])
 {
-    for(int i=0; i<strlen(email); i++) if(email[i]=='@') return 1;
+    for(int i=0; i<strlen(email); i++)
+    {
+        if(email[i]=='@')
+        {
+            return 1;
+        }
+    }
     return 0;
 }
 int usuario_Existente(char correo[])
 {
     FILE* f=fopen(ARCHIVO_USUARIOS,"rb");
-    if(!f) return 0;
+    if(f == NULL)
+    {
+        return 0;
+    }
     stUsuario u;
-    while(fread(&u,sizeof(stUsuario),1,f)) if(strcmp(u.correo,correo)==0)
+    while(fread(&u,sizeof(stUsuario),1,f))
+    {
+        if(strcmp(u.correo,correo)==0)
         {
             fclose(f);
             return 1;
         }
+    }
     fclose(f);
     return 0;
 }
@@ -48,7 +69,10 @@ void obtener_dni_por_correo(char correo[], char dniDestino[])
 {
     FILE *file = fopen(ARCHIVO_USUARIOS, "rb");
     strcpy(dniDestino, "0"); // Por defecto
-    if(file == NULL) return;
+    if(file == NULL)
+    {
+        return;
+    }
 
     stUsuario u;
     while(fread(&u, sizeof(stUsuario), 1, file))
@@ -73,8 +97,14 @@ stUsuario registro_Usuario()
         printf("Ingrese su correo: ");
         fflush(stdin);
         scanf("%s", nuevo.correo);
-        if(es_correo_valido(nuevo.correo)) correoValido = 1;
-        else printf("Error: Falta '@'.\n");
+        if(es_correo_valido(nuevo.correo))
+        {
+            correoValido = 1;
+        }
+        else
+        {
+            printf("Error: Falta '@'.\n");
+        }
     }
     while(correoValido == 0);
 
@@ -91,8 +121,14 @@ stUsuario registro_Usuario()
         printf("Ingrese su contrasenia (Min 4 chars, letras y numeros): ");
         fflush(stdin);
         scanf("%s", nuevo.contrasena);
-        if(es_contrasenia_segura(nuevo.contrasena)) passValida = 1;
-        else printf("Error: Contrasenia insegura.\n");
+        if(es_contrasenia_segura(nuevo.contrasena))
+        {
+            passValida = 1;
+        }
+        else
+        {
+            printf("Error: Contrasenia insegura.\n");
+        }
     }
     while(passValida == 0);
 
@@ -103,14 +139,27 @@ stUsuario registro_Usuario()
         fflush(stdin);
         scanf("%s", nuevo.dni);
         dniValido = 1;
-        for (int i = 0; i < strlen(nuevo.dni); i++) if (!isdigit(nuevo.dni[i])) dniValido = 0;
-        if(dniValido && (strlen(nuevo.dni)<7 || strlen(nuevo.dni)>8)) dniValido = 0;
+
+        for (int i = 0; i < strlen(nuevo.dni); i++)
+        {
+            if (!isdigit(nuevo.dni[i]))
+            {
+                dniValido = 0;
+            }
+        }
+        if(dniValido && (strlen(nuevo.dni)<7 || strlen(nuevo.dni)>8))
+        {
+            dniValido = 0;
+        }
         else if (dniValido && dni_Existente_usuario(nuevo.dni))
         {
             printf("DNI ya existe.\n");
             dniValido = 0;
         }
-        if(!dniValido) printf("Error en DNI.\n");
+        if(!dniValido)
+        {
+            printf("Error en DNI.\n");
+        }
     }
 
     // --- CAMBIO AQUI: LLAMADA A LA FUNCION ESTRICTA ---
@@ -122,9 +171,15 @@ stUsuario registro_Usuario()
 
 void guardar_Usuario(stUsuario usuario)
 {
-    if (strcmp(usuario.dni, "-1") == 0) return;
+    if (strcmp(usuario.dni, "-1") == 0)
+    {
+        return;
+    }
     FILE *file = fopen(ARCHIVO_USUARIOS, "ab");
-    if (file == NULL) return;
+    if (file == NULL)
+    {
+        return;
+    }
     fwrite(&usuario, sizeof(stUsuario), 1, file);
     fclose(file);
 }
@@ -132,7 +187,11 @@ void guardar_Usuario(stUsuario usuario)
 int verificar_Usuario(char correo[], char contrasena[])
 {
     FILE *file = fopen(ARCHIVO_USUARIOS, "rb");
-    if(file == NULL) return 0;
+    if(file == NULL)
+    {
+        return 0;
+    }
+
     stUsuario usuario;
     int encontrado = 0;
     while(fread(&usuario, sizeof(stUsuario), 1, file) == 1)

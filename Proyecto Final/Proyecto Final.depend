@@ -143,10 +143,10 @@
 	<ctype.h>
 	"auto.h"
 
-1764108647 c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\auto.h
+1764202637 c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\auto.h
 	"cliente.h"
 
-1764169483 c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\cliente.h
+1764202637 c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\cliente.h
 
 1764125630 source:c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\auto_cliente.c
 	<stdio.h>
@@ -160,13 +160,13 @@
 1763921142 c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\auto_cliente.h
 	"cliente.h"
 
-1764014250 source:c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\autos_disponibles.c
+1764199045 source:c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\autos_disponibles.c
 	<stdio.h>
 	<stdlib.h>
 	"autos_disponibles.h"
 	"auto.h"
 
-1763769959 c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\autos_disponibles.h
+1764202637 c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\autos_disponibles.h
 	"auto.h"
 
 1764169483 source:c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\empleado.c
@@ -180,7 +180,7 @@
 	"cliente.h"
 	"pagos.h"
 
-1763681229 c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\empleado.h
+1764202637 c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\empleado.h
 
 1764169483 c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\pagos.h
 	"auto.h"
@@ -203,9 +203,9 @@
 	"gerente.h"
 	"cliente.h"
 
-1763584272 c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\loing.h
+1764202637 c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\loing.h
 
-1764003949 c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\usuario.h
+1764202637 c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\usuario.h
 
 1764117886 c:\users\usuario\desktop\git hub pro\proyecto-final-1\proyecto final\gerente.h
 

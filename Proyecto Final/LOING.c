@@ -113,8 +113,10 @@ void login_administrador()
     char contrasena[50];
     system("cls");
     printf("--- ACCESO ADMINISTRADOR ---\n");
-    printf("Correo: "); scanf("%s", correo);
-    printf("Contrasena: "); scanf("%s", contrasena);
+    printf("Correo: ");
+    scanf("%s", correo);
+    printf("Contrasena: ");
+    scanf("%s", contrasena);
 
     if (strcmp(correo, "admin@gmail.com") == 0 && strcmp(contrasena, "admin101") == 0)
     {
@@ -160,9 +162,13 @@ void login_empresa()
         {
             encontrado = 1;
             if (strcmp(emple.rol, "administrador") == 0)
+            {
                 printf("Detectado rol Administrador. Use la opcion 3.\n");
+            }
             else
+            {
                 menu_empleado_directo();
+            }
             break;
         }
     }

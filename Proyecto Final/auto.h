@@ -23,13 +23,11 @@ void agregar_auto_stock();
 void modificar_auto_stock();
 void mostrar_auto(Auto a);
 void mostrar_todos_autos(char archivo[]);
-
 // --- FUNCIONES DE VALIDACION (Globales) ---
-// Las hacemos disponibles para todo el proyecto
 int ingresar_entero(char mensaje[]);
 float ingresar_float(char mensaje[]);
 int es_marca_valida(char m[]);
-// CORREGIDO: El nombre debe coincidir con el de auto.c
+// El nombre debe coincidir con el de auto.c
 int es_modelo_valido(char marca[], char modelo[]);
 int existe_patente_en_archivo(char patente[]);
 

@@ -13,7 +13,10 @@
 void transferir_auto_a_cliente(Auto autoVendido, char dniComprador[])
 {
     FILE *file = fopen("autos_cliente.bin", "ab");
-    if(file == NULL) return;
+    if(file == NULL)
+    {
+        return;
+    }
 
     AutoCliente autoNuevo;
 
@@ -40,13 +43,17 @@ void transferir_auto_a_cliente(Auto autoVendido, char dniComprador[])
 
     fwrite(&autoNuevo, sizeof(AutoCliente), 1, file);
     fclose(file);
+
     printf("\nTransferencia de propiedad registrada a nombre de %s.\n", autoNuevo.titular.nombre);
 }
 
 void eliminar_auto_stock(char patenteEliminar[])
 {
     FILE *archivo = fopen("autos.bin", "rb");
-    if (archivo == NULL) return;
+    if (archivo == NULL)
+    {
+        return;
+    }
 
     FILE *temporal = fopen("temp.bin", "wb");
     if (temporal == NULL)
@@ -84,10 +91,19 @@ void eliminar_auto_stock(char patenteEliminar[])
         }
     }
 
-    if(archivo) fclose(archivo);
-    if(temporal) fclose(temporal);
+    if(archivo)
+    {
+        fclose(archivo);
+    }
+    if(temporal)
+    {
+        fclose(temporal);
+    }
 
-    if (encontrado == 1) printf("Auto eliminado del stock.\n");
+    if (encontrado == 1)
+    {
+        printf("Auto eliminado del stock.\n");
+    }
 }
 
 void registrar_venta_archivo(Auto autoVendido, char dniComprador[])
@@ -146,9 +162,18 @@ int buscarPatenteBinaria(Auto autos[], int validos, char patenteBuscada[])
         int medio = inicio + (fin - inicio) / 2;
         int comparacion = strcmp(autos[medio].patente, patenteBuscada);
 
-        if(comparacion == 0) return medio;
-        if(comparacion < 0) inicio = medio + 1;
-        else fin = medio - 1;
+        if(comparacion == 0)
+        {
+            return medio;
+        }
+        if(comparacion < 0)
+        {
+            inicio = medio + 1;
+        }
+        else
+        {
+            fin = medio - 1;
+        }
     }
     return -1;
 }
@@ -190,7 +215,11 @@ void gestionDePagos(char dniSesion[])
         printf("Ingrese patente del auto (o '0' para salir): ");
         fflush(stdin);
         gets(patenteBusq);
-        if(strcmp(patenteBusq, "0")==0) return;
+        if(strcmp(patenteBusq, "0")==0)
+        {
+            return;
+        }
+
     }
     while(strlen(patenteBusq) == 0);
 
@@ -236,7 +265,7 @@ void gestionDePagos(char dniSesion[])
 
                     for(int k=0; k<strlen(dniComprador); k++)
                     {
-                        if(!isdigit(dniComprador[k]))
+                        if(dniComprador[k] < '0' || dniComprador[k] > '9')
                         {
                             dniValido = 0;
                             printf("Error: Ingrese solo numeros.\n");

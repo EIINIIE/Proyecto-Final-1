@@ -37,25 +37,25 @@ AutoCliente cargar_auto_cliente()
 
             // Validacion estricta de formato (AA 123 CD)
             if(strlen(aux)==9 &&
-               aux[0]>='A' && aux[0]<='Z' &&
-               aux[1]>='A' && aux[1]<='Z' &&
-               aux[2]==' ' &&
-               aux[3]>='0' && aux[3]<='9' &&
-               aux[4]>='0' && aux[4]<='9' &&
-               aux[5]>='0' && aux[5]<='9' &&
-               aux[6]==' ' &&
-               aux[7]>='A' && aux[7]<='Z' &&
-               aux[8]>='A' && aux[8]<='Z')
+                    aux[0]>='A' && aux[0]<='Z' &&
+                    aux[1]>='A' && aux[1]<='Z' &&
+                    aux[2]==' ' &&
+                    aux[3]>='0' && aux[3]<='9' &&
+                    aux[4]>='0' && aux[4]<='9' &&
+                    aux[5]>='0' && aux[5]<='9' &&
+                    aux[6]==' ' &&
+                    aux[7]>='A' && aux[7]<='Z' &&
+                    aux[8]>='A' && aux[8]<='Z')
             {
-                 if(existe_patente_en_archivo(aux) == 1)
-                 {
-                     printf("ERROR: Esa patente ya existe en el sistema.\n");
-                 }
-                 else
-                 {
-                     strcpy(autos.patente, aux);
-                     valido = 1;
-                 }
+                if(existe_patente_en_archivo(aux) == 1)
+                {
+                    printf("ERROR: Esa patente ya existe en el sistema.\n");
+                }
+                else
+                {
+                    strcpy(autos.patente, aux);
+                    valido = 1;
+                }
             }
             else
             {
@@ -173,7 +173,8 @@ void agregar_autos_cliente()
             printf("Intente nuevamente.\n");
         }
 
-    } while (existe == 0); // Repite mientras no se encuentre el cliente
+    }
+    while (existe == 0);   // Repite mientras no se encuentre el cliente
 
     // 3. SI SALIO DEL BUCLE, ES PORQUE EXISTE
     // Recuperamos los datos completos del cliente (Nombre, Telefono, etc)

@@ -94,13 +94,20 @@ void cargar_fecha_estricta(int *dia, int *mes, int *anio)
         // --- VALIDACION FINAL DE COHERENCIA ---
         // Ahora que tenemos Dia, Mes y Anio, revisamos si la fecha existe.
         int maxDias = 31;
-        if(m == 4 || m == 6 || m == 9 || m == 11) maxDias = 30;
+        if(m == 4 || m == 6 || m == 9 || m == 11)
+        {
+            maxDias = 30;
+        }
         if(m == 2)
         {
             if((a % 4 == 0 && a % 100 != 0) || (a % 400 == 0))
+            {
                 maxDias = 29;
+            }
             else
+            {
                 maxDias = 28;
+            }
         }
 
         if (d > maxDias)
@@ -114,7 +121,8 @@ void cargar_fecha_estricta(int *dia, int *mes, int *anio)
             fechaCorrecta = 1;
         }
 
-    } while (fechaCorrecta == 0);
+    }
+    while (fechaCorrecta == 0);
 
     // Asignamos los valores finales
     *dia = d;

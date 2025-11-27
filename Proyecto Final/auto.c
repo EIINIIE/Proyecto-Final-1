@@ -69,7 +69,16 @@ int ingresar_entero(char mensaje[])
     }
     while(valido == 0);
 
-    sscanf(buffer, "%d", &numeroFinal);
+// Recorremos la cadena validada y hacemos la conversión manual
+    for (i = 0; buffer[i] != '\0'; i++)
+    {
+        // 1. Multiplicamos el número actual por 10 para hacer espacio para el nuevo dígito.
+        numeroFinal *= 10;
+
+        // 2. Convertimos el carácter a su valor numérico restándole '0' (ASCII).
+        // Por ejemplo: '5' - '0' = 5
+        numeroFinal += (buffer[i] - '0');
+    }
 
     return numeroFinal;
 }
@@ -962,7 +971,9 @@ void modificar_auto_stock()
                         }
                     }
                     while(valido == 0);
+
                     system("pause");
+
                     break;
 
                 case 2:
@@ -1009,6 +1020,7 @@ void modificar_auto_stock()
                     while(valido == 0);
 
                     system("pause");
+
                     break;
 
                 case 4:
@@ -1053,7 +1065,9 @@ void modificar_auto_stock()
 
             fseek(f, -sizeof(Auto), SEEK_CUR);
             fwrite(&a, sizeof(Auto), 1, f);
+
             printf("Auto modificado correctamente.\n");
+
             break;
         }
     }

@@ -2,8 +2,6 @@
 #define REPORTES_H_INCLUDED
 
 void menu_reportes();
-
-
 void recaudacion_mensual();
 void venta_mayor_ganancia();
 void stock_joven();

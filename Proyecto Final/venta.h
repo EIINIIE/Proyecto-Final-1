@@ -2,7 +2,6 @@
 #define VENTA_H_INCLUDED
 #include "fecha.h"
 
-// ------- Estructura Venta -------
 typedef struct stVenta
 {
     Fecha fecha;
@@ -12,7 +11,6 @@ typedef struct stVenta
     char dniComprador[15];
 } Venta;
 
-// ------- Prototipos -------
 Venta cargarVenta();
 void registrarVenta();
 void mostrarVenta(Venta ventas);
