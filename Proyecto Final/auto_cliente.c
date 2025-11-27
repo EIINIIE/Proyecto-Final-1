@@ -6,7 +6,7 @@
 #include "cliente.h"
 #include "auto.h"       // Necesario para validar marca y modelo
 
-/// FUNCION 1: Cargar Auto Cliente
+/// FUNCION 1
 AutoCliente cargar_auto_cliente()
 {
     AutoCliente autos;
@@ -136,7 +136,7 @@ AutoCliente cargar_auto_cliente()
 }
 
 
-/// FUNCION 2: Agregar auto
+/// FUNCION 2
 void agregar_autos_cliente()
 {
     FILE *file = fopen(ARCHIVO_AUTOS_CLIENTE, "ab");
@@ -148,10 +148,10 @@ void agregar_autos_cliente()
 
     printf("\n--- CARGA DE AUTO DE CLIENTE ---\n");
 
-    // 1. PRIMERO: Cargamos los datos del auto (Patente, Marca, Modelo...)
+    // 1.Cargamos los datos del auto (Patente, Marca, Modelo...)
     AutoCliente autoNuevo = cargar_auto_cliente();
 
-    // 2. SEGUNDO: Pedimos el DNI para confirmar titularidad (CON BUCLE)
+    // 2.Pedimos el DNI para confirmar titularidad (CON BUCLE)
     char dniIngresado[30];
     int existe = 0;
 
@@ -229,7 +229,7 @@ void mostrar_todos_autos_cliente()
     fclose(file);
 }
 
-/// FUNCION 5: Modificar Auto Cliente (CORREGIDA CON VALIDACIONES)
+/// FUNCION 5
 void modificar_auto_cliente_por_dni(char dniBuscado[])
 {
     FILE *file = fopen(ARCHIVO_AUTOS_CLIENTE, "r+b");
@@ -351,9 +351,9 @@ int cargar_autos_cliente_din(AutoCliente **listaAutos)
         return 0;
     }
 
-    fseek(file, 0, SEEK_END);
-    int cantidad = ftell(file) / sizeof(AutoCliente);
-    rewind(file);
+    fseek(file, 0, SEEK_END); /// el indice lo posicionamos al final
+    int cantidad = ftell(file) / sizeof(AutoCliente); /// aca hace que tengamos la cantidad de datos en el archivos
+    rewind(file); /// el indice lo posicionamos al principio
 
     if (cantidad == 0)
     {

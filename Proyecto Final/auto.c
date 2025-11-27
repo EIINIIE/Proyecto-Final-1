@@ -104,7 +104,6 @@ float ingresar_float(char mensaje[])
         }
         else
         {
-            // CAMBIO AQUI: size_t reemplazado por int
             int len = strlen(buffer);
 
             if (len > 0 && buffer[len - 1] == '\n')

@@ -1,5 +1,6 @@
 #ifndef VENTA_H_INCLUDED
 #define VENTA_H_INCLUDED
+
 #include "fecha.h"
 
 typedef struct stVenta

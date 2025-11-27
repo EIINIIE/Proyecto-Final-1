@@ -86,7 +86,6 @@ void obtener_dni_por_correo(char correo[], char dniDestino[])
     fclose(file);
 }
 
-// --- AQUI ESTA TU FUNCION MODIFICADA ---
 stUsuario registro_Usuario()
 {
     stUsuario nuevo;
@@ -162,7 +161,7 @@ stUsuario registro_Usuario()
         }
     }
 
-    // --- CAMBIO AQUI: LLAMADA A LA FUNCION ESTRICTA ---
+    // --- LLAMADA A LA FUNCION ESTRICTA ---
     cargar_fecha_estricta(&nuevo.dia, &nuevo.mes, &nuevo.anios);
 
     printf("\nUsuario registrado con exito!\n");

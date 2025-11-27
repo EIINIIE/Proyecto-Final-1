@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
 #include "reportes.h"
 #include "auto.h"
 #include "venta.h"
@@ -63,7 +62,7 @@ void menu_reportes()
     while(opcion != 0);
 }
 
-/// --- RECAUDACI N MENSUAL ---
+/// --- RECAUDACION MENSUAL ---
 void recaudacion_mensual()
 {
     FILE* f = fopen(ARCHIVO_VENTAS, "rb");

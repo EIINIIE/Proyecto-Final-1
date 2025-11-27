@@ -54,7 +54,7 @@ void menu_login()
             }
             else if (subOp == 2)
             {
-                // 1. Pedimos Correo, Pass, DNI y Fecha (Usuario)
+                // 1. Pedimos Correo, contrasenia, DNI y Fecha (Usuario)
                 stUsuario u = registro_Usuario();
 
                 if (strcmp(u.dni, "-1") != 0)

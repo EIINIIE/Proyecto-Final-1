@@ -42,7 +42,7 @@ int existe_correo_empleado(char correo[])
         if (strcmp(e.correo, correo) == 0)
         {
             fclose(file);
-            return 1;
+            return 1; // Si existe
         }
     }
     fclose(file);
@@ -63,7 +63,7 @@ int existe_dni_empleado(int dni)
         if (e.dni == dni)
         {
             fclose(file);
-            return 1;
+            return 1; // Si existe
         }
     }
     fclose(file);
@@ -456,8 +456,6 @@ void eliminar_empleado()
         printf("No se encontro un empleado con ese DNI.\n");
     }
 }
-
-
 
 void eliminar_cliente()
 {

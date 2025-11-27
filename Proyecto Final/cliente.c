@@ -30,7 +30,7 @@ Cliente obtener_datos_cliente(char dni[])
     return c;
 }
 
-// --- FUNCION MODIFICADA Y ROBUSTA ---
+// --- FUNCION MODIFICADA ---
 Cliente cargar_persona(char dniExterno[])
 {
     Cliente c;
@@ -123,7 +123,6 @@ Cliente cargar_persona(char dniExterno[])
         // Validacion estricta de longitud
         if(strlen(c.telefono) != 10)
         {
-            // Usamos cast a int para evitar el tipo size_t
             printf("Longitud invalida: Ingreso %d digitos (Debe ser de 10).\n", (int)strlen(c.telefono));
             valido = 0;
         }

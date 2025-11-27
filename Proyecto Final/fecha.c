@@ -4,13 +4,13 @@
 #include <time.h>
 #include "fecha.h"
 
-// --- FUNCION 1: Mostrar fecha ---
+// --- FUNCION 1 ---
 void mostrar_Fecha(Fecha f)
 {
     printf("%d/%d/%d\n", f.dia, f.mes, f.anio);
 }
 
-// --- FUNCION 2: Obtener fecha de hoy ---
+// --- FUNCION 2 ---
 Fecha hoy()
 {
     Fecha f;
@@ -23,7 +23,7 @@ Fecha hoy()
     return f;
 }
 
-// --- FUNCION 3: Carga Estricta
+// --- FUNCION 3 ---
 void cargar_fecha_estricta(int *dia, int *mes, int *anio)
 {
     int d, m, a;

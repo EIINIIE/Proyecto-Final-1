@@ -1,7 +1,6 @@
 #ifndef USUARIO_H_INCLUDED
 #define USUARIO_H_INCLUDED
 
-
 #define ARCHIVO_USUARIOS "usuarios.bin"
 
 typedef struct
