@@ -8,6 +8,9 @@
 #include "empleado.h"
 #include "LOING.h"
 
+/// INTEGRANTES : Agustin Molina y Iñaki Etchepare
+
+
 int main()
 {
     srand(time(NULL));

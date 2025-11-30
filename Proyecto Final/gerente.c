@@ -335,7 +335,7 @@ void agregar_empleado()
         int passOk = 0;
         do
         {
-            printf("Ingrese contrasena (min 4 chars, letras y numeros): ");
+            printf("Ingrese contrasena (min 4  letras y 3 numeros): ");
             fflush(stdin);
             scanf("%s", nuevo.contrasena);
 
@@ -599,7 +599,7 @@ void eliminar_cliente()
     // ========================================================
     if (borreCliente == 1 || borreUsuario == 1)
     {
-        printf("\n[EXITO] Registro eliminado. El DNI %s ha sido liberado del sistema.\n", dniBorrar);
+        printf("\n[EXITO] Registro eliminado. El DNI %s ha sido liberado \n", dniBorrar);
     }
     else
     {

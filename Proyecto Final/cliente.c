@@ -116,7 +116,7 @@ Cliente cargar_persona(char dniExterno[])
     do
     {
         valido = 1;
-        printf("Ingrese Telefono (solo numeros, 10 digitos): ");
+        printf("Ingrese Telefono : ");
         fflush(stdin);
         scanf("%s", c.telefono);
 

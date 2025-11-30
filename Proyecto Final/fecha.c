@@ -91,7 +91,6 @@ void cargar_fecha_estricta(int *dia, int *mes, int *anio)
         }
         while(validoAnio == 0);
 
-        // --- VALIDACION FINAL DE COHERENCIA ---
         int maxDias = 31;
         if(m == 4 || m == 6 || m == 9 || m == 11)
         {
